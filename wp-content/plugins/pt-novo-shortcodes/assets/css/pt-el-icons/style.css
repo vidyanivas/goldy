@@ -1,0 +1,132 @@
+@font-face {
+  font-family: 'pt-el-icon';
+  src:  url('fonts/pt-el-icon.eot?h7jtko');
+  src:  url('fonts/pt-el-icon.eot?h7jtko#iefix') format('embedded-opentype'),
+    url('fonts/pt-el-icon.ttf?h7jtko') format('truetype'),
+    url('fonts/pt-el-icon.woff?h7jtko') format('woff'),
+    url('fonts/pt-el-icon.svg?h7jtko#pt-el-icon') format('svg');
+  font-weight: normal;
+  font-style: normal;
+  font-display: block;
+}
+
+[class^="pt-el-icon-"], [class*=" pt-el-icon-"] {
+  /* use !important to prevent issues with browser extensions that change fonts */
+  font-family: 'pt-el-icon' !important;
+  speak: never;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.pt-el-icon-accordion:before {
+  content: "\e900";
+}
+.pt-el-icon-banner:before {
+  content: "\e901";
+}
+.pt-el-icon-banner-liquid-slider:before {
+  content: "\e902";
+}
+.pt-el-icon-banner-vertical:before {
+  content: "\e903";
+}
+.pt-el-icon-before-after:before {
+  content: "\e904";
+}
+.pt-el-icon-blog:before {
+  content: "\e905";
+}
+.pt-el-icon-button:before {
+  content: "\e906";
+}
+.pt-el-icon-categories:before {
+  content: "\e907";
+}
+.pt-el-icon-categories-slider:before {
+  content: "\e908";
+}
+.pt-el-icon-decor-elements:before {
+  content: "\e909";
+}
+.pt-el-icon-gallery:before {
+  content: "\e90a";
+}
+.pt-el-icon-gallery-external-link:before {
+  content: "\e90b";
+}
+.pt-el-icon-google-map:before {
+  content: "\e90c";
+}
+.pt-el-icon-heading:before {
+  content: "\e90d";
+}
+.pt-el-icon-icon-box:before {
+  content: "\e90e";
+}
+.pt-el-icon-logos:before {
+  content: "\e90f";
+}
+.pt-el-icon-music-album-item:before {
+  content: "\e910";
+}
+.pt-el-icon-music-albums:before {
+  content: "\e911";
+}
+.pt-el-icon-number-box:before {
+  content: "\e912";
+}
+.pt-el-icon-photo-carousel:before {
+  content: "\e913";
+}
+.pt-el-icon-podcast:before {
+  content: "\e914";
+}
+.pt-el-icon-portfolio:before {
+  content: "\e915";
+}
+.pt-el-icon-price-list:before {
+  content: "\e916";
+}
+.pt-el-icon-price-list-type2:before {
+  content: "\e917";
+}
+.pt-el-icon-product-banner:before {
+  content: "\e918";
+}
+.pt-el-icon-products:before {
+  content: "\e919";
+}
+.pt-el-icon-side-image:before {
+  content: "\e91a";
+}
+.pt-el-icon-skills:before {
+  content: "\e91b";
+}
+.pt-el-icon-split-screen:before {
+  content: "\e91c";
+}
+.pt-el-icon-split-screen-type2:before {
+  content: "\e91d";
+}
+.pt-el-icon-tabs:before {
+  content: "\e91e";
+}
+.pt-el-icon-team:before {
+  content: "\e91f";
+}
+.pt-el-icon-testimonials:before {
+  content: "\e920";
+}
+.pt-el-icon-video:before {
+  content: "\e921";
+}
+.pt-el-icon-video-banner:before {
+  content: "\e922";
+}
