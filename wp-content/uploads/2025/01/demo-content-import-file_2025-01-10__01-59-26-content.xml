@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!-- generator="WordPress/5.7.2" created="2021-06-25 08:00" -->
+<rss version="2.0"
+	xmlns:excerpt="http://wordpress.org/export/1.2/excerpt/"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:wp="http://wordpress.org/export/1.2/"
+>
+
+	<channel>
+		<title>Freelancer</title>
+		<link>https://promo-theme.com/novo-test</link>
+		<description>Just another WordPress site</description>
+		<pubDate>Fri, 25 Jun 2021 08:00:30 +0000</pubDate>
+		<language>en-US</language>
+		<wp:wxr_version>1.2</wp:wxr_version>
+		<wp:base_site_url>https://promo-theme.com/novo-test</wp:base_site_url>
+		<wp:base_blog_url>https://promo-theme.com/novo-test</wp:base_blog_url>
+		
+				<item>
+				<title>Freelancer</title>
+				<link>https://promo-theme.com/novo-test/home-freelancer/</link>
+				<pubDate>Thu, 14 Sep 2017 14:45:09 +0000</pubDate>
+				<dc:creator><![CDATA[admin]]></dc:creator>
+								<description></description>
+				<content:encoded><![CDATA[[vc_row full_width="stretch_row_content_no_spaces"][vc_column][pt_banner social_buttons="on" arrows_position="right-bottom" dots_position="right" social_icon1="facebook" social_icon2="twitter" social_icon3="instagram" uniqid="5d67a95d3dcbe" carousel_nav="" social_link1="#" social_link2="#" social_link3="#" facebook_link="#" twitter_link="#" instagram_link="#"][pt_banner_item link_button="on" link_play="" inner_shadow="on" text_color="white" heading_size="h3" text_align="tar" text_vertical_align="middle" uniqid="59ba272d85e67" image="93" heading="My name is Alex Novo
+I’m a photographer." link="url:%23|||" link_text="see more" text="The world without photography will be meaningless to us." color_overlay="rgba(0,0,0,0.35)"][pt_banner_item link_button="on" link_play="" inner_shadow="on" text_color="white" heading_size="h3" heading_style="decor-line" text_vertical_align="middle" uniqid="59ba272d85e67" image="95" heading="My name is Alex Novo
+I’m a photographer." link="url:%23|||" link_text="see more" text="The world without photography will be meaningless to us." color_overlay="rgba(0,0,0,0.35)"][pt_banner_item link_button="on" link_play="" inner_shadow="on" text_color="white" heading_size="h3" heading_style="decor-line" text_vertical_align="middle" uniqid="59ba272d85e67" image="90" heading="My name is Alex Novo
+I’m a photographer." link="url:%23|||" link_text="see more" text="The world without photography will be meaningless to us." color_overlay="rgba(0,0,0,0.35)"][/pt_banner][/vc_column][/vc_row][vc_row equal_height="yes" content_placement="middle" css=".vc_custom_1624275457837{padding-top: 96px !important;padding-bottom: 96px !important;}" uniqid="60d079f70e43e"][vc_column css_animation="fadeInLeft" width="1/2" css=".vc_custom_1506082722365{border-right-width: 0px !important;padding-top: 250px !important;padding-bottom: 250px !important;background-image: url(https://promo-theme.com/novo/dark/wp-content/uploads-placeholder/2017/08/about-img3.jpg?id=14) !important;}"][/vc_column][vc_column css_animation="fadeInRight" width="1/2" css=".vc_custom_1506082733214{padding-top: 80px !important;padding-right: 40px !important;padding-bottom: 80px !important;padding-left: 40px !important;background-color: #121212 !important;}"][yprm_heading heading_size="h3" decor_type="bottom-line" uniqid="5d67a9de928cb" heading="My Skills" css=".vc_custom_1567074836169{margin-top: 0px !important;}"][vc_row_inner][vc_column_inner width="1/2"][pt_skills uniqid="59bb7c72b346f" skill_level="90" heading="Portraits" desc="The world without photography will be meaningless to us if there is no light." animation="none"][/vc_column_inner][vc_column_inner width="1/2"][pt_skills uniqid="59bb7c72b346f" skill_level="80" heading="lifestyle" desc="The world without photography will be meaningless to us if there is no light."][/vc_column_inner][/vc_row_inner][vc_row_inner][vc_column_inner width="1/2"][pt_skills uniqid="59bb7c72b346f" skill_level="95" heading="Studio" desc="The world without photography will be meaningless to us if there is no light."][/vc_column_inner][vc_column_inner width="1/2"][pt_skills uniqid="59bb7c72b346f" skill_level="75" heading="fashion" desc="The world without photography will be meaningless to us if there is no light."][/vc_column_inner][/vc_row_inner][/vc_column][/vc_row][vc_row full_width="stretch_row_content_no_spaces"][vc_column css_animation="fadeInUp"][pt_price_list uniqid="59bbbd75471e6"][pt_price_list_item text_color="white" uniqid="59bbba984027a" image="1371" heading="portrait session" price="$49" custom_link="url:%23|||" options_heading="Session Parameters:" options="One Classic Certified Photographer
+5 Hours of Photography Coverage
+High Resolution Images
+Online Gallery ready within 30 Days
+Interest Free, Low Monthly Payment Plan"][pt_price_list_item text_color="white" uniqid="59bbba984027a" image="1370" heading="lifestyle session" price="$59" custom_link="url:%23|||" options_heading="Session Parameters:" options="One Classic Certified Photographer
+5 Hours of Photography Coverage
+High Resolution Images
+Online Gallery ready within 30 Days
+Interest Free, Low Monthly Payment Plan"][pt_price_list_item text_color="white" uniqid="59bbba984027a" image="36" heading="lifestyle session" price="$69" custom_link="url:%23|||" options_heading="Session Parameters:" options="One Classic Certified Photographer
+5 Hours of Photography Coverage
+High Resolution Images
+Online Gallery ready within 30 Days
+Interest Free, Low Monthly Payment Plan"][pt_price_list_item text_color="white" uniqid="59bbba984027a" image="37" heading="studio session" price="$69" custom_link="url:%23|||" options_heading="Session Parameters:" options="One Classic Certified Photographer
+5 Hours of Photography Coverage
+High Resolution Images
+Online Gallery ready within 30 Days
+Interest Free, Low Monthly Payment Plan"][/pt_price_list][/vc_column][/vc_row][vc_row css=".vc_custom_1624275499129{padding-top: 52px !important;}" uniqid="60d07a2704ce6"][vc_column css_animation="fadeInUp" css=".vc_custom_1506082744170{padding-top: 40px !important;}"][yprm_heading content_aling="tac" heading_size="h3" decor_type="bottom-line" uniqid="5d67ab4ffb4bc" heading="My Works" css=".vc_custom_1624275903191{margin-bottom: 42px !important;}"][pt_portfolio count_ type="masonry" filter_buttons_align="tac" navigation="load_more" order="DESC"   uniqid="59ba658f31f6e"][/pt_portfolio][/vc_column][/vc_row][vc_row css=".vc_custom_1624275535504{padding-top: 15px !important;}" uniqid="60d07a4c16a25"][vc_column css_animation="fadeInUp" uniqid="60d07a5102740"][yprm_heading content_aling="tac" heading_size="h3" decor_type="bottom-line" uniqid="5d67ab84c8eee" heading="Why Choose Me?" css=".vc_custom_1624275939800{margin-bottom: 48px !important;}"][vc_row_inner equal_height="yes"][vc_column_inner width="1/3" css=".vc_custom_1505483962485{margin-bottom: 35px !important;}"][vc_icon icon_fontawesome="photo-icon-softbox" color="custom" background_style="rounded-outline" background_color="custom" size="xl" align="center" custom_background_color="#c48f56"][vc_column_text]
+<h6 style="text-align: center;"><span style="text-transform: uppercase;">light composure</span></h6>
+<p style="text-align: center;"><span style="font-size: 14px;"><em><span style="font-weight: 300;">The world without photography will be meaningless to us if there is no light.</span></em></span></p>
+[/vc_column_text][/vc_column_inner][vc_column_inner width="1/3" css=".vc_custom_1505483969540{margin-bottom: 35px !important;}"][vc_icon icon_fontawesome="photo-icon-photographer-with-camera" color="custom" background_style="rounded-outline" background_color="custom" size="xl" align="center" custom_background_color="#c48f56"][vc_column_text]
+<h6 style="text-align: center;"><span style="text-transform: uppercase;">Professional skills</span></h6>
+<p style="text-align: center;"><span style="font-size: 14px;"><em><span style="font-weight: 300;">The world without photography will be meaningless to us if there is no light.</span></em></span></p>
+[/vc_column_text][/vc_column_inner][vc_column_inner width="1/3" css=".vc_custom_1505483974400{margin-bottom: 35px !important;}"][vc_icon icon_fontawesome="photo-icon-camera-top-view" color="custom" background_style="rounded-outline" background_color="custom" size="xl" align="center" custom_background_color="#c48f56"][vc_column_text]
+<h6 style="text-align: center;"><span style="text-transform: uppercase;">Perfect Equipment</span></h6>
+<p style="text-align: center;"><span style="font-size: 14px;"><em><span style="font-weight: 300;">The world without photography will be meaningless to us if there is no light.</span></em></span></p>
+[/vc_column_text][/vc_column_inner][vc_column_inner width="1/3" css=".vc_custom_1505483979333{margin-bottom: 35px !important;}"][vc_icon icon_fontawesome="photo-icon-camera-synchronation" color="custom" background_style="rounded-outline" background_color="custom" size="xl" align="center" custom_background_color="#c48f56"][vc_column_text]
+<h6 style="text-align: center;"><span style="text-transform: uppercase;">ultra hd</span></h6>
+<p style="text-align: center;"><span style="font-size: 14px;"><em><span style="font-weight: 300;">The world without photography will be meaningless to us if there is no light.</span></em></span></p>
+[/vc_column_text][/vc_column_inner][vc_column_inner width="1/3" css=".vc_custom_1505483984191{margin-bottom: 35px !important;}"][vc_icon icon_fontawesome="photo-icon-eye" color="custom" background_style="rounded-outline" background_color="custom" size="xl" align="center" custom_background_color="#c48f56"][vc_column_text]
+<h6 style="text-align: center;"><span style="text-transform: uppercase;">unic vision</span></h6>
+<p style="text-align: center;"><span style="font-size: 14px;"><em><span style="font-weight: 300;">The world without photography will be meaningless to us if there is no light.</span></em></span></p>
+[/vc_column_text][/vc_column_inner][vc_column_inner width="1/3" css=".vc_custom_1505483989290{margin-bottom: 35px !important;}"][vc_icon icon_fontawesome="photo-icon-macro" color="custom" background_style="rounded-outline" background_color="custom" size="xl" align="center" custom_background_color="#c48f56"][vc_column_text]
+<h6 style="text-align: center;"><span style="text-transform: uppercase;">focusing knowledges</span></h6>
+<p style="text-align: center;"><span style="font-size: 14px;"><em><span style="font-weight: 300;">The world without photography will be meaningless to us if there is no light.</span></em></span></p>
+[/vc_column_text][/vc_column_inner][/vc_row_inner][/vc_column][/vc_row][vc_row][vc_column css_animation="fadeIn" css=".vc_custom_1506082947400{padding-bottom: 20px !important;}"][yprm_heading content_aling="tac" heading_size="h3" decor_type="bottom-line" uniqid="5d67abab4511b" heading="Latest News" css=".vc_custom_1624275977307{margin-top: 5px !important;margin-bottom: 48px !important;}"][pt_blog uniqid="59bf7029ecabc" count_ filter_buttons="off"][/pt_blog][/vc_column][/vc_row][vc_row full_width="stretch_row_content" parallax="content-moving" parallax_image="33" parallax_speed_bg="2" css=".vc_custom_1624275666819{padding-top: 2px !important;padding-bottom: 21px !important;}" uniqid="60d07ab9e2854"][vc_column css_animation="zoomIn" uniqid="60d07aa69db22"][yprm_heading content_aling="tac" heading_size="h3" decor_type="bottom-line" uniqid="5d67abb764c36" heading="Follow Me" css=".vc_custom_1624276027225{margin-bottom: 39px !important;}"][vc_column_text css=".vc_custom_1624276054400{margin-bottom: 40px !important;}"]
+<p style="text-align: center;"><span style="font-size: 18px; font-weight: 300;">Subscribe and get my latest photos and news.</span></p>
+[/vc_column_text][vc_raw_html]JTNDZGl2JTIwY2xhc3MlM0QlMjJ0YWMlMjIlM0UlM0NkaXYlMjBjbGFzcyUzRCUyMnN1YnNjcmliZS1mb3JtJTIyJTNFJTNDaW5wdXQlMjB0eXBlJTNEJTIyc3VibWl0JTIyJTIwdmFsdWUlM0QlMjJzdWJzY3JpYmUlMjIlMjBjbGFzcyUzRCUyMndwY2Y3LWZvcm0tY29udHJvbCUyMHdwY2Y3LXN1Ym1pdCUyMGJ1dHRvbi1zdHlsZTElMjIlM0UlM0NzcGFuJTIwY2xhc3MlM0QlMjJhamF4LWxvYWRlciUyMiUzRSUzQyUyRnNwYW4lM0UlM0NkaXYlM0UlM0NzcGFuJTIwY2xhc3MlM0QlMjJ3cGNmNy1mb3JtLWNvbnRyb2wtd3JhcCUyMG1haWwlMjIlM0UlM0NpbnB1dCUyMHR5cGUlM0QlMjJ0ZXh0JTIyJTIwbmFtZSUzRCUyMm1haWwlMjIlMjB2YWx1ZSUzRCUyMiUyMiUyMHNpemUlM0QlMjI0MCUyMiUyMGNsYXNzJTNEJTIyd3BjZjctZm9ybS1jb250cm9sJTIwd3BjZjctdGV4dCUyMHdwY2Y3LXZhbGlkYXRlcy1hcy1yZXF1aXJlZCUyMHN0eWxlMSUyMiUyMGFyaWEtcmVxdWlyZWQlM0QlMjJ0cnVlJTIyJTIwYXJpYS1pbnZhbGlkJTNEJTIyZmFsc2UlMjIlMjBwbGFjZWhvbGRlciUzRCUyMkVudGVyJTIweW91ciUyMGUtbWFpbCUyMiUzRSUzQyUyRnNwYW4lM0UlM0MlMkZkaXYlM0UlM0MlMkZkaXYlM0UlM0MlMkZkaXYlM0U=[/vc_raw_html][/vc_column][/vc_row][vc_row css=".vc_custom_1624275691273{padding-bottom: 55px !important;}" uniqid="5d664be2c7aac"][vc_column][yprm_brands uniqid="5d66456614dc0" cols="xs:1,sm:2,md:3,lg:4,xl:5,"][yprm_brands_item uniqid="5d6646a5dbc34" background_image="23" link="url:%23|||"][yprm_brands_item uniqid="5d6646d2e0aa8" background_image="24" link="url:%23|||"][yprm_brands_item uniqid="5d6646dd32221" background_image="25" link="url:%23|||"][yprm_brands_item uniqid="5d6646e773a1a" background_image="26" link="url:%23|||"][yprm_brands_item uniqid="5d6646f0f1e4e" background_image="27" link="url:%23|||"][/yprm_brands][/vc_column][/vc_row]]]>				</content:encoded>
+				<excerpt:encoded><![CDATA[]]></excerpt:encoded>
+				<wp:post_id>566</wp:post_id>
+				<wp:post_date><![CDATA[2017-09-14 14:45:09]]></wp:post_date>
+				<wp:post_date_gmt><![CDATA[2017-09-14 14:45:09]]></wp:post_date_gmt>
+				<wp:comment_status><![CDATA[closed]]></wp:comment_status>
+				<wp:ping_status><![CDATA[closed]]></wp:ping_status>
+				<wp:post_name><![CDATA[freelancer]]></wp:post_name>
+				<wp:status><![CDATA[publish]]></wp:status>
+				<wp:post_parent>0</wp:post_parent>
+				<wp:menu_order>0</wp:menu_order>
+				<wp:post_type><![CDATA[page]]></wp:post_type>
+				<wp:post_password><![CDATA[]]></wp:post_password>
+				<wp:is_sticky>0</wp:is_sticky>
+																		<wp:postmeta>
+							<wp:meta_key><![CDATA[_wpb_shortcodes_custom_css]]></wp:meta_key>
+							<wp:meta_value><![CDATA[.vc_custom_1624275457837{padding-top: 96px !important;padding-bottom: 96px !important;}.vc_custom_1624275499129{padding-top: 52px !important;}.vc_custom_1624275535504{padding-top: 15px !important;}.vc_custom_1624275666819{padding-top: 2px !important;padding-bottom: 21px !important;}.vc_custom_1624275691273{padding-bottom: 55px !important;}.vc_custom_1506082722365{border-right-width: 0px !important;padding-top: 250px !important;padding-bottom: 250px !important;background-image: url(https://promo-theme.com/novo/dark/wp-content/uploads-placeholder/2017/08/about-img3.jpg?id=14) !important;}.vc_custom_1506082733214{padding-top: 80px !important;padding-right: 40px !important;padding-bottom: 80px !important;padding-left: 40px !important;background-color: #121212 !important;}.vc_custom_1567074836169{margin-top: 0px !important;}.vc_custom_1506082744170{padding-top: 40px !important;}.vc_custom_1624275903191{margin-bottom: 42px !important;}.vc_custom_1624275939800{margin-bottom: 48px !important;}.vc_custom_1505483962485{margin-bottom: 35px !important;}.vc_custom_1505483969540{margin-bottom: 35px !important;}.vc_custom_1505483974400{margin-bottom: 35px !important;}.vc_custom_1505483979333{margin-bottom: 35px !important;}.vc_custom_1505483984191{margin-bottom: 35px !important;}.vc_custom_1505483989290{margin-bottom: 35px !important;}.vc_custom_1506082947400{padding-bottom: 20px !important;}.vc_custom_1624275977307{margin-top: 5px !important;margin-bottom: 48px !important;}.vc_custom_1624276027225{margin-bottom: 39px !important;}.vc_custom_1624276054400{margin-bottom: 40px !important;}]]></wp:meta_value>
+						</wp:postmeta>
+										<wp:postmeta>
+							<wp:meta_key><![CDATA[_wpb_shortcodes_custom_css]]></wp:meta_key>
+							<wp:meta_value><![CDATA[.vc_custom_1624275457837{padding-top: 96px !important;padding-bottom: 96px !important;}.vc_custom_1624275499129{padding-top: 52px !important;}.vc_custom_1624275535504{padding-top: 15px !important;}.vc_custom_1624275666819{padding-top: 2px !important;padding-bottom: 21px !important;}.vc_custom_1624275691273{padding-bottom: 55px !important;}.vc_custom_1506082722365{border-right-width: 0px !important;padding-top: 250px !important;padding-bottom: 250px !important;background-image: url(https://promo-theme.com/novo/dark/wp-content/uploads-placeholder/2017/08/about-img3.jpg?id=14) !important;}.vc_custom_1506082733214{padding-top: 80px !important;padding-right: 40px !important;padding-bottom: 80px !important;padding-left: 40px !important;background-color: #121212 !important;}.vc_custom_1567074836169{margin-top: 0px !important;}.vc_custom_1506082744170{padding-top: 40px !important;}.vc_custom_1624275903191{margin-bottom: 42px !important;}.vc_custom_1624275939800{margin-bottom: 48px !important;}.vc_custom_1505483962485{margin-bottom: 35px !important;}.vc_custom_1505483969540{margin-bottom: 35px !important;}.vc_custom_1505483974400{margin-bottom: 35px !important;}.vc_custom_1505483979333{margin-bottom: 35px !important;}.vc_custom_1505483984191{margin-bottom: 35px !important;}.vc_custom_1505483989290{margin-bottom: 35px !important;}.vc_custom_1506082947400{padding-bottom: 20px !important;}.vc_custom_1624275977307{margin-top: 5px !important;margin-bottom: 48px !important;}.vc_custom_1624276027225{margin-bottom: 39px !important;}.vc_custom_1624276054400{margin-bottom: 40px !important;}]]></wp:meta_value>
+						</wp:postmeta>
+										<wp:postmeta>
+							<wp:meta_key><![CDATA[_wp_page_template]]></wp:meta_key>
+							<wp:meta_value><![CDATA[template-landing.php]]></wp:meta_value>
+						</wp:postmeta>
+										<wp:postmeta>
+							<wp:meta_key><![CDATA[_wpb_vc_js_status]]></wp:meta_key>
+							<wp:meta_value><![CDATA[true]]></wp:meta_value>
+						</wp:postmeta>
+										<wp:postmeta>
+							<wp:meta_key><![CDATA[site_color_mode]]></wp:meta_key>
+							<wp:meta_value><![CDATA[default]]></wp:meta_value>
+						</wp:postmeta>
+										<wp:postmeta>
+							<wp:meta_key><![CDATA[_site_color_mode]]></wp:meta_key>
+							<wp:meta_value><![CDATA[field_58afe3b800d91]]></wp:meta_value>
+						</wp:postmeta>
+										<wp:postmeta>
+							<wp:meta_key><![CDATA[header_color_mode]]></wp:meta_key>
+							<wp:meta_value><![CDATA[default]]></wp:meta_value>
+						</wp:postmeta>
+										<wp:postmeta>
+							<wp:meta_key><![CDATA[_header_color_mode]]></wp:meta_key>
+							<wp:meta_value><![CDATA[field_58a43bba66153]]></wp:meta_value>
+						</wp:postmeta>
+										<wp:postmeta>
+							<wp:meta_key><![CDATA[header_style]]></wp:meta_key>
+							<wp:meta_value><![CDATA[default]]></wp:meta_value>
+						</wp:postmeta>
+										<wp:postmeta>
+							<wp:meta_key><![CDATA[_header_style]]></wp:meta_key>
+							<wp:meta_value><![CDATA[field_28f308230eb6]]></wp:meta_value>
+						</wp:postmeta>
+										<wp:postmeta>
+							<wp:meta_key><![CDATA[navigation_type]]></wp:meta_key>
+							<wp:meta_value><![CDATA[default]]></wp:meta_value>
+						</wp:postmeta>
+										<wp:postmeta>
+							<wp:meta_key><![CDATA[_navigation_type]]></wp:meta_key>
+							<wp:meta_value><![CDATA[field_58a592079667e]]></wp:meta_value>
+						</wp:postmeta>
+										<wp:postmeta>
+							<wp:meta_key><![CDATA[navigation_item_hover_style]]></wp:meta_key>
+							<wp:meta_value><![CDATA[default]]></wp:meta_value>
+						</wp:postmeta>
+										<wp:postmeta>
+							<wp:meta_key><![CDATA[_navigation_item_hover_style]]></wp:meta_key>
+							<wp:meta_value><![CDATA[field_59a913aa1012b]]></wp:meta_value>
+						</wp:postmeta>
+										<wp:postmeta>
+							<wp:meta_key><![CDATA[header_container]]></wp:meta_key>
+							<wp:meta_value><![CDATA[default]]></wp:meta_value>
+						</wp:postmeta>
+										<wp:postmeta>
+							<wp:meta_key><![CDATA[_header_container]]></wp:meta_key>
+							<wp:meta_value><![CDATA[field_58a58ef19684e]]></wp:meta_value>
+						</wp:postmeta>
+										<wp:postmeta>
+							<wp:meta_key><![CDATA[header_space]]></wp:meta_key>
+							<wp:meta_value><![CDATA[no]]></wp:meta_value>
+						</wp:postmeta>
+										<wp:postmeta>
+							<wp:meta_key><![CDATA[_header_space]]></wp:meta_key>
+							<wp:meta_value><![CDATA[field_58a43c2266154]]></wp:meta_value>
+						</wp:postmeta>
+										<wp:postmeta>
+							<wp:meta_key><![CDATA[footer]]></wp:meta_key>
+							<wp:meta_value><![CDATA[default]]></wp:meta_value>
+						</wp:postmeta>
+										<wp:postmeta>
+							<wp:meta_key><![CDATA[_footer]]></wp:meta_key>
+							<wp:meta_value><![CDATA[field_5a78d67f7679]]></wp:meta_value>
+						</wp:postmeta>
+										<wp:postmeta>
+							<wp:meta_key><![CDATA[footer_social_buttons]]></wp:meta_key>
+							<wp:meta_value><![CDATA[default]]></wp:meta_value>
+						</wp:postmeta>
+										<wp:postmeta>
+							<wp:meta_key><![CDATA[_footer_social_buttons]]></wp:meta_key>
+							<wp:meta_value><![CDATA[field_59b7de64cddee]]></wp:meta_value>
+						</wp:postmeta>
+										<wp:postmeta>
+							<wp:meta_key><![CDATA[_wpb_shortcodes_custom_css]]></wp:meta_key>
+							<wp:meta_value><![CDATA[.vc_custom_1624275457837{padding-top: 96px !important;padding-bottom: 96px !important;}.vc_custom_1624275499129{padding-top: 52px !important;}.vc_custom_1624275535504{padding-top: 15px !important;}.vc_custom_1624275666819{padding-top: 2px !important;padding-bottom: 21px !important;}.vc_custom_1624275691273{padding-bottom: 55px !important;}.vc_custom_1506082722365{border-right-width: 0px !important;padding-top: 250px !important;padding-bottom: 250px !important;background-image: url(https://promo-theme.com/novo/dark/wp-content/uploads-placeholder/2017/08/about-img3.jpg?id=14) !important;}.vc_custom_1506082733214{padding-top: 80px !important;padding-right: 40px !important;padding-bottom: 80px !important;padding-left: 40px !important;background-color: #121212 !important;}.vc_custom_1567074836169{margin-top: 0px !important;}.vc_custom_1506082744170{padding-top: 40px !important;}.vc_custom_1624275903191{margin-bottom: 42px !important;}.vc_custom_1624275939800{margin-bottom: 48px !important;}.vc_custom_1505483962485{margin-bottom: 35px !important;}.vc_custom_1505483969540{margin-bottom: 35px !important;}.vc_custom_1505483974400{margin-bottom: 35px !important;}.vc_custom_1505483979333{margin-bottom: 35px !important;}.vc_custom_1505483984191{margin-bottom: 35px !important;}.vc_custom_1505483989290{margin-bottom: 35px !important;}.vc_custom_1506082947400{padding-bottom: 20px !important;}.vc_custom_1624275977307{margin-top: 5px !important;margin-bottom: 48px !important;}.vc_custom_1624276027225{margin-bottom: 39px !important;}.vc_custom_1624276054400{margin-bottom: 40px !important;}]]></wp:meta_value>
+						</wp:postmeta>
+										<wp:postmeta>
+							<wp:meta_key><![CDATA[_dp_original]]></wp:meta_key>
+							<wp:meta_value><![CDATA[530]]></wp:meta_value>
+						</wp:postmeta>
+										<wp:postmeta>
+							<wp:meta_key><![CDATA[_edit_last]]></wp:meta_key>
+							<wp:meta_value><![CDATA[1]]></wp:meta_value>
+						</wp:postmeta>
+										<wp:postmeta>
+							<wp:meta_key><![CDATA[_edit_lock]]></wp:meta_key>
+							<wp:meta_value><![CDATA[1624275949:1]]></wp:meta_value>
+						</wp:postmeta>
+							</item>
+				</channel>
+</rss>
+
+			

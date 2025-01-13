@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!-- generator="WordPress/5.7.2" created="2021-06-25 13:00" -->
+<rss version="2.0"
+	xmlns:excerpt="http://wordpress.org/export/1.2/excerpt/"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:wp="http://wordpress.org/export/1.2/"
+>
+
+	<channel>
+		<title>Left Logo</title>
+		<link>https://promo-theme.com/novo-test</link>
+		<description>Just another WordPress site</description>
+		<pubDate>Fri, 25 Jun 2021 13:00:33 +0000</pubDate>
+		<language>en-US</language>
+		<wp:wxr_version>1.2</wp:wxr_version>
+		<wp:base_site_url>https://promo-theme.com/novo-test</wp:base_site_url>
+		<wp:base_blog_url>https://promo-theme.com/novo-test</wp:base_blog_url>
+		
+				<item>
+				<title>Left Logo</title>
+				<link>https://promo-theme.com/novo-test/yprm_header_builder/left-logo/</link>
+				<pubDate>Tue, 01 Jun 2021 06:33:03 +0000</pubDate>
+				<dc:creator><![CDATA[admin]]></dc:creator>
+								<description></description>
+				<content:encoded><![CDATA[]]>				</content:encoded>
+				<excerpt:encoded><![CDATA[]]></excerpt:encoded>
+				<wp:post_id>1747</wp:post_id>
+				<wp:post_date><![CDATA[2021-06-01 06:33:03]]></wp:post_date>
+				<wp:post_date_gmt><![CDATA[2021-06-01 06:33:03]]></wp:post_date_gmt>
+				<wp:comment_status><![CDATA[closed]]></wp:comment_status>
+				<wp:ping_status><![CDATA[closed]]></wp:ping_status>
+				<wp:post_name><![CDATA[left-logo]]></wp:post_name>
+				<wp:status><![CDATA[publish]]></wp:status>
+				<wp:post_parent>0</wp:post_parent>
+				<wp:menu_order>0</wp:menu_order>
+				<wp:post_type><![CDATA[yprm_header_builder]]></wp:post_type>
+				<wp:post_password><![CDATA[]]></wp:post_password>
+				<wp:is_sticky>0</wp:is_sticky>
+																		<wp:postmeta>
+							<wp:meta_key><![CDATA[_edit_last]]></wp:meta_key>
+							<wp:meta_value><![CDATA[1]]></wp:meta_value>
+						</wp:postmeta>
+										<wp:postmeta>
+							<wp:meta_key><![CDATA[header_builder]]></wp:meta_key>
+							<wp:meta_value><![CDATA[{"desktop":{"values":{"color_mode":"light","container":"container-fluid","position":"fixed"},"elements":[]},"desktop_main_bar":{"values":"","elements":[]},"desktop_main_bar_left":{"values":"","elements":[{"type":"sidebar","values":{"type":"sidebar","font_size":"","color":"","color_on_hover":""}},{"type":"logo","values":{"text":"NOVO","width":"","height":"","logo_on_center":"no"}}]},"desktop_main_bar_right":{"values":"","elements":[{"type":"menu","values":{"navigation":"default","type":"visible_menu","hover_type":"style2","color":"","current_page_color":"","submenu_color":"","submenu_bg_color":"","submenu_border_color":"","font_size":"","submenu_font_size":""}},{"type":"cart","values":[]},{"type":"search","values":[]}]},"desktop_bottom_bar":{"values":"","elements":[]},"desktop_bottom_bar_left":{"values":"","elements":[]},"desktop_bottom_bar_center":{"values":{"align":"center","color":""},"elements":[]},"desktop_bottom_bar_right":{"values":"","elements":[]},"mobile":{"values":"","elements":[]},"mobile_main_bar":{"values":"","elements":[]},"mobile_main_bar_left":{"values":"","elements":[{"type":"logo","values":{"text":"NOVO","width":"","height":"","logo_on_center":"no"}}]},"mobile_main_bar_right":{"values":"","elements":[{"type":"menu","values":[]},{"type":"cart","values":[]},{"type":"search","values":[]}]},"mobile_bottom_bar":{"values":"","elements":[]},"mobile_bottom_bar_left":{"values":"","elements":[]},"mobile_bottom_bar_right":{"values":"","elements":[]}}]]></wp:meta_value>
+						</wp:postmeta>
+										<wp:postmeta>
+							<wp:meta_key><![CDATA[_header_builder]]></wp:meta_key>
+							<wp:meta_value><![CDATA[field_5f5f4600d87f3]]></wp:meta_value>
+						</wp:postmeta>
+										<wp:postmeta>
+							<wp:meta_key><![CDATA[_edit_lock]]></wp:meta_key>
+							<wp:meta_value><![CDATA[1622720914:1]]></wp:meta_value>
+						</wp:postmeta>
+										<wp:postmeta>
+							<wp:meta_key><![CDATA[_wp_old_slug]]></wp:meta_key>
+							<wp:meta_value><![CDATA[default]]></wp:meta_value>
+						</wp:postmeta>
+										<wp:postmeta>
+							<wp:meta_key><![CDATA[_wp_old_slug]]></wp:meta_key>
+							<wp:meta_value><![CDATA[simple]]></wp:meta_value>
+						</wp:postmeta>
+										<wp:postmeta>
+							<wp:meta_key><![CDATA[_wp_old_slug]]></wp:meta_key>
+							<wp:meta_value><![CDATA[left-logo-2]]></wp:meta_value>
+						</wp:postmeta>
+							</item>
+				</channel>
+</rss>
+
+			

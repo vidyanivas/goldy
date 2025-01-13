@@ -1,0 +1,33 @@
+
+---Downloaded files---
+The import files for: Business were successfully downloaded!
+Initial max execution time = 1200
+Files info:
+Site URL = http://localhost/nivas/goldy
+Data file = Array
+Widget file = not defined!
+Customizer file = not defined!
+Redux files:
+novo_theme -> C:\vny\htdocs\nivas\goldy/wp-content/uploads/2025/01/demo-redux-import-file_0-2025-01-10__01-52-47.json 
+
+
+---Importing Redux settings---
+Redux settings import for: novo_theme finished successfully!
+
+---Importing Redux settings---
+Redux settings import for: novo_theme finished successfully!
+
+---Importing Redux settings---
+Redux settings import for: novo_theme finished successfully!
+
+---Importing Redux settings---
+Redux settings import for: novo_theme finished successfully!
+
+---Importing Redux settings---
+Redux settings import for: novo_theme finished successfully!
+
+---Importing Redux settings---
+Redux settings import for: novo_theme finished successfully!
+
+---ocdi/after_import---
+
