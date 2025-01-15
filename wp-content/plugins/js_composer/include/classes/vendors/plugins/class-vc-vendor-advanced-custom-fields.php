@@ -1,12 +1,4 @@
 <?php
-/**
- * Backward compatibility with "Advanced custom fields" WordPress plugin.
- *
- * @see https://wordpress.org/plugins/advanced-custom-fields/
- *
- * @since 4.4 vendors initialization moved to hooks in autoload/vendors.
- */
-
 if ( ! defined( 'ABSPATH' ) ) {
 	die( '-1' );
 }
@@ -15,14 +7,12 @@ if ( ! defined( 'ABSPATH' ) ) {
  * Vendor class for plugin advanced custom fields,
  * Needed to apply extra js when backend/frontend editor rendered.
  * Class Vc_Vendor_AdvancedCustomFields
- *
  * @since 4.3.3
  */
 class Vc_Vendor_AdvancedCustomFields {
 
 	/**
 	 * Initializing actions when backend/frontend editor renders to enqueue fix-js file
-	 *
 	 * @since 4.3.3
 	 */
 	public function load() {
@@ -31,7 +21,6 @@ class Vc_Vendor_AdvancedCustomFields {
 		}
 		/**
 		 * Action when backend editor is rendering
-		 *
 		 * @see Vc_Backend_Editor::renderEditor wp-content/plugins/js_composer/include/classes/editors/class-vc-backend-editor.php
 		 */
 		add_action( 'vc_backend_editor_render', array(
@@ -41,7 +30,6 @@ class Vc_Vendor_AdvancedCustomFields {
 
 		/**
 		 * Action when frontend editor is rendering
-		 *
 		 * @see Vc_Frontend_Editor::renderEditor wp-content/plugins/js_composer/include/classes/editors/class-vc-frontend-editor.php
 		 */
 		add_action( 'vc_frontend_editor_render', array(
@@ -64,14 +52,7 @@ class Vc_Vendor_AdvancedCustomFields {
 		do_action( 'vc-vendor-acf-load', $this );
 	}
 
-	/**
-	 * Set capability for ACF shortcode.
-	 *
-	 * @param string $cap
-	 * @return string
-	 */
 	public function acfAjaxShortcodeCapability( $cap ) {
-        // phpcs:ignore
 		if ( isset( $_POST['_vcnonce'] ) && vc_verify_public_nonce() ) {
 			return 'exist';
 		}
@@ -81,7 +62,6 @@ class Vc_Vendor_AdvancedCustomFields {
 
 	/**
 	 * Small fix for editor when try to change field
-	 *
 	 * @since 4.3.3
 	 */
 	public function enqueueJs() {
@@ -89,8 +69,6 @@ class Vc_Vendor_AdvancedCustomFields {
 	}
 
 	/**
-	 * Map grid item shortcodes.
-	 *
 	 * @param array $shortcodes
 	 * @return array|mixed
 	 */
@@ -102,9 +80,6 @@ class Vc_Vendor_AdvancedCustomFields {
 		return $shortcodes + $wc_shortcodes;
 	}
 
-	/**
-	 * Map editors shortcodes.
-	 */
 	public function mapEditorsShortcodes() {
 		require_once vc_path_dir( 'VENDORS_DIR', 'plugins/acf/class-vc-acf-shortcode.php' );
 		vc_lean_map( 'vc_acf', null, vc_path_dir( 'VENDORS_DIR', 'plugins/acf/shortcode.php' ) );

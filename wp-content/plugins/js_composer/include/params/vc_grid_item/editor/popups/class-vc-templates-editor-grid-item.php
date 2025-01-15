@@ -1,8 +1,4 @@
 <?php
-/**
- * Base templates editor for grid item.
- */
-
 if ( ! defined( 'ABSPATH' ) ) {
 	die( '-1' );
 }
@@ -14,16 +10,8 @@ require_once vc_path_dir( 'PARAMS_DIR', 'vc_grid_item/class-vc-grid-item.php' );
  * Class Vc_Templates_Editor_Grid_Item
  */
 class Vc_Templates_Editor_Grid_Item extends Vc_Templates_Panel_Editor {
-	/**
-	 * This prevents for loading default templates
-	 *
-	 * @var array
-	 */
-	protected $default_templates = array();
+	protected $default_templates = array(); // this prevents for loading default templates
 
-	/**
-	 * Vc_Templates_Editor_Grid_Item constructor.
-	 */
 	public function __construct() {
 		add_filter( 'vc_templates_render_category', array(
 			$this,
@@ -36,10 +24,8 @@ class Vc_Templates_Editor_Grid_Item extends Vc_Templates_Panel_Editor {
 	}
 
 	/**
-	 * Render template block for certain category.
-	 *
-	 * @param array $category
-	 * @return array
+	 * @param $category
+	 * @return mixed
 	 */
 	public function renderTemplateBlock( $category ) {
 		if ( 'grid_templates' === $category['category'] || 'grid_templates_custom' === $category['category'] ) {
@@ -68,14 +54,13 @@ class Vc_Templates_Editor_Grid_Item extends Vc_Templates_Panel_Editor {
 		return $category;
 	}
 
-	/**
-	 * Output rendered template in modal dialog.
-	 *
-	 * @param string $template_name
-	 * @param array $template_data
+	/** Output rendered template in modal dialog
+	 * @param $template_name
+	 * @param $template_data
 	 *
 	 * @return string
 	 * @since 4.4
+	 *
 	 */
 	public function renderTemplateWindowGrid( $template_name, $template_data ) {
 		if ( 'grid_templates' === $template_data['type'] || 'grid_templates_custom' === $template_data['type'] ) {
@@ -86,13 +71,12 @@ class Vc_Templates_Editor_Grid_Item extends Vc_Templates_Panel_Editor {
 	}
 
 	/**
-	 * Render html output for template window grid.
-	 *
-	 * @param string $template_name
-	 * @param array $template_data
+	 * @param $template_name
+	 * @param $template_data
 	 *
 	 * @return string
 	 * @since 4.4
+	 *
 	 */
 	protected function renderTemplateWindowGridTemplate( $template_name, $template_data ) {
 
@@ -103,7 +87,6 @@ class Vc_Templates_Editor_Grid_Item extends Vc_Templates_Panel_Editor {
 		$preview_template_title = esc_attr__( 'Preview template', 'js_composer' );
 		$add_template_title = esc_attr__( 'Preview template', 'js_composer' );
 
-        // phpcs:ignore:Universal.CodeAnalysis.NoEchoSprintf.Found
 		echo sprintf( '<button type="button" class="vc_ui-list-bar-item-trigger" title="%s"
 				data-template-handler=""
 				data-vc-ui-element="template-title">%s</button>
@@ -123,8 +106,6 @@ class Vc_Templates_Editor_Grid_Item extends Vc_Templates_Panel_Editor {
 	}
 
 	/**
-	 * Load output for predefined template.
-	 *
 	 * @param bool $template_id
 	 */
 	public function load( $template_id = false ) {
@@ -142,8 +123,6 @@ class Vc_Templates_Editor_Grid_Item extends Vc_Templates_Panel_Editor {
 	}
 
 	/**
-	 * Load custom template content.
-	 *
 	 * @param bool $template_id
 	 * @return string
 	 */
@@ -166,8 +145,6 @@ class Vc_Templates_Editor_Grid_Item extends Vc_Templates_Panel_Editor {
 	}
 
 	/**
-	 * Get all templates.
-	 *
 	 * @return array|mixed|void
 	 */
 	public function getAllTemplates() {
@@ -186,7 +163,7 @@ class Vc_Templates_Editor_Grid_Item extends Vc_Templates_Panel_Editor {
 					'unique_id' => $template_id,
 					'name' => $template_data['name'],
 					'type' => 'grid_templates',
-					// for rendering in backend/frontend with ajax.
+					// for rendering in backend/frontend with ajax
 				);
 			}
 			$arr_category['templates'] = $category_templates;
@@ -205,20 +182,18 @@ class Vc_Templates_Editor_Grid_Item extends Vc_Templates_Panel_Editor {
 					'unique_id' => $template_id,
 					'name' => $template_name,
 					'type' => 'grid_templates_custom',
-					// for rendering in backend/frontend with ajax).
+					// for rendering in backend/frontend with ajax);
 				);
 			}
 			$arr_category['templates'] = $category_templates;
 			$data[] = $arr_category;
 		}
 
-		// To get any other 3rd "Custom template" - do this by hook filter 'vc_get_all_templates'.
+		// To get any other 3rd "Custom template" - do this by hook filter 'vc_get_all_templates'
 		return apply_filters( 'vc_grid_get_all_templates', $data );
 	}
 
 	/**
-	 * Get custom template list.
-	 *
 	 * @return array
 	 */
 	protected function getCustomTemplateList() {
@@ -236,8 +211,6 @@ class Vc_Templates_Editor_Grid_Item extends Vc_Templates_Panel_Editor {
 	}
 
 	/**
-	 * Get grid templates.
-	 *
 	 * @return bool|mixed
 	 */
 	public function getGridTemplates() {

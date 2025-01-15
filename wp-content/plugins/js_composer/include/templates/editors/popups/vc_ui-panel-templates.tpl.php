@@ -1,10 +1,4 @@
 <?php
-/**
- * Templates panel template.
- *
- * @var Vc_Templates_Panel_Editor $box
- */
-
 if ( ! defined( 'ABSPATH' ) ) {
 	die( '-1' );
 }
@@ -25,13 +19,12 @@ if ( ! defined( 'ABSPATH' ) ) {
 				'close',
 			),
 			'header_css_class' => 'vc_ui-template-panel-header-container',
-			'header_tabs_template' => 'editors/partials/vc_ui-templates-tabs.tpl.php',
+			'content_template' => 'editors/partials/vc_ui-templates-tabs.tpl.php',
 			'search_template' => 'editors/partials/templates_search.tpl.php',
-			'header_tabs_template_variables' => array(
+			'template_variables' => array(
 				'categories_data' => $categories_data,
 				'categories' => $categories,
 			),
-			'box' => $box,
 		) );
 		?>
 		<!-- param window footer-->
@@ -47,7 +40,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 					<?php
 					$first = true;
 					foreach ( $categories_data as $key => $category ) :
-						echo '<div class="vc_edit-form-tab vc_row vc_ui-flex-row' . ( $first ? ' vc_active' : '' ) . '" data-vc-ui-element="panel-edit-element-tab" data-tab="' . esc_attr( $category['category'] ) . '">';
+						echo '<div class="vc_edit-form-tab vc_row vc_ui-flex-row' . ( $first ? ' vc_active' : '' ) . '"' . ' data-vc-ui-element="panel-edit-element-tab"' . ' data-tab="' . esc_attr( $category['category'] ) . '">';
 						$templates_block = apply_filters( 'vc_templates_render_category', $category );
 						if ( isset( $templates_block['output'] ) && is_string( $templates_block['output'] ) ) {
 							// @codingStandardsIgnoreLine

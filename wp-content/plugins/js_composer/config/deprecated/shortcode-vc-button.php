@@ -1,11 +1,4 @@
 <?php
-/**
- * Configuration file for [vc_button] shortcode of 'Old Button' element.
- *
- * @see https://kb.wpbakery.com/docs/inner-api/vc_map/ for more detailed information about element attributes.
- * @depreacted 4.5
- */
-
 if ( ! defined( 'ABSPATH' ) ) {
 	die( '-1' );
 }

@@ -1,10 +1,4 @@
 <?php
-/**
- * Configuration file for [vc_toggle] shortcode of 'FAQ' element.
- *
- * @see https://kb.wpbakery.com/docs/inner-api/vc_map/ for more detailed information about element attributes.
- */
-
 if ( ! defined( 'ABSPATH' ) ) {
 	die( '-1' );
 }
@@ -37,7 +31,7 @@ $params = array_merge( array(
 		'type' => 'checkbox',
 		'heading' => esc_html__( 'Use custom font?', 'js_composer' ),
 		'param_name' => 'use_custom_heading',
-		'description' => esc_html__( 'Enable custom font option.', 'js_composer' ),
+		'description' => esc_html__( 'Enable Google fonts.', 'js_composer' ),
 		'edit_field_class' => 'vc_col-sm-3',
 	),
 	array(
@@ -87,7 +81,7 @@ $params = array_merge( array(
 		'type' => 'el_id',
 		'heading' => esc_html__( 'Element ID', 'js_composer' ),
 		'param_name' => 'el_id',
-		'description' => sprintf( esc_html__( 'Enter element ID (Note: make sure it is unique and valid according to %1$sw3c specification%2$s).', 'js_composer' ), '<a href="https://www.w3schools.com/tags/att_global_id.asp" target="_blank">', '</a>' ),
+		'description' => sprintf( esc_html__( 'Enter element ID (Note: make sure it is unique and valid according to %sw3c specification%s).', 'js_composer' ), '<a href="https://www.w3schools.com/tags/att_global_id.asp" target="_blank">', '</a>' ),
 	),
 	array(
 		'type' => 'textfield',
@@ -101,9 +95,6 @@ $params = array_merge( array(
 		'heading' => esc_html__( 'CSS box', 'js_composer' ),
 		'param_name' => 'css',
 		'group' => esc_html__( 'Design Options', 'js_composer' ),
-		'value' => array(
-			'margin-bottom' => '22px',
-		),
 	),
 ) );
 
@@ -111,7 +102,6 @@ return array(
 	'name' => esc_html__( 'FAQ', 'js_composer' ),
 	'base' => 'vc_toggle',
 	'icon' => 'icon-wpb-toggle-small-expand',
-	'element_default_class' => 'vc_do_toggle',
 	'category' => esc_html__( 'Content', 'js_composer' ),
 	'description' => esc_html__( 'Toggle element for Q&A block', 'js_composer' ),
 	'params' => $params,

@@ -1,10 +1,4 @@
 <?php
-/**
- * Abstract class for WPBakery shortcode containers.
- *
- * This class serves as a base for creating container-type shortcodes in WPBakery.
- */
-
 if ( ! defined( 'ABSPATH' ) ) {
 	die( '-1' );
 }
@@ -14,22 +8,12 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 abstract class WPBakeryShortCodesContainer extends WPBakeryShortCode {
 	/**
-	 * Predefined attributes.
-	 *
 	 * @var array
 	 */
 	protected $predefined_atts = array();
-
-	/**
-	 * Prepend controls to the backend editor.
-	 *
-	 * @var bool
-	 */
 	protected $backened_editor_prepend_controls = true;
 
 	/**
-	 * Set custom admin block params.
-	 *
 	 * @return string
 	 */
 	public function customAdminBlockParams() {
@@ -37,10 +21,8 @@ abstract class WPBakeryShortCodesContainer extends WPBakeryShortCode {
 	}
 
 	/**
-	 * Get main attributes.
-	 *
-	 * @param string $width
-	 * @param int $i
+	 * @param $width
+	 * @param $i
 	 *
 	 * @return string
 	 * @throws \Exception
@@ -52,10 +34,8 @@ abstract class WPBakeryShortCodesContainer extends WPBakeryShortCode {
 	}
 
 	/**
-	 * Add container classes.
-	 *
-	 * @param string $width
-	 * @param int $i
+	 * @param $width
+	 * @param $i
 	 *
 	 * @return string
 	 */
@@ -64,17 +44,14 @@ abstract class WPBakeryShortCodesContainer extends WPBakeryShortCode {
 	}
 
 	/**
-	 * Get container content classes.
 	 *
 	 * @return string
 	 */
 	public function containerContentClass() {
 		return 'wpb_column_container vc_container_for_children vc_clearfix';
-	}
+	}/** @noinspection PhpMissingParentCallCommonInspection */
 
 	/**
-	 * Get colum controls html.
-	 *
 	 * @param string $controls
 	 * @param string $extended_css
 	 *
@@ -133,9 +110,7 @@ abstract class WPBakeryShortCodesContainer extends WPBakeryShortCode {
 	}
 
 	/**
-	 * Get admin output.
-	 *
-	 * @param array $atts
+	 * @param $atts
 	 * @param null $content
 	 *
 	 * @return string
@@ -177,9 +152,7 @@ abstract class WPBakeryShortCodesContainer extends WPBakeryShortCode {
 	}
 
 	/**
-	 * Get title output.
-	 *
-	 * @param string $title
+	 * @param $title
 	 *
 	 * @return string
 	 */
@@ -198,8 +171,9 @@ abstract class WPBakeryShortCodesContainer extends WPBakeryShortCode {
 	}
 
 	/**
-	 * Get child element class.
-	 *
+	 * @return string
+	 */
+	/**
 	 * @return string
 	 */
 	public function getBackendEditorChildControlsElementCssClass() {

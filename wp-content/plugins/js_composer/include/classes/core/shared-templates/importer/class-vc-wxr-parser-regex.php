@@ -1,11 +1,4 @@
 <?php
-/**
- * WXR Parser with regex fallback.
- *
- * Parses WXR files using regular expressions. Suitable for environments lacking XML parsers.
- * Extracts and processes authors, posts, categories, tags, and terms.
- */
-
 if ( ! defined( 'ABSPATH' ) ) {
 	die( '-1' );
 }
@@ -15,47 +8,29 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 class Vc_WXR_Parser_Regex {
 	/**
-	 * List of authors parsed from the WXR file.
-	 *
-	 * @var array $authors
+	 * @var array
 	 */
 	public $authors = array();
-
 	/**
-	 * List of posts parsed from the WXR file.
-	 *
-	 * @var array $posts
+	 * @var array
 	 */
 	public $posts = array();
-
 	/**
-	 * List of categories parsed from the WXR file.
-	 *
-	 * @var array $categories
+	 * @var array
 	 */
 	public $categories = array();
-
 	/**
-	 * List of tags parsed from the WXR file.
-	 *
-	 * @var array $tags
+	 * @var array
 	 */
 	public $tags = array();
-
 	/**
-	 * List of terms parsed from the WXR file.
-	 *
-	 * @var array $terms
+	 * @var array
 	 */
 	public $terms = array();
-
 	/**
-	 * Base URL extracted from the WXR file.
-	 *
-	 * @var string $base_url
+	 * @var string
 	 */
 	public $base_url = '';
-
 
 	/**
 	 * Vc_WXR_Parser_Regex constructor.
@@ -65,9 +40,7 @@ class Vc_WXR_Parser_Regex {
 	}
 
 	/**
-	 * Parse import file.
-	 *
-	 * @param string $file
+	 * @param $file
 	 * @return array|\WP_Error
 	 */
 	public function parse( $file ) {
@@ -143,14 +116,12 @@ class Vc_WXR_Parser_Regex {
 	}
 
 	/**
-	 * Get tag.
-	 *
-	 * @param string $search
-	 * @param string $tag
+	 * @param $string
+	 * @param $tag
 	 * @return mixed|string|string[]|null
 	 */
-	public function get_tag( $search, $tag ) {
-		preg_match( "|<$tag.*?>(.*?)</$tag>|is", $search, $return );
+	public function get_tag( $string, $tag ) {
+		preg_match( "|<$tag.*?>(.*?)</$tag>|is", $string, $return );
 		if ( isset( $return[1] ) ) {
 			if ( substr( $return[1], 0, 9 ) === '<![CDATA[' ) {
 				if ( strpos( $return[1], ']]]]><![CDATA[>' ) !== false ) {
@@ -173,9 +144,7 @@ class Vc_WXR_Parser_Regex {
 	}
 
 	/**
-	 * Get category data.
-	 *
-	 * @param string $c
+	 * @param $c
 	 * @return array
 	 */
 	public function process_category( $c ) {
@@ -189,9 +158,7 @@ class Vc_WXR_Parser_Regex {
 	}
 
 	/**
-	 * Get tag data.
-	 *
-	 * @param string $t
+	 * @param $t
 	 * @return array
 	 */
 	public function process_tag( $t ) {
@@ -204,9 +171,7 @@ class Vc_WXR_Parser_Regex {
 	}
 
 	/**
-	 * Get term data.
-	 *
-	 * @param string $t
+	 * @param $t
 	 * @return array
 	 */
 	public function process_term( $t ) {
@@ -221,9 +186,7 @@ class Vc_WXR_Parser_Regex {
 	}
 
 	/**
-	 * Get author data.
-	 *
-	 * @param string $a
+	 * @param $a
 	 * @return array
 	 */
 	public function process_author( $a ) {
@@ -238,9 +201,7 @@ class Vc_WXR_Parser_Regex {
 	}
 
 	/**
-	 * Get post data.
-	 *
-	 * @param string $post
+	 * @param $post
 	 * @return array
 	 */
 	public function process_post( $post ) {
@@ -351,9 +312,7 @@ class Vc_WXR_Parser_Regex {
 	}
 
 	/**
-	 * Normalize tag.
-	 *
-	 * @param array $matches
+	 * @param $matches
 	 * @return string
 	 */
 	public function normalize_tag( $matches ) {
@@ -361,9 +320,7 @@ class Vc_WXR_Parser_Regex {
 	}
 
 	/**
-	 * Open file.
-	 *
-	 * @param string $filename
+	 * @param $filename
 	 * @param string $mode
 	 * @return bool|resource
 	 */
@@ -377,9 +334,7 @@ class Vc_WXR_Parser_Regex {
 	}
 
 	/**
-	 * Check if end of file.
-	 *
-	 * @param resource $fp
+	 * @param $fp
 	 * @return bool|int
 	 */
 	public function feof( $fp ) {
@@ -392,9 +347,7 @@ class Vc_WXR_Parser_Regex {
 	}
 
 	/**
-	 * Read file.
-	 *
-	 * @param resource $fp
+	 * @param $fp
 	 * @param int $len
 	 * @return bool|string
 	 */
@@ -408,9 +361,7 @@ class Vc_WXR_Parser_Regex {
 	}
 
 	/**
-	 * Close file.
-	 *
-	 * @param resource $fp
+	 * @param $fp
 	 * @return bool
 	 */
 	public function fclose( $fp ) {

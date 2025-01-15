@@ -1,11 +1,4 @@
 <?php
-/**
- * Settings page wrapper template.
- *
- * @var Vc_Page $active_page
- * @var array $pages
- */
-
 if ( ! defined( 'ABSPATH' ) ) {
 	die( '-1' );
 }

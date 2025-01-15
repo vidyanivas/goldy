@@ -1,10 +1,4 @@
 <?php
-/**
- * Class that handles specific [vc_media_grid] shortcode.
- *
- * @see js_composer/include/templates/shortcodes/vc_media_grid.php
- */
-
 if ( ! defined( 'ABSPATH' ) ) {
 	die( '-1' );
 }
@@ -17,8 +11,7 @@ require_once vc_path_dir( 'SHORTCODES_DIR', 'vc-basic-grid.php' );
 class WPBakeryShortCode_Vc_Media_Grid extends WPBakeryShortCode_Vc_Basic_Grid {
 	/**
 	 * WPBakeryShortCode_Vc_Media_Grid constructor.
-	 *
-	 * @param array $settings
+	 * @param $settings
 	 */
 	public function __construct( $settings ) {
 		parent::__construct( $settings );
@@ -29,8 +22,6 @@ class WPBakeryShortCode_Vc_Media_Grid extends WPBakeryShortCode_Vc_Basic_Grid {
 	}
 
 	/**
-	 * Get name.
-	 *
 	 * @return mixed|string
 	 */
 	protected function getFileName() {
@@ -38,18 +29,14 @@ class WPBakeryShortCode_Vc_Media_Grid extends WPBakeryShortCode_Vc_Basic_Grid {
 	}
 
 	/**
-	 * Set pagination attr.
-	 *
-	 * @param int $max_items
+	 * @param $max_items
 	 */
 	protected function setPagingAll( $max_items ) {
 		$this->atts['items_per_page'] = $this->atts['query_items_per_page'] = apply_filters( 'vc_basic_grid_items_per_page_all_max_items', self::$default_max_items );
 	}
 
 	/**
-	 * Build WP_Query.
-	 *
-	 * @param array $atts
+	 * @param $atts
 	 * @return array
 	 */
 	public function buildQuery( $atts ) {
@@ -68,9 +55,7 @@ class WPBakeryShortCode_Vc_Media_Grid extends WPBakeryShortCode_Vc_Basic_Grid {
 	}
 
 	/**
-	 * Set grid items.
-	 *
-	 * @param string $items
+	 * @param $items
 	 * @return string
 	 */
 	public function setItemsIfEmpty( $items ) {
@@ -89,10 +74,8 @@ class WPBakeryShortCode_Vc_Media_Grid extends WPBakeryShortCode_Vc_Basic_Grid {
 	}
 
 	/**
-	 * Set html param holder.
-	 *
-	 * @param array $param
-	 * @param string $value
+	 * @param $param
+	 * @param $value
 	 * @return string
 	 */
 	public function singleParamHtmlHolder( $param, $value ) {

@@ -1,8 +1,4 @@
 <?php
-/**
- * Add element search template.
- */
-
 if ( ! defined( 'ABSPATH' ) ) {
 	die( '-1' );
 }

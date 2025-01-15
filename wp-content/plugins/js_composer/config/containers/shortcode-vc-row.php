@@ -1,10 +1,4 @@
 <?php
-/**
- * Configuration file for [vc_row] shortcode of 'Row' element.
- *
- * @see https://kb.wpbakery.com/docs/inner-api/vc_map/ for more detailed information about element attributes.
- */
-
 if ( ! defined( 'ABSPATH' ) ) {
 	die( '-1' );
 }
@@ -18,12 +12,6 @@ return array(
 	'class' => 'vc_main-sortable-element',
 	'description' => esc_html__( 'Place content elements inside the row', 'js_composer' ),
 	'params' => array(
-		array(
-			'type' => 'textfield',
-			'heading' => esc_html__( 'Row Title', 'js_composer' ),
-			'param_name' => 'row_title',
-			'description' => esc_html__( 'This title is visible only in the admin area and helps site editors differentiate rows.', 'js_composer' ),
-		),
 		array(
 			'type' => 'dropdown',
 			'heading' => esc_html__( 'Row stretch', 'js_composer' ),
@@ -56,12 +44,6 @@ return array(
 			),
 			'std' => '0',
 			'description' => esc_html__( 'Select gap between columns in row.', 'js_composer' ),
-		),
-		array(
-			'type' => 'textfield',
-			'heading' => esc_html__( 'Minimum height', 'js_composer' ),
-			'param_name' => 'min_height',
-			'description' => sprintf( esc_html__( 'Set minimum height for the container.', 'js_composer' ) ),
 		),
 		array(
 			'type' => 'checkbox',
@@ -124,7 +106,7 @@ return array(
 			'heading' => esc_html__( 'YouTube link', 'js_composer' ),
 			'param_name' => 'video_bg_url',
 			'value' => 'https://www.youtube.com/watch?v=lMJXxhRFO1k',
-			// default video url.
+			// default video url
 			'description' => esc_html__( 'Add YouTube link.', 'js_composer' ),
 			'dependency' => array(
 				'element' => 'video_bg',
@@ -199,7 +181,7 @@ return array(
 			'type' => 'el_id',
 			'heading' => esc_html__( 'Row ID', 'js_composer' ),
 			'param_name' => 'el_id',
-			'description' => sprintf( esc_html__( 'Enter element ID (Note: make sure it is unique and valid according to %1$sw3c specification%2$s).', 'js_composer' ), '<a href="https://www.w3schools.com/tags/att_global_id.asp" target="_blank">', '</a>' ),
+			'description' => sprintf( esc_html__( 'Enter element ID (Note: make sure it is unique and valid according to %sw3c specification%s).', 'js_composer' ), '<a href="https://www.w3schools.com/tags/att_global_id.asp" target="_blank">', '</a>' ),
 		),
 		array(
 			'type' => 'checkbox',

@@ -1,10 +1,4 @@
 <?php
-/**
- * Class that handles specific [vc_gitem_animated_block] shortcode.
- *
- * @see js_composer/include/templates/shortcodes/vc_gitem_animated_block.php
- */
-
 if ( ! defined( 'ABSPATH' ) ) {
 	die( '-1' );
 }
@@ -15,32 +9,22 @@ require_once vc_path_dir( 'SHORTCODES_DIR', 'vc-gitem.php' );
  * Class WPBakeryShortCode_Vc_Gitem_Animated_Block
  */
 class WPBakeryShortCode_Vc_Gitem_Animated_Block extends WPBakeryShortCode_Vc_Gitem {
-
-	/**
-	 * Animation types list.
-	 *
-	 * @var array
-	 */
 	protected static $animations = array();
 
 	/**
-	 * Attach item grid html to element output.
-	 *
 	 * @return string
 	 */
 	public function itemGrid() {
 		$output = '';
-		$output .= '<div class="vc_gitem-animated-block-content-controls"><ul class="vc_gitem-tabs vc_clearfix" data-vc-gitem-animated-block="tabs"></ul></div>';
-		$output .= '<div class="vc_gitem-zone-tab vc_clearfix" data-vc-gitem-animated-block="add-a"></div><div class="vc_gitem-zone-tab vc_clearfix" data-vc-gitem-animated-block="add-b"></div>';
+		$output .= '<div class="vc_gitem-animated-block-content-controls">' . '<ul class="vc_gitem-tabs vc_clearfix" data-vc-gitem-animated-block="tabs">' . '</ul>' . '</div>';
+		$output .= '' . '<div class="vc_gitem-zone-tab vc_clearfix" data-vc-gitem-animated-block="add-a"></div>' . '<div class="vc_gitem-zone-tab vc_clearfix" data-vc-gitem-animated-block="add-b"></div>';
 
 		return $output;
 	}
 
 	/**
-	 * Add container classes.
-	 *
-	 * @param string $width
-	 * @param int $i
+	 * @param $width
+	 * @param $i
 	 * @return string
 	 */
 	public function containerHtmlBlockParams( $width, $i ) {
@@ -48,8 +32,6 @@ class WPBakeryShortCode_Vc_Gitem_Animated_Block extends WPBakeryShortCode_Vc_Git
 	}
 
 	/**
-	 * Get animations configuration.
-	 *
 	 * @return array
 	 */
 	public static function animations() {

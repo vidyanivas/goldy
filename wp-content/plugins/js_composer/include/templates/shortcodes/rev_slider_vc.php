@@ -1,19 +1,10 @@
 <?php
-/**
- * The template for displaying [rev_slider_vc] shortcode output of 'Revolution Slider' element.
- *
- * This template can be overridden by copying it to yourtheme/vc_templates/rev_slider_vc.php.
- *
- * @see https://kb.wpbakery.com/docs/developers-how-tos/change-shortcodes-html-output
- */
-
 if ( ! defined( 'ABSPATH' ) ) {
 	die( '-1' );
 }
 
 /**
  * Shortcode attributes
- *
  * @var $atts
  * @var $title
  * @var $alias
@@ -37,4 +28,4 @@ $output .= wpb_widget_title( array(
 $output .= apply_filters( 'vc_revslider_shortcode', do_shortcode( '[rev_slider alias="' . $alias . '"]' ) );
 $output .= '</div>';
 
-echo $output; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+echo $output;

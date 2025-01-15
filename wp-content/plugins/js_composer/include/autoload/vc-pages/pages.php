@@ -1,18 +1,9 @@
 <?php
-/**
- * Autoload hooks related to plugin settings.
- *
- * @note we require our autoload files everytime and everywhere after plugin load.
- * @since 4.5
- */
-
 if ( ! defined( 'ABSPATH' ) ) {
 	die( '-1' );
 }
 
 /**
- * Enqueue page css.
- *
  * @since 4.5
  */
 function vc_page_css_enqueue() {
@@ -22,12 +13,13 @@ function vc_page_css_enqueue() {
 /**
  * Build group page objects.
  *
- * @param string $slug
- * @param string $title
- * @param string $tab
+ * @param $slug
+ * @param $title
+ * @param $tab
  *
  * @return Vc_Pages_Group
  * @since 4.5
+ *
  */
 function vc_pages_group_build( $slug, $title, $tab = '' ) {
 	$vc_page_welcome_tabs = vc_get_page_welcome_tabs();
@@ -47,8 +39,6 @@ function vc_pages_group_build( $slug, $title, $tab = '' ) {
 }
 
 /**
- * Build menu page.
- *
  * @since 4.5
  */
 function vc_menu_page_build() {
@@ -57,13 +47,10 @@ function vc_menu_page_build() {
 	} else {
 		define( 'VC_PAGE_MAIN_SLUG', 'vc-welcome' );
 	}
-	add_menu_page( esc_html__( 'WPBakery Page Builder', 'js_composer' ), esc_html__( 'WPBakery Page Builder', 'js_composer' ), 'edit_posts', VC_PAGE_MAIN_SLUG, null, vc_asset_url( 'vc/logo/wpb-logo-white_20.svg' ), 76 );
+	add_menu_page( esc_html__( 'WPBakery Page Builder', 'js_composer' ), esc_html__( 'WPBakery Page Builder', 'js_composer' ), 'edit_posts', VC_PAGE_MAIN_SLUG, null, vc_asset_url( 'vc/logo/wpb-logo-white_32.svg' ), 76 );
 	do_action( 'vc_menu_page_build' );
 }
 
-/**
- * Build network menu page.
- */
 function vc_network_menu_page_build() {
 	if ( ! vc_is_network_plugin() ) {
 		return;
@@ -73,8 +60,7 @@ function vc_network_menu_page_build() {
 	} else {
 		define( 'VC_PAGE_MAIN_SLUG', 'vc-welcome' );
 	}
-	// phpcs:ignore
-	add_menu_page( esc_html__( 'WPBakery Page Builder', 'js_composer' ), esc_html__( 'WPBakery Page Builder', 'js_composer' ), 'exist', VC_PAGE_MAIN_SLUG, null, vc_asset_url( 'vc/logo/wpb-logo-white_20.svg' ), 76 );
+	add_menu_page( esc_html__( 'WPBakery Page Builder', 'js_composer' ), esc_html__( 'WPBakery Page Builder', 'js_composer' ), 'exist', VC_PAGE_MAIN_SLUG, null, vc_asset_url( 'vc/logo/wpb-logo-white_32.svg' ), 76 );
 	do_action( 'vc_network_menu_page_build' );
 }
 

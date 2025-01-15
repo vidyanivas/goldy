@@ -1,15 +1,9 @@
 <?php
-/**
- * Frontend editor part template.
- *
- * @var string $part
- * @var string $role
- */
-
 if ( ! defined( 'ABSPATH' ) ) {
 	die( '-1' );
 }
 if ( vc_frontend_editor()->inlineEnabled() ) {
+	/** @var string $part */
 	vc_include_template( 'pages/partials/vc-roles-parts/_part.tpl.php', array(
 		'part' => $part,
 		'role' => $role,
@@ -30,3 +24,4 @@ if ( vc_frontend_editor()->inlineEnabled() ) {
 		'custom_label' => esc_html__( 'Frontend editor', 'js_composer' ),
 	) );
 }
+

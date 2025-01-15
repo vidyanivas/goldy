@@ -1,8 +1,4 @@
 <?php
-/**
- * Base page class.
- */
-
 if ( ! defined( 'ABSPATH' ) ) {
 	die( '-1' );
 }
@@ -11,46 +7,19 @@ if ( ! defined( 'ABSPATH' ) ) {
  * Class Vc_Page
  */
 class Vc_Page {
-	/**
-	 * The slug of the page.
-	 *
-	 * @var string
-	 */
 	protected $slug;
-
-	/**
-	 * The title of the page.
-	 *
-	 * @var string
-	 */
 	protected $title;
-
-	/**
-	 * The path to the template file for the page.
-	 *
-	 * @var string
-	 */
 	protected $templatePath;
 
 	/**
-	 * Ajax save flag.
-	 *
-	 * @var bool
-	 */
-	protected $is_ajax_save = false;
-
-	/**
-	 * Get the slug of the page.
-	 *
 	 * @return string
+	 *
 	 */
 	public function getSlug() {
 		return $this->slug;
 	}
 
 	/**
-	 * Set the slug of the page.
-	 *
 	 * @param mixed $slug
 	 *
 	 * @return $this;
@@ -62,8 +31,6 @@ class Vc_Page {
 	}
 
 	/**
-	 * Get the title of the page.
-	 *
 	 * @return mixed
 	 */
 	public function getTitle() {
@@ -71,8 +38,6 @@ class Vc_Page {
 	}
 
 	/**
-	 * Set the title of the page.
-	 *
 	 * @param string $title
 	 *
 	 * @return $this
@@ -84,8 +49,6 @@ class Vc_Page {
 	}
 
 	/**
-	 * Get the title of the page.
-	 *
 	 * @return mixed
 	 */
 	public function getTemplatePath() {
@@ -93,8 +56,6 @@ class Vc_Page {
 	}
 
 	/**
-	 * Set the path to the template file for the page.
-	 *
 	 * @param mixed $templatePath
 	 *
 	 * @return $this
@@ -105,26 +66,9 @@ class Vc_Page {
 		return $this;
 	}
 
-	/**
-	 * Render the page using the specified template.
-	 */
 	public function render() {
 		vc_include_template( $this->getTemplatePath(), array(
 			'page' => $this,
 		) );
-	}
-
-	/**
-	 * Set ajax save.
-	 */
-	public function set_ajax_save() {
-		$this->is_ajax_save = true;
-	}
-
-	/**
-	 * Get ajax save file
-	 */
-	public function get_ajax_save() {
-		return $this->is_ajax_save;
 	}
 }

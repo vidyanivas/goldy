@@ -1,23 +1,15 @@
 <?php
-/**
- * Class that handles specific [vc_custom_heading] shortcode.
- *
- * @see js_composer/include/templates/shortcodes/vc_custom_heading.php
- */
-
 if ( ! defined( 'ABSPATH' ) ) {
 	die( '-1' );
 }
 
 /**
  * Class WPBakeryShortCode_Vc_Custom_heading
- *
  * @since 4.3
  */
 class WPBakeryShortCode_Vc_Custom_Heading extends WPBakeryShortCode {
 	/**
 	 * Defines fields names for google_fonts, font_container and etc
-	 *
 	 * @since 4.4
 	 * @var array
 	 */
@@ -32,7 +24,7 @@ class WPBakeryShortCode_Vc_Custom_Heading extends WPBakeryShortCode {
 	/**
 	 * Used to get field name in vc_map function for google_fonts, font_container and etc..
 	 *
-	 * @param string $key
+	 * @param $key
 	 *
 	 * @return bool
 	 * @since 4.4
@@ -44,7 +36,7 @@ class WPBakeryShortCode_Vc_Custom_Heading extends WPBakeryShortCode {
 	/**
 	 * Get param value by providing key
 	 *
-	 * @param string $key
+	 * @param $key
 	 *
 	 * @return array|bool
 	 * @throws \Exception
@@ -57,7 +49,7 @@ class WPBakeryShortCode_Vc_Custom_Heading extends WPBakeryShortCode {
 	/**
 	 * Parses shortcode attributes and set defaults based on vc_map function relative to shortcode and fields names
 	 *
-	 * @param array $atts
+	 * @param $atts
 	 *
 	 * @return array
 	 * @throws \Exception
@@ -66,7 +58,6 @@ class WPBakeryShortCode_Vc_Custom_Heading extends WPBakeryShortCode {
 	public function getAttributes( $atts ) {
 		/**
 		 * Shortcode attributes
-		 *
 		 * @var $text
 		 * @var $google_fonts
 		 * @var $font_container
@@ -104,49 +95,13 @@ class WPBakeryShortCode_Vc_Custom_Heading extends WPBakeryShortCode {
 	}
 
 	/**
-	 * Enqueue element styles related to fonts.
-	 *
-	 * @param array $fonts_data element shortcode attributes.
-	 *
-	 * @since 8.0
-	 */
-	public function enqueue_element_font_styles( $fonts_data ) {
-		if ( isset( $atts['use_theme_fonts'] ) && 'yes' === $atts['use_theme_fonts'] ) {
-			return;
-		}
-
-		if ( empty( $fonts_data ) || ! isset( $fonts_data['values']['font_family'] ) ) {
-			return;
-		}
-
-		$settings = get_option( 'wpb_js_google_fonts_subsets' );
-		if ( is_array( $settings ) && ! empty( $settings ) ) {
-			$subsets = '&subset=' . implode( ',', $settings );
-		} else {
-			$subsets = '';
-		}
-
-		if ( empty( $fonts_data['values']['font_vendor'] ) ) {
-			wp_enqueue_style(
-				'vc_google_fonts_' . vc_build_safe_css_class( $fonts_data['values']['font_family'] ),
-				'https://fonts.googleapis.com/css?family=' . $fonts_data['values']['font_family'] . $subsets,
-				[],
-				WPB_VC_VERSION
-			);
-		}
-
-		do_action( 'wpb_after_enqueue_element_google_fonts', $fonts_data );
-	}
-
-
-	/**
 	 * Parses google_fonts_data and font_container_data to get needed css styles to markup
 	 *
-	 * @param string $el_class
-	 * @param string $css
-	 * @param array $google_fonts_data
-	 * @param array $font_container_data
-	 * @param array $atts
+	 * @param $el_class
+	 * @param $css
+	 * @param $google_fonts_data
+	 * @param $font_container_data
+	 * @param $atts
 	 *
 	 * @return array
 	 * @since 4.3
@@ -159,10 +114,16 @@ class WPBakeryShortCode_Vc_Custom_Heading extends WPBakeryShortCode {
 					if ( preg_match( '/description/', $key ) ) {
 						continue;
 					}
-					if ( 'font_size' === $key ) {
-						$value = wpb_format_with_css_unit( $value );
-					} elseif ( 'line_height' === $key ) {
+					if ( 'font_size' === $key || 'line_height' === $key ) {
 						$value = preg_replace( '/\s+/', '', $value );
+					}
+					if ( 'font_size' === $key ) {
+						$pattern = '/^(\d*(?:\.\d+)?)\s*(px|\%|in|cm|mm|em|rem|ex|pt|pc|vw|vh|vmin|vmax)?$/';
+						// allowed metrics: http://www.w3schools.com/cssref/css_units.asp
+						preg_match( $pattern, $value, $matches );
+						$value = isset( $matches[1] ) ? (float) $matches[1] : (float) $value;
+						$unit = isset( $matches[2] ) ? $matches[2] : 'px';
+						$value = $value . $unit;
 					}
 					if ( strlen( $value ) > 0 ) {
 						$styles[] = str_replace( '_', '-', $key ) . ': ' . $value;

@@ -1,11 +1,4 @@
 <?php
-/**
- * Shortcodes part template.
- *
- * @var string $part
- * @var string $role
- */
-
 if ( ! defined( 'ABSPATH' ) ) {
 	die( '-1' );
 }

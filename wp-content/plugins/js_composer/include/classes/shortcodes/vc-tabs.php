@@ -1,10 +1,4 @@
 <?php
-/**
- * Class that handles specific [vc_tabs] shortcode.
- *
- * @see js_composer/include/templates/shortcodes/vc_tabs.php
- */
-
 if ( ! defined( 'ABSPATH' ) ) {
 	die( '-1' );
 }
@@ -13,35 +7,17 @@ if ( ! defined( 'ABSPATH' ) ) {
  * Class WPBakeryShortCode_Vc_Tabs
  */
 class WPBakeryShortCode_Vc_Tabs extends WPBakeryShortCode {
-	/**
-	 * Filter added flag.
-	 *
-	 * @var bool
-	 */
 	public static $filter_added = false;
-	/**
-	 * Controls css settings.
-	 *
-	 * @var string
-	 */
 	protected $controls_css_settings = 'out-tc vc_controls-content-widget';
-
-	/**
-	 * Controls list.
-	 *
-	 * @var array
-	 */
 	protected $controls_list = array(
 		'edit',
 		'clone',
-		'copy',
 		'delete',
 	);
 
 	/**
 	 * WPBakeryShortCode_Vc_Tabs constructor.
-	 *
-	 * @param array $settings
+	 * @param $settings
 	 */
 	public function __construct( $settings ) {
 		parent::__construct( $settings );
@@ -55,9 +31,7 @@ class WPBakeryShortCode_Vc_Tabs extends WPBakeryShortCode {
 	}
 
 	/**
-	 * Get admin output.
-	 *
-	 * @param array $atts
+	 * @param $atts
 	 * @param null $content
 	 * @return mixed|string
 	 * @throws \Exception
@@ -74,7 +48,8 @@ class WPBakeryShortCode_Vc_Tabs extends WPBakeryShortCode {
 		}
 		extract( shortcode_atts( $shortcode_attributes, $atts ) );
 
-		// Extract tab titles.
+		// Extract tab titles
+
 		preg_match_all( '/vc_tab title="([^\"]+)"(\stab_id\=\"([^\"]+)\"){0,1}/i', $content, $matches, PREG_OFFSET_CAPTURE );
 
 		$tab_titles = array();
@@ -101,7 +76,7 @@ class WPBakeryShortCode_Vc_Tabs extends WPBakeryShortCode {
 		foreach ( $this->settings['params'] as $param ) {
 			$param_value = isset( ${$param['param_name']} ) ? ${$param['param_name']} : '';
 			if ( is_array( $param_value ) ) {
-				// Get first element from the array.
+				// Get first element from the array
 				reset( $param_value );
 				$first_key = key( $param_value );
 				$param_value = $param_value[ $first_key ];
@@ -126,8 +101,6 @@ class WPBakeryShortCode_Vc_Tabs extends WPBakeryShortCode {
 	}
 
 	/**
-	 * Get tab html output.
-	 *
 	 * @return string
 	 */
 	public function getTabTemplate() {
@@ -135,9 +108,7 @@ class WPBakeryShortCode_Vc_Tabs extends WPBakeryShortCode {
 	}
 
 	/**
-	 * Set id for custom tab.
-	 *
-	 * @param string $content
+	 * @param $content
 	 * @return string|string[]|null
 	 */
 	public function setCustomTabId( $content ) {

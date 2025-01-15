@@ -1,19 +1,10 @@
 <?php
-/**
- * The template for displaying [vc_layerslider] shortcode output of 'LayerSlider' element.
- *
- * This template can be overridden by copying it to yourtheme/vc_templates/layerslider_vc.php.
- *
- * @see https://kb.wpbakery.com/docs/developers-how-tos/change-shortcodes-html-output
- */
-
 if ( ! defined( 'ABSPATH' ) ) {
 	die( '-1' );
 }
 
 /**
  * Shortcode attributes
- *
  * @var $atts
  * @var $title
  * @var $id
@@ -37,4 +28,4 @@ $output .= wpb_widget_title( array(
 $output .= apply_filters( 'vc_layerslider_shortcode', do_shortcode( '[layerslider id="' . esc_attr( $id ) . '"]' ) );
 $output .= '</div>';
 
-echo $output; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+echo $output;

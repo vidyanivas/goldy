@@ -1,11 +1,9 @@
 <?php
+if ( ! defined( 'ABSPATH' ) ) {
+	die( '-1' );
+}
+
 /**
- * The template for displaying [vc_video] shortcode output of 'Video Player' element.
- *
- * This template can be overridden by copying it to yourtheme/vc_templates/vc_video.php.
- *
- * @see https://kb.wpbakery.com/docs/developers-how-tos/change-shortcodes-html-output
- *
  * Shortcode attributes
  * @var $atts
  * @var $title
@@ -20,11 +18,6 @@
  * Shortcode class
  * @var WPBakeryShortCode_Vc_Video $this
  */
-
-if ( ! defined( 'ABSPATH' ) ) {
-	die( '-1' );
-}
-
 $title = $link = $el_class = $el_id = $css = $css_animation = $el_width = $el_aspect = $align = '';
 $atts = vc_map_get_attributes( $this->getShortcode(), $atts );
 extract( $atts );
@@ -36,16 +29,15 @@ $el_class = $this->getExtraClass( $el_class ) . $this->getCSSAnimation( $css_ani
 
 $video_w = 500;
 $video_h = $video_w / 1.61; // 1.61 golden ratio
-// @var WP_Embed $wp_embed
+/** @var WP_Embed $wp_embed */
 global $wp_embed;
 $embed = '';
 if ( is_object( $wp_embed ) ) {
-	$embed = $wp_embed->run_shortcode( '[embed width="' . $video_w . '" height="' . $video_h . '"]' . $link . '[/embed]' );
+	$embed = $wp_embed->run_shortcode( '[embed width="' . $video_w . '"' . $video_h . ']' . $link . '[/embed]' );
 }
-$element_class = empty( $this->settings['element_default_class'] ) ? '' : $this->settings['element_default_class'];
 $el_classes = array(
 	'wpb_video_widget',
-	$element_class,
+	'wpb_content_element',
 	'vc_clearfix',
 	$el_class,
 	vc_shortcode_custom_css_class( $css, ' ' ),

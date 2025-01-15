@@ -1,8 +1,4 @@
 <?php
-/**
- * Shortcode attributes for vc_grid_item.
- */
-
 if ( ! defined( 'ABSPATH' ) ) {
 	die( '-1' );
 }
@@ -108,7 +104,7 @@ $custom_fonts_params = array(
 		'settings' => array(
 			'fields' => array(
 				'tag' => 'div',
-				// default value h2.
+				// default value h2
 				'text_align',
 				'tag_description' => esc_html__( 'Select element tag.', 'js_composer' ),
 				'text_align_description' => esc_html__( 'Select text alignment.', 'js_composer' ),
@@ -123,7 +119,7 @@ $custom_fonts_params = array(
 		'heading' => esc_html__( 'Use custom fonts?', 'js_composer' ),
 		'param_name' => 'use_custom_fonts',
 		'value' => array( esc_html__( 'Yes', 'js_composer' ) => 'yes' ),
-		'description' => esc_html__( 'Enable custom font option.', 'js_composer' ),
+		'description' => esc_html__( 'Enable Google fonts.', 'js_composer' ),
 	),
 	array(
 		'type' => 'font_container',
@@ -163,11 +159,10 @@ $custom_fonts_params = array(
 		'type' => 'google_fonts',
 		'param_name' => 'google_fonts',
 		'value' => '',
-		// Not recommended, this will override 'settings'.
-		// 'font_family:'.rawurlencode('Exo:100,100italic,200,200italic,300,300italic,regular,italic,500,500italic,600,600italic,700,700italic,800,800italic,900,900italic').'|font_style:'.rawurlencode('900 bold italic:900:italic').
+		// Not recommended, this will override 'settings'. 'font_family:'.rawurlencode('Exo:100,100italic,200,200italic,300,300italic,regular,italic,500,500italic,600,600italic,700,700italic,800,800italic,900,900italic').'|font_style:'.rawurlencode('900 bold italic:900:italic'),
 		'settings' => array(
 			'fields' => array(
-				// Default font style. Name:weight:style, example: "800 bold regular:800:normal".
+				// Default font style. Name:weight:style, example: "800 bold regular:800:normal"
 				'font_family_description' => esc_html__( 'Select font family.', 'js_composer' ),
 				'font_style_description' => esc_html__( 'Select font styling.', 'js_composer' ),
 			),
@@ -371,18 +366,18 @@ $list = array(
 				'heading' => esc_html__( 'Width', 'js_composer' ),
 				'param_name' => 'width',
 				'value' => array(
-					esc_html__( '1/12 - 1 column', 'js_composer' ) => '1/12',
-					esc_html__( '1/6 - 2 columns', 'js_composer' ) => '1/6',
-					esc_html__( '1/4 - 3 columns', 'js_composer' ) => '1/4',
-					esc_html__( '1/3 - 4 columns', 'js_composer' ) => '1/3',
-					esc_html__( '5/12 - 5 columns', 'js_composer' ) => '5/12',
-					esc_html__( '1/2 - 6 columns', 'js_composer' ) => '1/2',
-					esc_html__( '7/12 - 7 columns', 'js_composer' ) => '7/12',
-					esc_html__( '2/3 - 8 columns', 'js_composer' ) => '2/3',
-					esc_html__( '3/4 - 9 columns', 'js_composer' ) => '3/4',
-					esc_html__( '5/6 - 10 columns', 'js_composer' ) => '5/6',
-					esc_html__( '11/12 - 11 columns', 'js_composer' ) => '11/12',
-					esc_html__( '1/1 - 12 columns', 'js_composer' ) => '1/1',
+					esc_html__( '1 column - 1/12', 'js_composer' ) => '1/12',
+					esc_html__( '2 columns - 1/6', 'js_composer' ) => '1/6',
+					esc_html__( '3 columns - 1/4', 'js_composer' ) => '1/4',
+					esc_html__( '4 columns - 1/3', 'js_composer' ) => '1/3',
+					esc_html__( '5 columns - 5/12', 'js_composer' ) => '5/12',
+					esc_html__( '6 columns - 1/2', 'js_composer' ) => '1/2',
+					esc_html__( '7 columns - 7/12', 'js_composer' ) => '7/12',
+					esc_html__( '8 columns - 2/3', 'js_composer' ) => '2/3',
+					esc_html__( '9 columns - 3/4', 'js_composer' ) => '3/4',
+					esc_html__( '10 columns - 5/6', 'js_composer' ) => '5/6',
+					esc_html__( '11 columns - 11/12', 'js_composer' ) => '11/12',
+					esc_html__( '12 columns - 1/1', 'js_composer' ) => '1/1',
 				),
 				'description' => esc_html__( 'Select column width.', 'js_composer' ),
 				'std' => '1/1',
@@ -882,7 +877,7 @@ if ( is_array( $shortcode_vc_custom_heading ) && isset( $shortcode_vc_custom_hea
 			unset( $list['vc_custom_heading']['params'][ $k ] );
 		}
 
-		// text depends on source. remove dependency so text is always saved.
+		// text depends on source. remove dependency so text is always saved
 		if ( 'text' === $v['param_name'] ) {
 			unset( $list['vc_custom_heading']['params'][ $k ]['dependency'] );
 		}
@@ -936,7 +931,7 @@ foreach (
 				'description' => esc_html__( 'Add custom link.', 'js_composer' ),
 			) );
 		}
-		// Add link dropdown.
+		// Add link dropdown
 		array_unshift( $list[ $key ]['params'], $vc_gitem_add_link_target_param );
 		array_unshift( $list[ $key ]['params'], $vc_gitem_add_link_param );
 	}

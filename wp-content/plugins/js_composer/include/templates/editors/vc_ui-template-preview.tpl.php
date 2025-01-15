@@ -1,11 +1,4 @@
 <?php
-/**
- * Template for template preview.
- *
- * @var string $content
- * @var WP_Post $editor_post
- */
-
 if ( ! defined( 'ABSPATH' ) ) {
 	die( '-1' );
 }
@@ -16,13 +9,12 @@ if ( ! defined( 'VC_IS_TEMPLATE_PREVIEW' ) ) {
 add_action( 'admin_enqueue_scripts', array( vc_backend_editor(), 'enqueueEditorScripts' ) );
 add_action( 'admin_enqueue_scripts', array( wpbakery()->templatesPanelEditor(), 'enqueuePreviewScripts' ) );
 add_filter( 'admin_body_class', array( wpbakery()->templatesPanelEditor(), 'addBodyClassTemplatePreview' ) );
-// phpcs:ignore:WordPress.NamingConventions.ValidHookName.UseUnderscores
 do_action( 'vc-render-templates-preview-template' );
 
 global $menu, $submenu, $parent_file, $post_ID, $post, $post_type;
-$post_ID = $editor_post->ID;
-$post_type = $editor_post->post_type;
-$post_title = trim( $editor_post->post_title );
+$post_ID = $editorPost->ID;
+$post_type = $editorPost->post_type;
+$post_title = trim( $editorPost->post_title );
 $nonce_action = $nonce_action = 'update-post_' . $post_ID;
 $user_ID = isset( $current_user ) && isset( $current_user->ID ) ? (int) $current_user->ID : 0;
 $form_action = 'editpost';
@@ -85,6 +77,7 @@ $first_tag = 'style';
 			<input type="hidden" id="wpb_vc_js_status" name="wpb_vc_js_status" value="true">
 			<input type="hidden" id="wpb_vc_loading" name="wpb_vc_loading" value="Loading, please wait...">
 			<input type="hidden" id="wpb_vc_loading_row" name="wpb_vc_loading_row" value="Crunching...">
+			<input type="hidden" name="vc_post_custom_css" id="vc_post-custom-css" value="" autocomplete="off"></div>
 	</div>
 	<input type="hidden" id="wpb_vc_loading" name="wpb_vc_loading" value="<?php esc_attr_e( 'Loading, please wait...', 'js_composer' ); ?>"/>
 	<input type="hidden" id="wpb_vc_loading_row" name="wpb_vc_loading_row" value="<?php esc_attr_e( 'Crunching...', 'js_composer' ); ?>"/>
@@ -93,6 +86,7 @@ $first_tag = 'style';
 add_filter( 'vc_role_access_with_backend_editor_get_state', '__return_true' );
 vc_include_template( 'editors/partials/access-manager-js.tpl.php' );
 vc_include_template( 'editors/partials/backend-shortcodes-templates.tpl.php' );
-// phpcs:ignore:WordPress.NamingConventions.ValidHookName.UseUnderscores
 do_action( 'vc_ui-template-preview' );
+// fix bug #59741644518985 in firefox
+// wp_dequeue_script( 'isotope' );
 require_once ABSPATH . 'wp-admin/admin-footer.php';

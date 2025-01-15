@@ -1,12 +1,4 @@
 <?php
-/**
- * Backward compatibility with "Contact form 7" WordPress plugin.
- *
- * @see https://wordpress.org/plugins/contact-form-7
- *
- * @since 4.4 vendors initialization moved to hooks in autoload/vendors.
- */
-
 if ( ! defined( 'ABSPATH' ) ) {
 	die( '-1' );
 }
@@ -16,14 +8,12 @@ if ( ! defined( 'ABSPATH' ) ) {
  * =======
  * Plugin Contact form 7 vendor
  * To fix issues when shortcode doesn't exists in frontend editor. #1053, #1054 etc.
- *
  * @since 4.3
  */
 class Vc_Vendor_ContactForm7 {
 
 	/**
 	 * Add action when contact form 7 is initialized to add shortcode.
-	 *
 	 * @since 4.3
 	 */
 	public function load() {
@@ -37,10 +27,11 @@ class Vc_Vendor_ContactForm7 {
 	/**
 	 * Mapping settings for lean method.
 	 *
-	 * @param string $tag
+	 * @param $tag
 	 *
 	 * @return array
 	 * @since 4.9
+	 *
 	 */
 	public function addShortcodeSettings( $tag ) {
 		/**

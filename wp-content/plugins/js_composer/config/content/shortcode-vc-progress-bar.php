@@ -1,10 +1,4 @@
 <?php
-/**
- * Configuration file for [vc_progress_bar] shortcode of 'Progress Bar' element.
- *
- * @see https://kb.wpbakery.com/docs/inner-api/vc_map/ for more detailed information about element attributes.
- */
-
 if ( ! defined( 'ABSPATH' ) ) {
 	die( '-1' );
 }
@@ -39,7 +33,6 @@ return array(
 	'name' => esc_html__( 'Progress Bar', 'js_composer' ),
 	'base' => 'vc_progress_bar',
 	'icon' => 'icon-wpb-graph',
-	'element_default_class' => 'wpb_content_element',
 	'category' => esc_html__( 'Content', 'js_composer' ),
 	'description' => esc_html__( 'Animated progress bar', 'js_composer' ),
 	'params' => array(
@@ -132,7 +125,6 @@ return array(
 		array(
 			'type' => 'colorpicker',
 			'heading' => esc_html__( 'Bar custom background color', 'js_composer' ),
-			'default_colorpicker_color' => '#e0e0e0',
 			'param_name' => 'custombgcolor',
 			'description' => esc_html__( 'Select custom background color for bars.', 'js_composer' ),
 			'dependency' => array(
@@ -143,7 +135,6 @@ return array(
 		array(
 			'type' => 'colorpicker',
 			'heading' => esc_html__( 'Bar custom text color', 'js_composer' ),
-			'default_colorpicker_color' => '#111111',
 			'param_name' => 'customtxtcolor',
 			'description' => esc_html__( 'Select custom text color for bars.', 'js_composer' ),
 			'dependency' => array(
@@ -165,7 +156,7 @@ return array(
 			'type' => 'el_id',
 			'heading' => esc_html__( 'Element ID', 'js_composer' ),
 			'param_name' => 'el_id',
-			'description' => sprintf( esc_html__( 'Enter element ID (Note: make sure it is unique and valid according to %1$sw3c specification%2$s).', 'js_composer' ), '<a href="https://www.w3schools.com/tags/att_global_id.asp" target="_blank">', '</a>' ),
+			'description' => sprintf( esc_html__( 'Enter element ID (Note: make sure it is unique and valid according to %sw3c specification%s).', 'js_composer' ), '<a href="https://www.w3schools.com/tags/att_global_id.asp" target="_blank">', '</a>' ),
 		),
 		array(
 			'type' => 'textfield',
@@ -178,9 +169,6 @@ return array(
 			'heading' => esc_html__( 'CSS box', 'js_composer' ),
 			'param_name' => 'css',
 			'group' => esc_html__( 'Design Options', 'js_composer' ),
-			'value' => array(
-				'margin-bottom' => '35px',
-			),
 		),
 	),
 );

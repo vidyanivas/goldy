@@ -1,20 +1,10 @@
 <?php
-/**
- * The template for displaying [vc_line_chart] shortcode output of 'Line Chart' element.
- *
- * This template can be overridden by copying it to yourtheme/vc_templates/vc_line_chart.php.
- *
- * @see https://kb.wpbakery.com/docs/developers-how-tos/change-shortcodes-html-output
- */
-
 if ( ! defined( 'ABSPATH' ) ) {
 	die( '-1' );
 }
 
 /**
  * Shortcode attributes
- *
- * @var $atts
  * @var $title
  * @var $el_class
  * @var $el_id
@@ -103,8 +93,7 @@ foreach ( $base_colors['active'] as $name => $color ) {
 
 wp_enqueue_script( 'vc_line_chart' );
 
-$element_class = empty( $this->settings['element_default_class'] ) ? '' : $this->settings['element_default_class'];
-$class_to_filter = 'vc_chart vc_line-chart ' . esc_attr( $element_class );
+$class_to_filter = 'vc_chart vc_line-chart wpb_content_element';
 $class_to_filter .= vc_shortcode_custom_css_class( $css, ' ' ) . $this->getExtraClass( $el_class ) . $this->getCSSAnimation( $css_animation );
 $css_class = apply_filters( VC_SHORTCODE_CUSTOM_CSS_FILTER_TAG, $class_to_filter, $this->settings['base'], $atts );
 
@@ -143,7 +132,7 @@ foreach ( $values as $k => $v ) {
 		$highlight = isset( $colors[ $style ]['active'][ $v['color'] ] ) ? $colors[ $style ]['active'][ $v['color'] ] : $v['active']['color'];
 	}
 
-	// don't use gradients for lines.
+	// don't use gradients for lines
 	if ( 'line' === $type ) {
 		$color = is_array( $color ) ? end( $color ) : $color;
 		$highlight = is_array( $highlight ) ? end( $highlight ) : $highlight;

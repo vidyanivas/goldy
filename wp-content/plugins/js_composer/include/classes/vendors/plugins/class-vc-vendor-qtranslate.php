@@ -1,32 +1,21 @@
 <?php
-/**
- * Backward compatibility with "qtranslate" WordPress plugin.
- *
- * @since 4.4 vendors initialization moved to hooks in autoload/vendors.
- */
-
 if ( ! defined( 'ABSPATH' ) ) {
 	die( '-1' );
 }
 
 /**
  * Class Vc_Vendor_Qtranslate
- *
  * @since 4.3
  */
 class Vc_Vendor_Qtranslate {
 
 	/**
-	 * Languages.
-	 *
 	 * @since 4.3
 	 * @var array
 	 */
 	protected $languages = array();
 
 	/**
-	 * Set languages.
-	 *
 	 * @since 4.3
 	 */
 	public function setLanguages() {
@@ -39,8 +28,6 @@ class Vc_Vendor_Qtranslate {
 	}
 
 	/**
-	 * Is valid post type.
-	 *
 	 * @return bool
 	 */
 	public function isValidPostType() {
@@ -48,8 +35,6 @@ class Vc_Vendor_Qtranslate {
 	}
 
 	/**
-	 * Load.
-	 *
 	 * @since 4.3
 	 */
 	public function load() {
@@ -103,11 +88,10 @@ class Vc_Vendor_Qtranslate {
 			$this,
 			'qtransPostInit',
 		), 1000 );
+
 	}
 
 	/**
-	 * Post init.
-	 *
 	 * @since 4.3
 	 */
 	public function qtransPostInit() {
@@ -192,11 +176,10 @@ class Vc_Vendor_Qtranslate {
 		}
 		";
 		$this->qtransSwitch();
+
 	}
 
 	/**
-	 * Switch.
-	 *
 	 * @since 4.3
 	 */
 	public function qtransSwitch() {
@@ -207,8 +190,6 @@ class Vc_Vendor_Qtranslate {
 	}
 
 	/**
-	 * Enqueue js backend.
-	 *
 	 * @since 4.3
 	 */
 	public function enqueueJsBackend() {
@@ -220,8 +201,6 @@ class Vc_Vendor_Qtranslate {
 	}
 
 	/**
-	 * Enqueue js frontend.
-	 *
 	 * @since 4.3
 	 */
 	public function enqueueJsFrontend() {
@@ -245,8 +224,6 @@ class Vc_Vendor_Qtranslate {
 	}
 
 	/**
-	 * Generate select.
-	 *
 	 * @return string
 	 * @since 4.3
 	 */
@@ -265,8 +242,6 @@ class Vc_Vendor_Qtranslate {
 	}
 
 	/**
-	 * Generate select frontend.
-	 *
 	 * @return string
 	 * @since 4.3
 	 */
@@ -286,52 +261,48 @@ class Vc_Vendor_Qtranslate {
 	}
 
 	/**
-	 * Nav controls.
-	 *
-	 * @param array $init_list
+	 * @param $list
 	 *
 	 * @return array
 	 * @since 4.3
+	 *
 	 */
-	public function vcNavControls( $init_list ) {
+	public function vcNavControls( $list ) {
 		if ( $this->isValidPostType() ) {
 
-			if ( is_array( $init_list ) ) {
-				$init_list[] = array(
+			if ( is_array( $list ) ) {
+				$list[] = array(
 					'qtranslate',
 					$this->getControlSelectDropdown(),
 				);
 			}
 		}
 
-		return $init_list;
+		return $list;
 	}
 
 	/**
-	 * Nav controls frontend.
-	 *
-	 * @param array $init_list
+	 * @param $list
 	 *
 	 * @return array
 	 * @since 4.3
+	 *
 	 */
-	public function vcNavControlsFrontend( $init_list ) {
+	public function vcNavControlsFrontend( $list ) {
 		if ( $this->isValidPostType() ) {
 
-			if ( is_array( $init_list ) ) {
-				$init_list[] = array(
+			if ( is_array( $list ) ) {
+				$list[] = array(
 					'qtranslate',
 					$this->getControlSelectDropdownFrontend(),
 				);
 			}
 		}
 
-		return $init_list;
+		return $list;
 	}
 
 	/**
-	 * Get control select dropdown.
-	 *
 	 * @return string
 	 * @since 4.3
 	 */
@@ -340,8 +311,6 @@ class Vc_Vendor_Qtranslate {
 	}
 
 	/**
-	 * Get control select dropdown frontend.
-	 *
 	 * @return string
 	 */
 	public function getControlSelectDropdownFrontend() {
@@ -349,20 +318,17 @@ class Vc_Vendor_Qtranslate {
 	}
 
 	/**
-	 * Render edit button link.
-	 *
-	 * @param string $link
+	 * @param $link
 	 *
 	 * @return string
 	 * @since 4.3
+	 *
 	 */
 	public function vcRenderEditButtonLink( $link ) {
 		return add_query_arg( array( 'qlang' => qtrans_getLanguage() ), $link );
 	}
 
 	/**
-	 * Frontend editor render.
-	 *
 	 * @since 4.3
 	 */
 	public function vcFrontendEditorRender() {
@@ -376,17 +342,15 @@ class Vc_Vendor_Qtranslate {
 
 		$output .= '<input type="hidden" id="vc_vendor_qtranslate_posttitle" value="' . esc_attr( vc_frontend_editor()->post()->post_title ) . '" data-lang="' . $q_lang . '"/>';
 
-        // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 		echo $output;
 	}
 
 	/**
-	 * Filter post content.
-	 *
-	 * @param string $content
+	 * @param $content
 	 *
 	 * @return string
 	 * @since 4.3
+	 *
 	 */
 	public function filterPostContent( $content ) {
 		return qtrans_useCurrentLanguageIfNotFoundShowAvailable( $content );

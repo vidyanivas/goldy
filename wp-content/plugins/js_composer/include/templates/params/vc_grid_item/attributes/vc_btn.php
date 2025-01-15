@@ -1,48 +1,45 @@
 <?php
-/**
- * Button shortcode grid builder template.
- *
- * @var WPBakeryShortCode_Vc_Btn $vc_btn
- * @var WP_Post $post
- * @var array $atts
- * @var array $data
- * @var string $style
- * @var string $shape
- * @var string $color
- * @var string $custom_background
- * @var string $custom_text
- * @var string $size
- * @var string $align
- * @var string $link
- * @var string $title
- * @var string $button_block
- * @var string $el_id
- * @var string $el_class
- * @var string $outline_custom_color
- * @var string $outline_custom_hover_background
- * @var string $outline_custom_hover_text
- * @var string $add_icon
- * @var string $i_align
- * @var string $i_type
- * @var string $i_icon_fontawesome
- * @var string $i_icon_openiconic
- * @var string $i_icon_typicons
- * @var string $i_icon_entypo
- * @var string $i_icon_linecons
- * @var string $i_icon_pixelicons
- * @var string $css_animation
- * @var string $css
- * @var string $gradient_color_1
- * @var string $gradient_color_2
- * @var string $gradient_custom_color_1
- * @var string $gradient_custom_color_2
- * @var string $gradient_text_color
- */
-
 if ( ! defined( 'ABSPATH' ) ) {
 	die( '-1' );
 }
 
+/**
+ * @var WPBakeryShortCode_Vc_Btn $vc_btn
+ * @var WP_Post $post
+ * @var $atts
+ *
+ * @var $style
+ * @var $shape
+ * @var $color
+ * @var $custom_background
+ * @var $custom_text
+ * @var $size
+ * @var $align
+ * @var $link
+ * @var $title
+ * @var $button_block
+ * @var $el_id
+ * @var $el_class
+ * @var $outline_custom_color
+ * @var $outline_custom_hover_background
+ * @var $outline_custom_hover_text
+ * @var $add_icon
+ * @var $i_align
+ * @var $i_type
+ * @var $i_icon_fontawesome
+ * @var $i_icon_openiconic
+ * @var $i_icon_typicons
+ * @var $i_icon_entypo
+ * @var $i_icon_linecons
+ * @var $i_icon_pixelicons
+ * @var $css_animation
+ * @var $css
+ * @var $gradient_color_1
+ * @var $gradient_color_2
+ * @var $gradient_custom_color_1 ;
+ * @var $gradient_custom_color_2 ;
+ * @var $gradient_text_color ;
+ */
 $atts = array();
 parse_str( $data, $atts );
 
@@ -58,9 +55,10 @@ $icon_wrapper = false;
 $icon_html = false;
 $attributes = array();
 
+/** @var WPBakeryShortCode_Vc_Btn $vc_btn */
 $atts = vc_map_get_attributes( $vc_btn->getShortcode(), $atts );
 extract( $atts );
-// parse link.
+// parse link
 $link = trim( $link );
 $use_link = strlen( $link ) > 0 && 'none' !== $link;
 
@@ -181,7 +179,7 @@ if ( 'custom' === $style ) {
 	$gradient_css[] = 'transition: all .2s ease-in-out';
 	$gradient_css[] = 'background-size: 200% 100%';
 
-	// hover css.
+	// hover css
 	$gradient_css_hover = array();
 	$gradient_css_hover[] = 'color: ' . $button_text_color;
 	$gradient_css_hover[] = 'background-color: ' . $gradient_color_2;
@@ -190,8 +188,8 @@ if ( 'custom' === $style ) {
 
 	$uid = uniqid();
 	$first_tag = 'style';
-	$output .= '<' . $first_tag . '>.vc_btn3-style-' . esc_attr( $style ) . '.vc_btn-gradient-btn-' . esc_attr( $uid ) . ':hover{' . esc_attr( implode( ';', $gradient_css_hover ) ) . ';}</' . $first_tag . '>';
-	$output .= '<' . $first_tag . '>.vc_btn3-style-' . esc_attr( $style ) . '.vc_btn-gradient-btn-' . esc_attr( $uid ) . '{' . esc_attr( implode( ';', $gradient_css ) ) . ';}</' . $first_tag . '>';
+	$output .= '<' . $first_tag . '>.vc_btn3-style-' . esc_attr( $style ) . '.vc_btn-gradient-btn-' . esc_attr( $uid ) . ':hover{' . esc_attr( implode( ';', $gradient_css_hover ) ) . ';' . '}</' . $first_tag . '>';
+	$output .= '<' . $first_tag . '>.vc_btn3-style-' . esc_attr( $style ) . '.vc_btn-gradient-btn-' . esc_attr( $uid ) . '{' . esc_attr( implode( ';', $gradient_css ) ) . ';' . '}</' . $first_tag . '>';
 	$button_classes[] = 'vc_btn-gradient-btn-' . $uid;
 	$attributes[] = 'data-vc-gradient-1="' . $gradient_color_1 . '"';
 	$attributes[] = 'data-vc-gradient-2="' . $gradient_color_2 . '"';

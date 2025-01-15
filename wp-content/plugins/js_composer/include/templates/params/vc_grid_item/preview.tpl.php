@@ -1,13 +1,4 @@
 <?php
-/**
- * Grid item preview template.
- *
- * @var Vc_Grid_Item $grid_item
- * @var WP_Post $post
- * @var string $shortcodes_string
- * @var string $default_width_value
- */
-
 if ( ! defined( 'ABSPATH' ) ) {
 	die( '-1' );
 }
@@ -30,7 +21,7 @@ $first_tag = 'style';
 
 		<?php
 		// @codingStandardsIgnoreLine
-		print wpbakery()->parseShortcodesCss( $shortcodes_string, 'custom' );
+		print wpbakery()->parseShortcodesCustomCss( $shortcodes_string );
 		?>
 		.vc_gitem-preview {
 			margin: 60px auto;

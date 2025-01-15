@@ -1,19 +1,10 @@
 <?php
-/**
- * The template for displaying [vc_wp_text] shortcode output of 'WP Text' element.
- *
- * This template can be overridden by copying it to yourtheme/vc_templates/vc_wp_text.php.
- *
- * @see https://kb.wpbakery.com/docs/developers-how-tos/change-shortcodes-html-output
- */
-
 if ( ! defined( 'ABSPATH' ) ) {
 	die( '-1' );
 }
 
 /**
  * Shortcode attributes
- *
  * @var $atts
  * @var $el_class
  * @var $el_id
@@ -24,7 +15,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 $el_class = $el_id = '';
 $output = '';
 $atts = vc_map_get_attributes( $this->getShortcode(), $atts );
-$atts['filter'] = true; // Hack to make sure that <p> added.
+$atts['filter'] = true; // Hack to make sure that <p> added
 extract( $atts );
 
 $el_class = $this->getExtraClass( $el_class );
@@ -40,7 +31,7 @@ if ( strlen( $content ) > 0 ) {
 	$atts['text'] = $content;
 }
 global $wp_widget_factory;
-// to avoid unwanted warnings let's check before using widget.
+// to avoid unwanted warnings let's check before using widget
 if ( is_object( $wp_widget_factory ) && isset( $wp_widget_factory->widgets, $wp_widget_factory->widgets[ $type ] ) ) {
 	ob_start();
 	the_widget( $type, $atts, $args );

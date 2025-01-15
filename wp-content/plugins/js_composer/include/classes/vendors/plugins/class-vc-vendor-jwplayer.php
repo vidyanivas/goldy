@@ -1,21 +1,10 @@
 <?php
-/**
- * Backward compatibility with "JW Player" WordPress plugin.
- *
- * @see https://www.ilghera.com/product/jw-player-7-for-wordpress-premium
- *
- * Used to initialize plugin jwplayer vendor for frontend editor.
- *
- * @since 4.4 vendors initialization moved to hooks in autoload/vendors.
- */
-
 if ( ! defined( 'ABSPATH' ) ) {
 	die( '-1' );
 }
 
 /**
  * JWPLayer loader.
- *
  * @since 4.3
  */
 class Vc_Vendor_Jwplayer {
@@ -39,7 +28,7 @@ class Vc_Vendor_Jwplayer {
 			'wrapPlaceholder',
 		) );
 
-		// fix for #1065.
+		// fix for #1065
 		add_filter( 'vc_shortcode_content_filter_after', array(
 			$this,
 			'renderShortcodesPreview',
@@ -47,15 +36,15 @@ class Vc_Vendor_Jwplayer {
 	}
 
 	/**
-	 * Render shortcodes.
-	 *
-	 * @param string $output
+	 * @param $output
 	 *
 	 * @return mixed|string
 	 * @since 4.3
+	 *
 	 */
 	public function renderShortcodes( $output ) {
 		$output = str_replace( '][jwplayer', '] [jwplayer', $output ); // fixes jwplayer shortcode regex..
+		/** @noinspection PhpUndefinedClassInspection */
 		$data = JWP6_Shortcode::the_content_filter( $output );
 		preg_match_all( '/(jwplayer-\d+)/', $data, $matches );
 		$pairs = array_unique( $matches[0] );
@@ -63,7 +52,7 @@ class Vc_Vendor_Jwplayer {
 		if ( count( $pairs ) > 0 ) {
 			$id_zero = time();
 			foreach ( $pairs as $pair ) {
-				$data = str_replace( $pair, 'jwplayer-' . ( $id_zero++ ), $data );
+				$data = str_replace( $pair, 'jwplayer-' . $id_zero ++, $data );
 			}
 		}
 
@@ -71,9 +60,7 @@ class Vc_Vendor_Jwplayer {
 	}
 
 	/**
-	 * Wrap placeholder.
-	 *
-	 * @param string $content
+	 * @param $content
 	 * @return mixed
 	 */
 	public function wrapPlaceholder( $content ) {
@@ -86,8 +73,6 @@ class Vc_Vendor_Jwplayer {
 	}
 
 	/**
-	 * Render placeholder.
-	 *
 	 * @return string
 	 */
 	public function renderPlaceholder() {
@@ -95,12 +80,11 @@ class Vc_Vendor_Jwplayer {
 	}
 
 	/**
-	 * Render shortcodes preview.
-	 *
-	 * @param string $output
+	 * @param $output
 	 *
 	 * @return string
 	 * @since 4.3, due to #1065
+	 *
 	 */
 	public function renderShortcodesPreview( $output ) {
 		$output = str_replace( '][jwplayer', '] [jwplayer', $output ); // fixes jwplayer shortcode regex..
@@ -109,8 +93,6 @@ class Vc_Vendor_Jwplayer {
 	}
 
 	/**
-	 * Load iframe js.
-	 *
 	 * @since 4.3
 	 * @todo check it for preview mode (check is it needed)
 	 */

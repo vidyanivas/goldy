@@ -1,21 +1,11 @@
 <?php
-/**
- * Param type 'sorted_list'.
- *
- * Used to create sorted list filed.
- *
- * @see https://kb.wpbakery.com/docs/inner-api/vc_map/#vc_map()-ParametersofparamsArray
- */
-
 if ( ! defined( 'ABSPATH' ) ) {
 	die( '-1' );
 }
 
 /**
- * Renders the form field for sorted_list param.
- *
- * @param array $settings
- * @param string $value
+ * @param $settings
+ * @param $value
  *
  * @return string
  * @since 4.2
@@ -25,16 +15,14 @@ function vc_sorted_list_form_field( $settings, $value ) {
 }
 
 /**
- * Get html output for sorted list parts.
- *
- * @param array $init_list
+ * @param $list
  *
  * @return string
  * @since 4.2
  */
-function vc_sorted_list_parts_list( $init_list ) {
+function vc_sorted_list_parts_list( $list ) {
 	$output = '';
-	foreach ( $init_list as $control ) {
+	foreach ( $list as $control ) {
 		$output .= sprintf( '<div class="vc_sorted-list-checkbox"><label><input type="checkbox" name="vc_sorted_list_element" value="%s" data-element="%s" data-subcontrol="%s"> <span>%s</span></label></div>', $control[0], $control[0], count( $control ) > 1 ? htmlspecialchars( wp_json_encode( array_slice( $control, 2 ) ) ) : '', htmlspecialchars( $control[1] ) );
 	}
 
@@ -42,9 +30,7 @@ function vc_sorted_list_parts_list( $init_list ) {
 }
 
 /**
- * Parses the value of sorted_list param.
- *
- * @param string $value
+ * @param $value
  *
  * @return array
  * @since 4.2

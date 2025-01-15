@@ -1,10 +1,4 @@
 <?php
-/**
- * Class that handles specific [vc_hoverbox] shortcode.
- *
- * @see js_composer/include/templates/shortcodes/vc_hoverbox.php
- */
-
 if ( ! defined( 'ABSPATH' ) ) {
 	die( '-1' );
 }
@@ -15,11 +9,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 class WPBakeryShortCode_Vc_Hoverbox extends WPBakeryShortCode {
 
 	/**
-	 * Get element heading.
-	 *
-	 * @param string $tag
-	 * @param array $atts
-	 * @param string $align
+	 * @param $tag
+	 * @param $atts
+	 * @param $align
 	 * @return string
 	 * @throws \Exception
 	 */
@@ -33,7 +25,7 @@ class WPBakeryShortCode_Vc_Hoverbox extends WPBakeryShortCode {
 					'text_align:' . esc_attr( $align ),
 					$data['font_container'],
 				) ) );
-				$data['text'] = $atts[ $tag ]; // provide text to shortcode.
+				$data['text'] = $atts[ $tag ]; // provide text to shortcode
 
 				return $custom_heading->render( array_filter( $data ) );
 			} else {
@@ -59,9 +51,7 @@ class WPBakeryShortCode_Vc_Hoverbox extends WPBakeryShortCode {
 	}
 
 	/**
-	 * Additional shortcode rendering for element button.
-	 *
-	 * @param array $atts
+	 * @param $atts
 	 * @return string
 	 * @throws \Exception
 	 */
@@ -71,4 +61,5 @@ class WPBakeryShortCode_Vc_Hoverbox extends WPBakeryShortCode {
 
 		return $button->render( array_filter( $button_atts ) );
 	}
+
 }

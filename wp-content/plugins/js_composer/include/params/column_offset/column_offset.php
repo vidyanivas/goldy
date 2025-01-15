@@ -1,37 +1,21 @@
 <?php
-/**
- * Param type "column_offset".
- *
- * Used to create dropdown for width responsiveness
- *
- * @see https://kb.wpbakery.com/docs/inner-api/vc_map/#vc_map()-ParametersofparamsArray
- */
-
 if ( ! defined( 'ABSPATH' ) ) {
 	die( '-1' );
 }
 
 /**
- * Vc_Column_Offset class.
+ * @property mixed data
  */
 class Vc_Column_Offset {
 	/**
-	 * The settings for the column offset, passed to the constructor.
-	 *
 	 * @var array
 	 */
 	protected $settings = array();
-
 	/**
-	 * The value associated with the column offset.
-	 *
 	 * @var string
 	 */
 	protected $value = '';
-
 	/**
-	 * The available size types for the column offset.
-	 *
 	 * @var array
 	 */
 	protected $size_types = array(
@@ -40,54 +24,40 @@ class Vc_Column_Offset {
 		'sm' => 'Small',
 		'xs' => 'Extra small',
 	);
-
 	/**
-	 * A list of possible column widths.
-	 *
 	 * @var array
 	 */
 	protected $column_width_list = array();
 
 	/**
-	 * Parsed data from the $value attribute.
-	 *
-	 * @var array|mixed
-	 */
-	protected $data = array();
-
-	/**
-	 * Vc_Column_Offset constructor.
-	 *
-	 * @param array $settings
-	 * @param string $value
+	 * @param $settings
+	 * @param $value
 	 */
 	public function __construct( $settings, $value ) {
 		$this->settings = $settings;
 		$this->value = $value;
 
 		$this->column_width_list = array(
-			esc_html__( '1/12 - 1 column', 'js_composer' ) => '1',
-			esc_html__( '1/6 - 2 columns', 'js_composer' ) => '2',
-			esc_html__( '1/4 - 3 columns', 'js_composer' ) => '3',
-			esc_html__( '1/3 - 4 columns', 'js_composer' ) => '4',
-			esc_html__( '5/12 - 5 columns', 'js_composer' ) => '5',
-			esc_html__( '1/2 - 6 columns', 'js_composer' ) => '6',
-			esc_html__( '7/12 - 7 columns', 'js_composer' ) => '7',
-			esc_html__( '2/3 - 8 columns', 'js_composer' ) => '8',
-			esc_html__( '3/4 - 9 columns', 'js_composer' ) => '9',
-			esc_html__( '5/6 - 10 columns', 'js_composer' ) => '10',
-			esc_html__( '11/12 - 11 columns', 'js_composer' ) => '11',
-			esc_html__( '1/1 - 12 columns', 'js_composer' ) => '12',
-			esc_html__( '1/5 - 20%', 'js_composer' ) => '1/5',
-			esc_html__( '2/5 - 40%', 'js_composer' ) => '2/5',
-			esc_html__( '3/5 - 60%', 'js_composer' ) => '3/5',
-			esc_html__( '4/5 - 80%', 'js_composer' ) => '4/5',
+			esc_html__( '1 column - 1/12', 'js_composer' ) => '1',
+			esc_html__( '2 columns - 1/6', 'js_composer' ) => '2',
+			esc_html__( '3 columns - 1/4', 'js_composer' ) => '3',
+			esc_html__( '4 columns - 1/3', 'js_composer' ) => '4',
+			esc_html__( '5 columns - 5/12', 'js_composer' ) => '5',
+			esc_html__( '6 columns - 1/2', 'js_composer' ) => '6',
+			esc_html__( '7 columns - 7/12', 'js_composer' ) => '7',
+			esc_html__( '8 columns - 2/3', 'js_composer' ) => '8',
+			esc_html__( '9 columns - 3/4', 'js_composer' ) => '9',
+			esc_html__( '10 columns - 5/6', 'js_composer' ) => '10',
+			esc_html__( '11 columns - 11/12', 'js_composer' ) => '11',
+			esc_html__( '12 columns - 1/1', 'js_composer' ) => '12',
+			esc_html__( '20% - 1/5', 'js_composer' ) => '1/5',
+			esc_html__( '40% - 2/5', 'js_composer' ) => '2/5',
+			esc_html__( '60% - 3/5', 'js_composer' ) => '3/5',
+			esc_html__( '80% - 4/5', 'js_composer' ) => '4/5',
 		);
 	}
 
 	/**
-	 * Render the column offset param.
-	 *
 	 * @return string
 	 */
 	public function render() {
@@ -104,22 +74,18 @@ class Vc_Column_Offset {
 	}
 
 	/**
-	 * Parses and returns the data associated with the value.
-	 *
 	 * @return array|mixed
 	 */
 	public function valueData() {
-		if ( empty( $this->data ) ) {
-			$this->data = ! empty( $this->value ) ? preg_split( '/\s+/', $this->value ) : [];
+		if ( ! isset( $this->data ) ) {
+			$this->data = preg_split( '/\s+/', $this->value );
 		}
 
 		return $this->data;
 	}
 
 	/**
-	 * Generates the HTML select element for size control.
-	 *
-	 * @param string $size
+	 * @param $size
 	 *
 	 * @return string
 	 */
@@ -127,7 +93,7 @@ class Vc_Column_Offset {
 		if ( 'sm' === $size ) {
 			return '<span class="vc_description">' . esc_html__( 'Default value from width attribute', 'js_composer' ) . '</span>';
 		}
-		$empty_label = 'xs' === $size ? 'Default' : esc_html__( 'Inherit from smaller', 'js_composer' );
+		$empty_label = 'xs' === $size ? '' : esc_html__( 'Inherit from smaller', 'js_composer' );
 		$output = sprintf( '<select name="vc_col_%s_size" class="vc_column_offset_field" data-type="size-%s"><option value="" style="color: #ccc;">%s</option>', $size, $size, $empty_label );
 		foreach ( $this->column_width_list as $label => $index ) {
 			$value = 'vc_col-' . $size . '-' . $index;
@@ -139,9 +105,7 @@ class Vc_Column_Offset {
 	}
 
 	/**
-	 * Generates the HTML select element for offset control.
-	 *
-	 * @param string $size
+	 * @param $size
 	 *
 	 * @return string
 	 */
@@ -165,10 +129,8 @@ class Vc_Column_Offset {
 }
 
 /**
- * Renders the form field for column offset settings.
- *
- * @param array $settings
- * @param string $value
+ * @param $settings
+ * @param $value
  *
  * @return string
  */
@@ -179,15 +141,13 @@ function vc_column_offset_form_field( $settings, $value ) {
 }
 
 /**
- * Merges the column offset class with the column width class.
+ * @param $column_offset
+ * @param $width
  *
- * @param string $column_offset
- * @param string $width
- *
- * @return string
+ * @return mixed|string
  */
 function vc_column_offset_class_merge( $column_offset, $width ) {
-	// Remove offset settings if.
+	// Remove offset settings if
 	if ( '1' === vc_settings()->get( 'not_responsive_css' ) ) {
 		$column_offset = preg_replace( '/vc_col\-(lg|md|xs)[^\s]*/', '', $column_offset );
 	}
@@ -199,7 +159,7 @@ function vc_column_offset_class_merge( $column_offset, $width ) {
 }
 
 /**
- * Registers the column offset parameter with Visual Composer.
+ *
  */
 function vc_load_column_offset_param() {
 	vc_add_shortcode_param( 'column_offset', 'vc_column_offset_form_field' );

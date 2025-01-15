@@ -1,37 +1,27 @@
 <?php
-/**
- * Manages shared templates for WPBakery Page Builder.
- *
- * This class handles the initialization, rendering, downloading, and deletion of shared templates.
- */
-
 if ( ! defined( 'ABSPATH' ) ) {
 	die( '-1' );
 }
 
-require_once __DIR__ . '/importer/class-vc-wp-import.php';
-require_once __DIR__ . '/importer/class-vc-wxr-parser-plugin.php';
+require_once dirname( __FILE__ ) . '/importer/class-vc-wp-import.php';
+require_once dirname( __FILE__ ) . '/importer/class-vc-wxr-parser-plugin.php';
 
 /**
  * Class Vc_Shared_Templates
  */
 class Vc_Shared_Templates {
 	/**
-	 * Initialization checker.
-	 *
 	 * @var bool
 	 */
 	protected $initialized = false;
 
 	/**
-	 * Download link url.
-	 *
 	 * @var string
 	 */
 	protected $download_link_url = 'https://support.wpbakery.com/templates/download-link';
 
 	/**
-	 * Initialize shared templates
+	 *
 	 */
 	public function init() {
 		if ( $this->initialized ) {
@@ -74,10 +64,8 @@ class Vc_Shared_Templates {
 	}
 
 	/**
-	 * Render template on a backend.
-	 *
-	 * @param int $templateId
-	 * @param string $templateType
+	 * @param $templateId
+	 * @param $templateType
 	 * @return string
 	 */
 	public function renderBackendTemplate( $templateId, $templateType ) {
@@ -101,10 +89,8 @@ class Vc_Shared_Templates {
 	}
 
 	/**
-	 * Render template on a frontend.
-	 *
-	 * @param int $templateId
-	 * @param string $templateType
+	 * @param $templateId
+	 * @param $templateType
 	 * @return mixed
 	 */
 	public function renderFrontendTemplate( $templateId, $templateType ) {
@@ -133,10 +119,8 @@ class Vc_Shared_Templates {
 	}
 
 	/**
-	 * Delete template.
-	 *
-	 * @param int $templateId
-	 * @param string $templateType
+	 * @param $templateId
+	 * @param $templateType
 	 * @return mixed
 	 */
 	public function delete( $templateId, $templateType ) {
@@ -186,7 +170,7 @@ class Vc_Shared_Templates {
 	 * Ajax request processing from templates panel
 	 */
 	public function ajaxDownloadTemplate() {
-		// Vc_Current_User_Access $access.
+		/** @var Vc_Current_User_Access $access */
 		$access = vc_user_access()->checkAdminNonce()->validateDie( wp_json_encode( array(
 			'success' => false,
 			'message' => 'access denied',
@@ -228,14 +212,12 @@ class Vc_Shared_Templates {
 	}
 
 	/**
-	 * Download template from remote server.
-	 *
-	 * @param string $requestUrl
+	 * @param $requestUrl
 	 *
 	 * @return bool|string
 	 */
 	private function downloadTemplate( $requestUrl ) {
-		// FIX SSL SNI.
+		// FIX SSL SNI
 		$filter_add = true;
 		if ( function_exists( 'curl_version' ) ) {
 			$version = curl_version();
@@ -261,9 +243,7 @@ class Vc_Shared_Templates {
 	}
 
 	/**
-	 * Parse request response.
-	 *
-	 * @param array $request
+	 * @param $request
 	 *
 	 * @return bool|string|array
 	 */
@@ -278,14 +258,6 @@ class Vc_Shared_Templates {
 
 			return $downloadedTemplateFile;
 		} elseif ( isset( $body['error'] ) ) {
-			// new flow for error messages.
-			if ( ! empty( [ 'errorHtml' ] ) ) {
-				return [
-					'code' => 1,
-					'message' => $body['errorHtml'],
-				];
-			}
-
 			return array(
 				'code' => 1,
 				'message' => $body['error'],
@@ -296,9 +268,7 @@ class Vc_Shared_Templates {
 	}
 
 	/**
-	 * Add templates tab.
-	 *
-	 * @param array $data
+	 * @param $data
 	 *
 	 * @return array
 	 */
@@ -320,9 +290,7 @@ class Vc_Shared_Templates {
 	}
 
 	/**
-	 * Render template block.
-	 *
-	 * @param array $category
+	 * @param $category
 	 *
 	 * @return mixed
 	 */
@@ -335,8 +303,6 @@ class Vc_Shared_Templates {
 	}
 
 	/**
-	 * Get templates block output.
-	 *
 	 * @return string
 	 */
 	private function getTemplateBlockTemplate() {
@@ -350,8 +316,6 @@ class Vc_Shared_Templates {
 	}
 
 	/**
-	 * Get templates.
-	 *
 	 * @return array
 	 */
 	public function getTemplates() {
@@ -359,15 +323,16 @@ class Vc_Shared_Templates {
 		$templates = array();
 		if ( ! empty( $posts ) ) {
 			foreach ( $posts as $post ) {
+				/** @var WP_Post $post */
 				$id = get_post_meta( $post->ID, '_vc4_templates-id', true );
 				$template = array();
 				$template['title'] = $post->post_title;
 				$template['version'] = get_post_meta( $post->ID, '_vc4_templates-version', true );
 				$template['id'] = $id;
 				$template['post_id'] = $post->ID;
-				$template['name'] = $post->post_title; // For Settings.
-				$template['type'] = 'shared_templates'; // For Settings.
-				$template['unique_id'] = $id; // For Settings.
+				$template['name'] = $post->post_title; // For Settings
+				$template['type'] = 'shared_templates'; // For Settings
+				$template['unique_id'] = $id; // For Settings
 				$templates[] = $template;
 			}
 		}
@@ -379,7 +344,7 @@ class Vc_Shared_Templates {
 	 * Create url for request to download
 	 * It requires a license key, product and version
 	 *
-	 * @param int $id
+	 * @param $id
 	 *
 	 * @return string
 	 */

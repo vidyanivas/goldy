@@ -1,18 +1,9 @@
 <?php
-/**
- * The template for displaying [vc_text_separator] shortcode output of 'Text Separator' element.
- *
- * This template can be overridden by copying it to yourtheme/vc_templates/vc_separator.php
- *
- * @see https://kb.wpbakery.com/docs/developers-how-tos/change-shortcodes-html-output
- */
-
 if ( ! defined( 'ABSPATH' ) ) {
 	die( '-1' );
 }
 /**
  * Shortcode attributes
- *
  * @var $atts
  * @var $title_align
  * @var $el_width
@@ -71,13 +62,12 @@ if ( 'custom' === $color && '' !== $accent_color ) {
 		$inline_css = vc_get_css_color( 'border-color', $accent_color );
 	}
 	if ( $inline_css ) {
-		$inline_css = ' style="' . esc_attr( $inline_css ) . '"';
+		$inline_css = ' style="' . esc_attr( $inline_css ) .'"';
 	}
 }
 
-$element_class = empty( $this->settings['element_default_class'] ) ? '' : $this->settings['element_default_class'];
 $class_to_filter = $class;
-$class_to_filter .= vc_shortcode_custom_css_class( $css, ' ' ) . ' ' . esc_attr( $element_class ) . $this->getExtraClass( $el_class ) . $this->getCSSAnimation( $css_animation );
+$class_to_filter .= vc_shortcode_custom_css_class( $css, ' ' ) . $this->getExtraClass( $el_class ) . $this->getCSSAnimation( $css_animation );
 $css_class = apply_filters( VC_SHORTCODE_CUSTOM_CSS_FILTER_TAG, $class_to_filter, $this->settings['base'], $atts );
 $css_class = esc_attr( trim( $css_class ) );
 $icon = '';
@@ -99,9 +89,9 @@ if ( ! empty( $el_id ) ) {
 	$wrapper_attributes[] = 'id="' . esc_attr( $el_id ) . '"';
 }
 $wrapper_attributes_html = implode( ' ', $wrapper_attributes );
-$separator_html = <<<TEMPLATE
+$separatorHtml = <<<TEMPLATE
 <div class="$css_class" $wrapper_attributes_html><span class="vc_sep_holder vc_sep_holder_l"><span$inline_css class="vc_sep_line"></span></span>$content<span class="vc_sep_holder vc_sep_holder_r"><span$inline_css class="vc_sep_line"></span></span>
 </div>
 TEMPLATE;
 
-return $separator_html;
+return $separatorHtml;

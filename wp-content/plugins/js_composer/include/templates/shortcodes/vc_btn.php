@@ -1,18 +1,9 @@
 <?php
-/**
- * The template for displaying [vc_btn] shortcode output of 'Button' element.
- *
- * This template can be overridden by copying it to yourtheme/vc_templates/vc_btn.php.
- *
- * @see https://kb.wpbakery.com/docs/developers-how-tos/change-shortcodes-html-output
- */
-
 if ( ! defined( 'ABSPATH' ) ) {
 	die( '-1' );
 }
 /**
  * Shortcode attributes
- *
  * @var $atts
  * @var $style
  * @var $shape
@@ -59,7 +50,7 @@ $attributes = array();
 
 $atts = vc_map_get_attributes( $this->getShortcode(), $atts );
 extract( $atts );
-// parse link.
+// parse link
 $link = trim( $link );
 $link = ( '||' === $link ) ? '' : $link;
 $link = vc_build_link( $link );
@@ -140,18 +131,18 @@ if ( 'custom' === $style ) {
 	if ( $outline_custom_color ) {
 		$styles[] = vc_get_css_color( 'border-color', $outline_custom_color );
 		$styles[] = vc_get_css_color( 'color', $outline_custom_color );
-		$attributes[] = 'onmouseleave="this.style.borderColor=\'' . esc_attr( $outline_custom_color ) . '\'; this.style.backgroundColor=\'transparent\'; this.style.color=\'' . esc_attr( $outline_custom_color ) . '\'"';
+		$attributes[] = 'onmouseleave="this.style.borderColor=\'' . $outline_custom_color . '\'; this.style.backgroundColor=\'transparent\'; this.style.color=\'' . $outline_custom_color . '\'"';
 	} else {
 		$attributes[] = 'onmouseleave="this.style.borderColor=\'\'; this.style.backgroundColor=\'transparent\'; this.style.color=\'\'"';
 	}
 
 	$onmouseenter = array();
 	if ( $outline_custom_hover_background ) {
-		$onmouseenter[] = 'this.style.borderColor=\'' . esc_attr( $outline_custom_hover_background ) . '\';';
-		$onmouseenter[] = 'this.style.backgroundColor=\'' . esc_attr( $outline_custom_hover_background ) . '\';';
+		$onmouseenter[] = 'this.style.borderColor=\'' . $outline_custom_hover_background . '\';';
+		$onmouseenter[] = 'this.style.backgroundColor=\'' . $outline_custom_hover_background . '\';';
 	}
 	if ( $outline_custom_hover_text ) {
-		$onmouseenter[] = 'this.style.color=\'' . esc_attr( $outline_custom_hover_text ) . '\';';
+		$onmouseenter[] = 'this.style.color=\'' . $outline_custom_hover_text . '\';';
 	}
 	if ( $onmouseenter ) {
 		$attributes[] = 'onmouseenter="' . implode( ' ', $onmouseenter ) . '"';
@@ -190,7 +181,7 @@ if ( 'custom' === $style ) {
 	$gradient_css[] = 'transition: all .2s ease-in-out';
 	$gradient_css[] = 'background-size: 200% 100%';
 
-	// hover css.
+	// hover css
 	$gradient_css_hover = array();
 	$gradient_css_hover[] = 'color: ' . $button_text_color;
 	$gradient_css_hover[] = 'background-color: ' . $gradient_color_2;
@@ -199,27 +190,26 @@ if ( 'custom' === $style ) {
 
 	$uid = uniqid();
 	$first_tag = 'style';
-	$output .= '<' . $first_tag . '>.vc_btn3-style-' . esc_attr( $style ) . '.vc_btn-gradient-btn-' . esc_attr( $uid ) . ':hover{' . esc_attr( implode( ';', $gradient_css_hover ) ) . ';}</' . $first_tag . '>';
-	$output .= '<' . $first_tag . '>.vc_btn3-style-' . esc_attr( $style ) . '.vc_btn-gradient-btn-' . esc_attr( $uid ) . '{' . esc_attr( implode( ';', $gradient_css ) ) . ';}</' . $first_tag . '>';
+	$output .= '<' . $first_tag . '>.vc_btn3-style-' . esc_attr( $style ) . '.vc_btn-gradient-btn-' . esc_attr( $uid ) . ':hover{' . esc_attr( implode( ';', $gradient_css_hover ) ) . ';' . '}</' . $first_tag . '>';
+	$output .= '<' . $first_tag . '>.vc_btn3-style-' . esc_attr( $style ) . '.vc_btn-gradient-btn-' . esc_attr( $uid ) . '{' . esc_attr( implode( ';', $gradient_css ) ) . ';' . '}</' . $first_tag . '>';
 	$button_classes[] = 'vc_btn-gradient-btn-' . $uid;
-	$attributes[] = 'data-vc-gradient-1="' . esc_attr( $gradient_color_1 ) . '"';
-	$attributes[] = 'data-vc-gradient-2="' . esc_attr( $gradient_color_2 ) . '"';
+	$attributes[] = 'data-vc-gradient-1="' . $gradient_color_1 . '"';
+	$attributes[] = 'data-vc-gradient-2="' . $gradient_color_2 . '"';
 } else {
 	$button_classes[] = 'vc_btn3-color-' . $color;
 }
 
 if ( $styles ) {
-	$attributes[] = 'style="' . esc_attr( implode( ' ', $styles ) ) . '"';
+	$attributes[] = 'style="' . implode( ' ', $styles ) . '"';
 }
 
-$element_class = empty( $this->settings['element_default_class'] ) ? '' : $this->settings['element_default_class'];
 $class_to_filter = implode( ' ', array_filter( $wrapper_classes ) );
-$class_to_filter .= vc_shortcode_custom_css_class( $css, ' ' ) . ' ' . $element_class;
+$class_to_filter .= vc_shortcode_custom_css_class( $css, ' ' );
 $css_class = apply_filters( VC_SHORTCODE_CUSTOM_CSS_FILTER_TAG, $class_to_filter, $this->settings['base'], $atts );
 
 if ( $button_classes ) {
-	$button_classes = apply_filters( VC_SHORTCODE_CUSTOM_CSS_FILTER_TAG, implode( ' ', array_filter( $button_classes ) ), $this->settings['base'], $atts );
-	$attributes[] = 'class="' . trim( esc_attr( $button_classes ) ) . '"';
+	$button_classes = esc_attr( apply_filters( VC_SHORTCODE_CUSTOM_CSS_FILTER_TAG, implode( ' ', array_filter( $button_classes ) ), $this->settings['base'], $atts ) );
+	$attributes[] = 'class="' . trim( $button_classes ) . '"';
 }
 
 if ( $use_link ) {

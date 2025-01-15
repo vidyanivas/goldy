@@ -1,19 +1,10 @@
 <?php
-/**
- * The template for displaying [vc_single_image] shortcode output of 'Single image' element.
- *
- * This template can be overridden by copying it to yourtheme/vc_templates/vc_single_image.php.
- *
- * @see https://kb.wpbakery.com/docs/developers-how-tos/change-shortcodes-html-output
- */
-
 if ( ! defined( 'ABSPATH' ) ) {
 	die( '-1' );
 }
 
 /**
  * Shortcode attributes
- *
  * @var $atts
  * @var $title
  * @var $source
@@ -43,7 +34,7 @@ extract( $atts );
 
 $default_src = vc_asset_url( 'vc/no_image.png' );
 
-// backward compatibility. since 4.6.
+// backward compatibility. since 4.6
 if ( empty( $onclick ) && isset( $img_link_large ) && 'yes' === $img_link_large ) {
 	$onclick = 'img_link_large';
 } elseif ( empty( $atts['onclick'] ) && ( ! isset( $atts['img_link_large'] ) || 'yes' !== $atts['img_link_large'] ) ) {
@@ -73,7 +64,7 @@ switch ( $source ) {
 			$img_id = preg_replace( '/[^\d]/', '', $image );
 		}
 
-		// set rectangular.
+		// set rectangular
 		if ( preg_match( '/_circle_2$/', $style ) ) {
 			$style = preg_replace( '/_circle_2$/', '_circle', $style );
 			$img_size = $this->getImageSquareSize( $img_id, $img_size );
@@ -89,7 +80,7 @@ switch ( $source ) {
 			'class' => 'vc_single_image-img',
 		) );
 
-		// don't show placeholder in public version if post doesn't have featured image.
+		// don't show placeholder in public version if post doesn't have featured image
 		if ( 'featured_image' === $source ) {
 			if ( ! $img && 'page' === vc_manager()->mode() ) {
 				return;
@@ -114,19 +105,17 @@ switch ( $source ) {
 }
 
 if ( ! $img ) {
-	$img = [
-		'thumbnail' => '<img class="vc_img-placeholder vc_single_image-img" src="' . esc_url( $default_src ) . '" />',
-	];
+	$img['thumbnail'] = '<img class="vc_img-placeholder vc_single_image-img" src="' . esc_url( $default_src ) . '" />';
 }
 
 $el_class = $this->getExtraClass( $el_class );
 
-// backward compatibility.
+// backward compatibility
 if ( vc_has_class( 'prettyphoto', $el_class ) ) {
 	$onclick = 'link_image';
 }
 
-// backward compatibility. will be removed in 4.7+.
+// backward compatibility. will be removed in 4.7+
 if ( ! empty( $atts['img_link'] ) ) {
 	$link = $atts['img_link'];
 	if ( ! preg_match( '/^(https?\:\/\/|\/\/)/', $link ) ) {
@@ -134,7 +123,7 @@ if ( ! empty( $atts['img_link'] ) ) {
 	}
 }
 
-// backward compatibility.
+// backward compatibility
 if ( in_array( $link, array(
 	'none',
 	'link_no',
@@ -162,7 +151,7 @@ switch ( $onclick ) {
 		$a_attrs['class'] = '';
 		$a_attrs['data-lightbox'] = 'lightbox[rel-' . get_the_ID() . '-' . wp_rand() . ']';
 
-		// backward compatibility.
+		// backward compatibility
 		if ( ! vc_has_class( 'prettyphoto', $el_class ) && 'external_link' === $source ) {
 			$link = $custom_src;
 		} elseif ( ! vc_has_class( 'prettyphoto', $el_class ) ) {
@@ -173,7 +162,7 @@ switch ( $onclick ) {
 		break;
 
 	case 'custom_link':
-		// $link is already defined.
+		// $link is already defined
 		break;
 
 	case 'zoom':
@@ -188,32 +177,31 @@ switch ( $onclick ) {
 			}
 		}
 
-		$img['thumbnail'] = str_replace( '<img ', '<img data-vc-zoom="' . esc_url( $large_img_src ) . '" ', $img['thumbnail'] );
+		$img['thumbnail'] = str_replace( '<img ', '<img data-vc-zoom="' . $large_img_src . '" ', $img['thumbnail'] );
 
 		break;
 }
 
-// backward compatibility.
+// backward compatibility
 if ( vc_has_class( 'prettyphoto', $el_class ) ) {
 	$el_class = vc_remove_class( 'prettyphoto', $el_class );
 }
 
-$wrapper_class = 'vc_single_image-wrapper ' . esc_attr( $style ) . ' ' . esc_attr( $border_color );
+$wrapperClass = 'vc_single_image-wrapper ' . $style . ' ' . $border_color;
 
 if ( $link ) {
-	$a_attrs['href'] = esc_url( $link );
+	$a_attrs['href'] = $link;
 	$a_attrs['target'] = $img_link_target;
 	if ( ! empty( $a_attrs['class'] ) ) {
-		$wrapper_class .= ' ' . $a_attrs['class'];
+		$wrapperClass .= ' ' . $a_attrs['class'];
 		unset( $a_attrs['class'] );
 	}
-	$html = '<a ' . vc_stringify_attributes( $a_attrs ) . ' class="' . $wrapper_class . '">' . $img['thumbnail'] . '</a>';
+	$html = '<a ' . vc_stringify_attributes( $a_attrs ) . ' class="' . $wrapperClass . '">' . $img['thumbnail'] . '</a>';
 } else {
-	$html = '<div class="' . $wrapper_class . '">' . $img['thumbnail'] . '</div>';
+	$html = '<div class="' . $wrapperClass . '">' . $img['thumbnail'] . '</div>';
 }
 
-$element_class = empty( $this->settings['element_default_class'] ) ? '' : $this->settings['element_default_class'];
-$class_to_filter = 'wpb_single_image wpb_content_element vc_align_' . $alignment . ' ' . esc_attr( $element_class ) . $this->getCSSAnimation( $css_animation );
+$class_to_filter = 'wpb_single_image wpb_content_element vc_align_' . $alignment . ' ' . $this->getCSSAnimation( $css_animation );
 $class_to_filter .= vc_shortcode_custom_css_class( $css, ' ' ) . $this->getExtraClass( $el_class );
 $css_class = apply_filters( VC_SHORTCODE_CUSTOM_CSS_FILTER_TAG, $class_to_filter, $this->settings['base'], $atts );
 

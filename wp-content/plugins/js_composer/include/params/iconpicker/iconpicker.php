@@ -1,19 +1,11 @@
 <?php
-/**
- * Param type 'iconpicker'
- *
- * Use it to create a set of fields that let users pick icons from predefined icon libraries.
- *
- * @see https://kb.wpbakery.com/docs/inner-api/vc_map/#vc_map()-ParametersofparamsArray
- */
-
 if ( ! defined( 'ABSPATH' ) ) {
 	die( '-1' );
 }
 
 /**
- * Class Vc_IconPicker
  *
+ * Class Vc_IconPicker
  * @since 4.4
  * See example usage in shortcode 'vc_icon'
  *
@@ -40,41 +32,33 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 class Vc_IconPicker {
 	/**
-	 * Param settings.
-	 *
 	 * @since 4.4
-	 * @var array
+	 * @var array - save current param data array from vc_map
 	 */
 	protected $settings;
-
 	/**
-	 * The current value of the icon picker field.
-	 *
 	 * @since 4.4
-	 * @var string
+	 * @var string - save a current field value
 	 */
 	protected $value;
-
 	/**
-	 * An optional source array for icons, which can be passed or set using filters.
-	 *
 	 * @since 4.4
-	 * @var array
+	 * @var array - optional, can be used as self source from self array., you
+	 *     can pass it also with filter see Vc_IconPicker::setDefaults
 	 */
 	protected $source = array();
 
 	/**
-	 * Vc_IconPicker constructor.
-	 *
-	 * @param array $settings - param field data array.
-	 * @param string $value - param field value.
+	 * @param $settings - param field data array
+	 * @param $value - param field value
 	 * @since 4.4
+	 *
 	 */
 	public function __construct( $settings, $value ) {
 		$this->settings = $settings;
 		$this->setDefaults();
 
-		$this->value = $value; // param field value.
+		$this->value = $value; // param field value
 	}
 
 	/**
@@ -85,29 +69,28 @@ class Vc_IconPicker {
 	 * method
 	 *  - it initializes javascript logic, you can provide ANY default param to
 	 * it with 'settings' key
-	 *
 	 * @since 4.4
 	 */
 	protected function setDefaults() {
 		if ( ! isset( $this->settings['settings'], $this->settings['settings']['type'] ) ) {
-			$this->settings['settings']['type'] = 'fontawesome'; // Default type for icons.
+			$this->settings['settings']['type'] = 'fontawesome'; // Default type for icons
 		}
 
-		// More about this you can read in http://codeb.it/fonticonpicker/.
+		// More about this you can read in http://codeb.it/fonticonpicker/
 		if ( ! isset( $this->settings['settings'], $this->settings['settings']['hasSearch'] ) ) {
 			// Whether or not to show the search bar.
 			$this->settings['settings']['hasSearch'] = true;
 		}
 		if ( ! isset( $this->settings['settings'], $this->settings['settings']['emptyIcon'] ) ) {
-			// Whether or not empty icon should be shown on the icon picker.
+			// Whether or not empty icon should be shown on the icon picker
 			$this->settings['settings']['emptyIcon'] = true;
 		}
 		if ( ! isset( $this->settings['settings'], $this->settings['settings']['allCategoryText'] ) ) {
-			// If categorized then use this option.
+			// If categorized then use this option
 			$this->settings['settings']['allCategoryText'] = esc_html__( 'From all categories', 'js_composer' );
 		}
 		if ( ! isset( $this->settings['settings'], $this->settings['settings']['unCategorizedText'] ) ) {
-			// If categorized then use this option.
+			// If categorized then use this option
 			$this->settings['settings']['unCategorizedText'] = esc_html__( 'Uncategorized', 'js_composer' );
 		}
 
@@ -117,7 +100,7 @@ class Vc_IconPicker {
 		 */
 		if ( isset( $this->settings['settings'], $this->settings['settings']['source'] ) ) {
 			$this->source = $this->settings['settings']['source'];
-			unset( $this->settings['settings']['source'] ); // We don't need this on frontend.(js).
+			unset( $this->settings['settings']['source'] ); // We don't need this on frontend.(js)
 		}
 	}
 
@@ -127,7 +110,6 @@ class Vc_IconPicker {
 	 * (vc_iconpicker_base_register_js, vc_iconpicker_editor_jscss), see
 	 * wp-content/plugins/js_composer/include/autoload/hook-vc-iconpicker-param.php
 	 * folder
-	 *
 	 * @return string - rendered param field for editor panel
 	 * @since 4.4
 	 */
@@ -135,7 +117,7 @@ class Vc_IconPicker {
 
 		$output = '<div class="vc-iconpicker-wrapper"><select class="vc-iconpicker">';
 
-		// call filter vc_iconpicker-type-{your_type}, e.g. vc_iconpicker-type-fontawesome with passed source from shortcode(default empty array). to get icons.
+		// call filter vc_iconpicker-type-{your_type}, e.g. vc_iconpicker-type-fontawesome with passed source from shortcode(default empty array). to get icons
 		$arr = apply_filters( 'vc_iconpicker-type-' . esc_attr( $this->settings['settings']['type'] ), $this->source );
 		if ( isset( $this->settings['settings'], $this->settings['settings']['emptyIcon'] ) && true === $this->settings['settings']['emptyIcon'] ) {
 			array_unshift( $arr, array() );
@@ -144,12 +126,12 @@ class Vc_IconPicker {
 			foreach ( $arr as $group => $icons ) {
 				if ( ! is_array( $icons ) || ! is_array( current( $icons ) ) ) {
 					$class_key = key( $icons );
-					$output .= '<option value="' . esc_attr( $class_key ) . '" ' . ( ( null !== $this->value && 0 === strcmp( $class_key, $this->value ) ) ? 'selected' : '' ) . '>' . esc_html( current( $icons ) ) . '</option>' . "\n";
+					$output .= '<option value="' . esc_attr( $class_key ) . '" ' . ( strcmp( $class_key, $this->value ) === 0 ? 'selected' : '' ) . '>' . esc_html( current( $icons ) ) . '</option>' . "\n";
 				} else {
 					$output .= '<optgroup label="' . esc_attr( $group ) . '">' . "\n";
 					foreach ( $icons as $key => $label ) {
 						$class_key = key( $label );
-						$output .= '<option value="' . esc_attr( $class_key ) . '" ' . ( ( null !== $this->value && 0 === strcmp( $class_key, $this->value ) ) ? 'selected' : '' ) . '>' . esc_html( current( $label ) ) . '</option>' . "\n";
+						$output .= '<option value="' . esc_attr( $class_key ) . '" ' . ( strcmp( $class_key, $this->value ) === 0 ? 'selected' : '' ) . '>' . esc_html( current( $label ) ) . '</option>' . "\n";
 					}
 					$output .= '</optgroup>' . "\n";
 				}
@@ -167,38 +149,40 @@ class Vc_IconPicker {
  * Function for rendering param in edit form (add element)
  * Parse settings from vc_map and entered values.
  *
- * @param array $settings
- * @param string $value
- * @param string $tag
+ * @param $settings
+ * @param $value
+ * @param $tag
  *
  * @return string - rendered template for params in edit form
  *
  * @since 4.4
  */
-function vc_iconpicker_form_field( $settings, $value, $tag ) { // phpcs:ignore:Generic.CodeAnalysis.UnusedFunctionParameter.FoundAfterLastUsed
+function vc_iconpicker_form_field( $settings, $value, $tag ) {
 
 	$icon_picker = new Vc_IconPicker( $settings, $value );
 
 	return apply_filters( 'vc_iconpicker_render_filter', $icon_picker->render() );
 }
 
-// SEE HOOKS FOLDER FOR FONTS REGISTERING/ENQUEUE IN BASE @path "/include/autoload/hook-vc-iconpicker-param.php".
+// SEE HOOKS FOLDER FOR FONTS REGISTERING/ENQUEUE IN BASE @path "/include/autoload/hook-vc-iconpicker-param.php"
 
 add_filter( 'vc_iconpicker-type-fontawesome', 'vc_iconpicker_type_fontawesome' );
 
 /**
  * Fontawesome icons from FontAwesome :)
  *
- * @param array $icons - taken from filter - vc_map param field settings['source']
+ * @param $icons - taken from filter - vc_map param field settings['source']
  *     provided icons (default empty array). If array categorized it will
- *     auto-enable category dropdown.
+ *     auto-enable category dropdown
  *
  * @return array - of icons for iconpicker, can be categorized, or not.
- * @version 4.7 $fontawesome_icons
  * @since 4.4
  */
 function vc_iconpicker_type_fontawesome( $icons ) {
 	// Categorized icons ( you can also output simple array ( key=> value ), where key = icon class, value = icon readable name ).
+	/**
+	 * @version 4.7
+	 */
 	$fontawesome_icons = array(
 		'Accessibility' => array(
 			array( 'fab fa-accessible-icon' => 'Accessible Icon (accessibility,handicap,person,wheelchair,wheelchair-alt)' ),
@@ -3209,9 +3193,9 @@ add_filter( 'vc_iconpicker-type-openiconic', 'vc_iconpicker_type_openiconic' );
 /**
  * Openicons icons from fontello.com
  *
- * @param array $icons - taken from filter - vc_map param field settings['source']
+ * @param $icons - taken from filter - vc_map param field settings['source']
  *     provided icons (default empty array). If array categorized it will
- *     auto-enable category dropdown.
+ *     auto-enable category dropdown
  *
  * @return array - of icons for iconpicker, can be categorized, or not.
  * @since 4.4
@@ -3379,9 +3363,9 @@ add_filter( 'vc_iconpicker-type-typicons', 'vc_iconpicker_type_typicons' );
 /**
  * Typicons icons from github.com/stephenhutchings/typicons.font
  *
- * @param array $icons - taken from filter - vc_map param field settings['source']
+ * @param $icons - taken from filter - vc_map param field settings['source']
  *     provided icons (default empty array). If array categorized it will
- *     auto-enable category dropdown.
+ *     auto-enable category dropdown
  *
  * @return array - of icons for iconpicker, can be categorized, or not.
  * @since 4.4
@@ -3733,9 +3717,9 @@ add_filter( 'vc_iconpicker-type-entypo', 'vc_iconpicker_type_entypo' );
 /**
  * Entypo icons from github.com/danielbruce/entypo
  *
- * @param array $icons - taken from filter - vc_map param field settings['source']
+ * @param $icons - taken from filter - vc_map param field settings['source']
  *     provided icons (default empty array). If array categorized it will
- *     auto-enable category dropdown.
+ *     auto-enable category dropdown
  *
  * @return array - of icons for iconpicker, can be categorized, or not.
  * @since 4.4
@@ -4036,9 +4020,9 @@ add_filter( 'vc_iconpicker-type-linecons', 'vc_iconpicker_type_linecons' );
 /**
  * Linecons icons from fontello.com
  *
- * @param array $icons - taken from filter - vc_map param field settings['source']
+ * @param $icons - taken from filter - vc_map param field settings['source']
  *     provided icons (default empty array). If array categorized it will
- *     auto-enable category dropdown.
+ *     auto-enable category dropdown
  *
  * @return array - of icons for iconpicker, can be categorized, or not.
  * @since 4.4
@@ -4101,11 +4085,11 @@ function vc_iconpicker_type_linecons( $icons ) {
 add_filter( 'vc_iconpicker-type-monosocial', 'vc_iconpicker_type_monosocial' );
 
 /**
- * Monosocial icons from drinchev.github.io/monosocialiconsfont
+ * monosocial icons from drinchev.github.io/monosocialiconsfont
  *
- * @param array $icons - taken from filter - vc_map param field settings['source']
+ * @param $icons - taken from filter - vc_map param field settings['source']
  *     provided icons (default empty array). If array categorized it will
- *     auto-enable category dropdown.
+ *     auto-enable category dropdown
  *
  * @return array - of icons for iconpicker, can be categorized, or not.
  * @since 4.4
@@ -4220,12 +4204,12 @@ function vc_iconpicker_type_monosocial( $icons ) {
 
 add_filter( 'vc_iconpicker-type-material', 'vc_iconpicker_type_material' );
 /**
- * Material icon set from Google.
- *
- * @param array $icons
+ * Material icon set from Google
+ * @param $icons
  *
  * @return array
  * @since 5.0
+ *
  */
 function vc_iconpicker_type_material( $icons ) {
 	$material = array(

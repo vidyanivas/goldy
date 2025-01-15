@@ -1,35 +1,22 @@
 <?php
-/**
- * Backward compatibility with "Yoast" WordPress plugin.
- *
- * @see https://wordpress.org/plugins/wordpress-seo
- *
- * @since 4.4 vendors initialization moved to hooks in autoload/vendors.
- */
-
 if ( ! defined( 'ABSPATH' ) ) {
 	die( '-1' );
 }
 
 /**
  * Class Vc_Vendor_YoastSeo
- *
  * @since 4.4
  */
 class Vc_Vendor_YoastSeo {
 
 	/**
 	 * Created to improve yoast multiply calling wpseo_pre_analysis_post_content filter.
-	 *
 	 * @since 4.5.3
 	 * @var string - parsed post content
 	 */
-	protected $parsed_content;
+	protected $parsedContent;
 
-	/**
-	 * Vc_Vendor_YoastSeo constructor.
-	 */
-	public function __construct() {
+	function __construct() {
 		add_action( 'vc_backend_editor_render', array(
 			$this,
 			'enqueueJs',
@@ -42,7 +29,6 @@ class Vc_Vendor_YoastSeo {
 
 	/**
 	 * Add filter for yoast.
-	 *
 	 * @since 4.4
 	 */
 	public function load() {
@@ -56,33 +42,29 @@ class Vc_Vendor_YoastSeo {
 
 	/**
 	 * Properly parse content to detect images/text keywords.
-	 *
-	 * @param string $content
+	 * @param $content
 	 *
 	 * @return string
 	 * @since 4.4
+	 *
 	 */
 	public function filterResults( $content ) {
-		if ( empty( $this->parsed_content ) ) {
+		if ( empty( $this->parsedContent ) ) {
 			global $post, $wp_the_query;
-			$wp_the_query->post = $post; // since 4.5.3 to avoid the_post replaces.
+			$wp_the_query->post = $post; // since 4.5.3 to avoid the_post replaces
 			/**
-			 * Vc_filter: vc_vendor_yoastseo_filter_results.
-			 *
 			 * @since 4.4.3
+			 * vc_filter: vc_vendor_yoastseo_filter_results
 			 */
 			do_action( 'vc_vendor_yoastseo_filter_results' );
-			$this->parsed_content = do_shortcode( shortcode_unautop( $content ) );
-            // phpcs:ignore
+			$this->parsedContent = do_shortcode( shortcode_unautop( $content ) );
 			wp_reset_query();
 		}
 
-		return $this->parsed_content;
+		return $this->parsedContent;
 	}
 
 	/**
-	 * Enqueue JS for Yoast SEO.
-	 *
 	 * @since 4.4
 	 */
 	public function enqueueJs() {
@@ -97,9 +79,6 @@ class Vc_Vendor_YoastSeo {
 		), WPB_VC_VERSION, true );
 	}
 
-	/**
-	 * Build frontend editor.
-	 */
 	public function frontendEditorBuild() {
 		$vc_yoast_meta_box = $GLOBALS['wpseo_metabox'];
 		remove_action( 'admin_init', array(
@@ -146,10 +125,8 @@ class Vc_Vendor_YoastSeo {
 	}
 
 	/**
-	 * Filter sitemap url images.
-	 *
-	 * @param array $images
-	 * @param int $id
+	 * @param $images
+	 * @param $id
 	 * @return array
 	 */
 	public function filterSitemapUrlImages( $images, $id ) {

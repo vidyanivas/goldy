@@ -1,10 +1,4 @@
 <?php
-/**
- * Preset panel template.
- *
- * @var Vc_Preset_Panel_Editor $box
- */
-
 if ( ! defined( 'ABSPATH' ) ) {
 	die( '-1' );
 }

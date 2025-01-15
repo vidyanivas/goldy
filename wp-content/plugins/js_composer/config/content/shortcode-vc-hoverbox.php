@@ -1,14 +1,11 @@
 <?php
-/**
- * Configuration file for [vc_cta] shortcode of 'Hover Box' element.
- *
- * @see https://kb.wpbakery.com/docs/inner-api/vc_map/ for more detailed information about element attributes.
- */
-
 if ( ! defined( 'ABSPATH' ) ) {
 	die( '-1' );
 }
-
+/**
+ * Call to action
+ * @since 4.5
+ */
 require_once vc_path_dir( 'CONFIG_DIR', 'content/vc-custom-heading-element.php' );
 $h2_custom_heading = vc_map_integrate_shortcode( vc_custom_heading_element_params(), 'primary_title_', esc_html__( 'Primary Title', 'js_composer' ), array(
 	'exclude' => array(
@@ -98,7 +95,7 @@ $params = array_merge( array(
 		'type' => 'checkbox',
 		'heading' => esc_html__( 'Use custom font?', 'js_composer' ),
 		'param_name' => 'use_custom_fonts_primary_title',
-		'description' => esc_html__( 'Enable custom font option.', 'js_composer' ),
+		'description' => esc_html__( 'Enable Google fonts.', 'js_composer' ),
 		'edit_field_class' => 'vc_col-sm-3',
 	),
 	array(
@@ -173,7 +170,6 @@ $params = array_merge( array(
 		'param_name' => 'hover_custom_background',
 		'description' => esc_html__( 'Select custom background color.', 'js_composer' ),
 		'group' => esc_html__( 'Hover Block', 'js_composer' ),
-		'default_colorpicker_color' => '#EBEBEB',
 		'dependency' => array(
 			'element' => 'hover_background_color',
 			'value' => array( 'custom' ),
@@ -234,7 +230,7 @@ $params = array_merge( array(
 		'type' => 'el_id',
 		'heading' => esc_html__( 'Element ID', 'js_composer' ),
 		'param_name' => 'el_id',
-		'description' => sprintf( esc_html__( 'Enter element ID (Note: make sure it is unique and valid according to %1$sw3c specification%2$s).', 'js_composer' ), '<a href="https://www.w3schools.com/tags/att_global_id.asp" target="_blank">', '</a>' ),
+		'description' => sprintf( esc_html__( 'Enter element ID (Note: make sure it is unique and valid according to %sw3c specification%s).', 'js_composer' ), '<a href="https://www.w3schools.com/tags/att_global_id.asp" target="_blank">', '</a>' ),
 	),
 	array(
 		'type' => 'textfield',

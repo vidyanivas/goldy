@@ -1,10 +1,4 @@
 <?php
-/**
- * Class that handles specific [vc_raw_js] shortcode.
- *
- * @see js_composer/include/templates/shortcodes/vc_raw_js.php
- */
-
 if ( ! defined( 'ABSPATH' ) ) {
 	die( '-1' );
 }
@@ -16,8 +10,6 @@ require_once vc_path_dir( 'SHORTCODES_DIR', 'vc-raw-html.php' );
  */
 class WPBakeryShortCode_Vc_Raw_Js extends WPBakeryShortCode_Vc_Raw_html {
 	/**
-	 * Get name.
-	 *
 	 * @return mixed|string
 	 */
 	protected function getFileName() {
@@ -25,9 +17,7 @@ class WPBakeryShortCode_Vc_Raw_Js extends WPBakeryShortCode_Vc_Raw_html {
 	}
 
 	/**
-	 * Get inline content.
-	 *
-	 * @param array $atts
+	 * @param $atts
 	 * @param null $content
 	 * @return string
 	 */

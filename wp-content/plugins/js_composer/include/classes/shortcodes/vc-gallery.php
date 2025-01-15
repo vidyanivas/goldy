@@ -1,10 +1,4 @@
 <?php
-/**
- * Class that handles specific [vc_gallery] shortcode.
- *
- * @see js_composer/include/templates/shortcodes/vc_gallery.php
- */
-
 if ( ! defined( 'ABSPATH' ) ) {
 	die( '-1' );
 }
@@ -15,8 +9,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 class WPBakeryShortCode_Vc_Gallery extends WPBakeryShortCode {
 	/**
 	 * WPBakeryShortCode_Vc_gallery constructor.
-	 *
-	 * @param array $settings
+	 * @param $settings
 	 */
 	public function __construct( $settings ) {
 		parent::__construct( $settings );
@@ -24,23 +17,18 @@ class WPBakeryShortCode_Vc_Gallery extends WPBakeryShortCode {
 		$this->shortcodeScripts();
 	}
 
-	/**
-	 * Register shortcode scripts.
-	 */
 	public function shortcodeScripts() {
-		wp_register_script( 'vc_grid-js-imagesloaded', vc_asset_url( 'lib/vendor/node_modules/imagesloaded/imagesloaded.pkgd.min.js' ), array( 'jquery-core' ), WPB_VC_VERSION, true );
+		wp_register_script( 'vc_grid-js-imagesloaded', vc_asset_url( 'lib/bower/imagesloaded/imagesloaded.pkgd.min.js' ), array( 'jquery-core' ), WPB_VC_VERSION, true );
 	}
 
 	/**
-	 * Add params html holders.
-	 *
-	 * @param array $param
-	 * @param string $value
+	 * @param $param
+	 * @param $value
 	 * @return string
 	 */
 	public function singleParamHtmlHolder( $param, $value ) {
 		$output = '';
-		// Compatibility fixes.
+		// Compatibility fixes
 		$old_names = array(
 			'yellow_message',
 			'blue_message',

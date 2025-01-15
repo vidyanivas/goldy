@@ -1,12 +1,4 @@
 <?php
-/**
- * Param type 'hidden'.
- *
- * Used to create hidden field.
- *
- * @see https://kb.wpbakery.com/docs/inner-api/vc_map/#vc_map()-ParametersofparamsArray
- */
-
 if ( ! defined( 'ABSPATH' ) ) {
 	die( '-1' );
 }
@@ -14,14 +6,13 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * Hidden field param.
  *
- * @param array $settings
- * @param mixed $value
+ * @param $settings
+ * @param $value
  *
  * @since 4.5
  * @return string - html string.
  */
 function vc_hidden_form_field( $settings, $value ) {
-	$value = is_string( $value ) ? $value : '';
 	$value = htmlspecialchars( $value );
 
 	return '<input name="' . esc_attr( $settings['param_name'] ) . '" class="wpb_vc_param_value vc_hidden-field vc_param-name-' . esc_attr( $settings['param_name'] ) . ' ' . esc_attr( $settings['type'] ) . '" type="hidden" value="' . esc_attr( $value ) . '"/>';
@@ -29,6 +20,8 @@ function vc_hidden_form_field( $settings, $value ) {
 
 /**
  * Remove content before hidden field type input.
+ *
+ * @param $output
  *
  * @since 4.5
  *
@@ -40,6 +33,8 @@ function vc_edit_form_fields_render_field_hidden_before() {
 
 /**
  * Remove content after hidden field type input.
+ *
+ * @param $output
  *
  * @since 4.5
  *

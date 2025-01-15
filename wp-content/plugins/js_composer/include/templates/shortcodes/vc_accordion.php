@@ -1,13 +1,10 @@
 <?php
+if ( ! defined( 'ABSPATH' ) ) {
+	die( '-1' );
+}
+
 /**
- * The template for displaying [vc_accordion] shortcode output of 'Accordion' element.
- *
- * This template can be overridden by copying it to yourtheme/vc_templates/vc_accordion.php.
- *
- * @see https://kb.wpbakery.com/docs/developers-how-tos/change-shortcodes-html-output
- *
  * @deprecated
- *
  * Shortcode attributes
  * @var $atts
  * @var $title
@@ -16,14 +13,9 @@
  * @var $disable_keyboard
  * @var $active_tab
  * @var $content - shortcode content
- *  Shortcode class
+ * Shortcode class
  * @var WPBakeryShortCode_Vc_Accordion $this
  */
-
-if ( ! defined( 'ABSPATH' ) ) {
-	die( '-1' );
-}
-
 $title = $el_class = $collapsible = $disable_keyboard = $active_tab = '';
 $atts = vc_map_get_attributes( $this->getShortcode(), $atts );
 extract( $atts );

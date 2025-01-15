@@ -1,16 +1,7 @@
 <?php
-/**
- * Individual settings tab template.
- *
- * @var string $slug
- * @var string $active_tab
- * @var array $tabs
- */
-
 if ( ! defined( 'ABSPATH' ) ) {
 	die( '-1' );
 }
-
 ?>
 <h2 class="nav-tab-wrapper">
 	<?php foreach ( $tabs as $tab_slug => $title ) : ?>

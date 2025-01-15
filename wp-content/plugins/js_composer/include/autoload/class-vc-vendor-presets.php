@@ -1,11 +1,4 @@
 <?php
-/**
- * Autoload preset for vendors.
- *
- * @note we require our autoload files everytime and everywhere after plugin load.
- * @since 4.8
- */
-
 if ( ! defined( 'ABSPATH' ) ) {
 	die( '-1' );
 }
@@ -17,23 +10,10 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 class Vc_Vendor_Preset {
 
-	/**
-	 * Instance of Vc_Vendor_Preset
-	 *
-	 * @var Vc_Vendor_Preset
-	 */
 	private static $instance;
-
-	/**
-	 * Collection of vendor presets
-	 *
-	 * @var array
-	 */
 	private static $presets = array();
 
 	/**
-	 * Get instance of Vc_Vendor_Preset.
-	 *
 	 * @return \Vc_Vendor_Preset
 	 */
 	public static function getInstance() {
@@ -44,9 +24,6 @@ class Vc_Vendor_Preset {
 		return self::$instance;
 	}
 
-	/**
-	 * Protected constructor.
-	 */
 	protected function __construct() {
 	}
 
@@ -56,19 +33,20 @@ class Vc_Vendor_Preset {
 	 * @param string $title
 	 * @param string $shortcode
 	 * @param array $params
-	 * @param bool $default_value
+	 * @param bool $default
 	 *
 	 * @return bool
 	 * @since 4.8
+	 *
 	 */
-	public function add( $title, $shortcode, $params, $default_value = false ) {
+	public function add( $title, $shortcode, $params, $default = false ) {
 		if ( ! $title || ! is_string( $title ) || ! $shortcode || ! is_string( $shortcode ) || ! $params || ! is_array( $params ) ) {
 			return false;
 		}
 
 		$preset = array(
 			'shortcode' => $shortcode,
-			'default' => $default_value,
+			'default' => $default,
 			'params' => $params,
 			'title' => $title,
 		);
@@ -88,6 +66,7 @@ class Vc_Vendor_Preset {
 	 *
 	 * @return mixed array|false
 	 * @since 4.8
+	 *
 	 */
 	public function get( $id ) {
 		if ( isset( self::$presets[ $id ] ) ) {
@@ -104,6 +83,7 @@ class Vc_Vendor_Preset {
 	 *
 	 * @return array
 	 * @since 4.8
+	 *
 	 */
 	public function getAll( $shortcode ) {
 		$list = array();
@@ -124,6 +104,7 @@ class Vc_Vendor_Preset {
 	 *
 	 * @return array
 	 * @since 4.8
+	 *
 	 */
 	public function getDefaults() {
 		$list = array();
@@ -149,6 +130,7 @@ class Vc_Vendor_Preset {
 	 *
 	 * @return string|null
 	 * @since 4.8
+	 *
 	 */
 	public function getDefaultId( $shortcode ) {
 		foreach ( self::$presets as $id => $preset ) {

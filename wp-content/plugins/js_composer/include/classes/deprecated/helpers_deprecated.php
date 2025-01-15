@@ -1,10 +1,4 @@
 <?php
-/**
- * Helpers lib functions.
- *
- * @deprecated
- */
-
 if ( ! defined( 'ABSPATH' ) ) {
 	die( '-1' );
 }
@@ -12,9 +6,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * Helper function to register new shortcode attribute hook.
  *
- * @param string $name - attribute name.
- * @param callable $form_field_callback - hook, will be called when settings form is shown and attribute added to shortcode param list.
- * @param string $script_url - javascript file url which will be attached at the end of settings form.
+ * @param $name - attribute name
+ * @param $form_field_callback - hook, will be called when settings form is shown and attribute added to shortcode
+ *     param list
+ * @param $script_url - javascript file url which will be attached at the end of settings form.
  *
  * @return bool
  * @deprecated due to without prefix name 4.4
@@ -27,8 +22,6 @@ function add_shortcode_param( $name, $form_field_callback, $script_url = null ) 
 }
 
 /**
- * Get row css class.
- *
  * @return mixed|string
  * @since 4.2
  * @deprecated 4.2
@@ -41,8 +34,6 @@ function get_row_css_class() {
 }
 
 /**
- * Generate dependencies attributes for shortcode.
- *
  * @return string
  * @deprecated 5.2
  */
@@ -55,49 +46,43 @@ function vc_generate_dependencies_attributes() {
 /**
  * Extract width/height from string
  *
- * @param string $dimensions WxH.
- * @return mixed array(width, height) or false.
+ * @param string $dimensions WxH
+ * @return mixed array(width, height) or false
  * @since 4.7
  *
  * @deprecated since 5.8
  */
-function vcExtractDimensions( $dimensions ) { // phpcs:ignore
+function vcExtractDimensions( $dimensions ) {
 	_deprecated_function( 'vcExtractDimensions', '5.8', 'vc_extract_dimensions' );
 
 	return vc_extract_dimensions( $dimensions );
 }
 
 /**
- * Get image by attachment id.
- *
- * @param array $images IDs or srcs of images.
+ * @param array $images IDs or srcs of images
  * @return string
  * @since 4.2
  * @deprecated since 2019, 5.8
  */
-function fieldAttachedImages( $images = array() ) { // phpcs:ignore
+function fieldAttachedImages( $images = array() ) {
 	_deprecated_function( 'fieldAttachedImages', '5.8', 'vc_field_attached_images' );
 
 	return vc_field_attached_images( $images );
 }
 
 /**
- * Get shared asset.
- *
  * @param string $asset
  *
  * @return array|string
  * @deprecated
  */
-function getVcShared( $asset = '' ) { // phpcs:ignore
-	_deprecated_function( 'getVcShared', '5.8', 'vc_get_shared' );
+function getVcShared( $asset = '' ) {
 
 	return vc_get_shared( $asset );
 }
 
 /**
  * Return a action param for ajax
- *
  * @return bool
  * @since 4.8
  * @deprecated 6.1

@@ -1,10 +1,4 @@
 <?php
-/**
- * Abstract class for managing a shortcodes.
- *
- * Provides methods to handle shortcode settings, assets, templates, and rendering.
- */
-
 if ( ! defined( 'ABSPATH' ) ) {
 	die( '-1' );
 }
@@ -14,116 +8,74 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 abstract class WPBakeryShortCode {
 	/**
-	 * Configurations for the shortcode.
-	 *
-	 * @var array
+	 * @var
 	 */
 	public static $config;
-
 	/**
-	 * CSS settings for controls.
-	 *
 	 * @var string
 	 */
 	protected $controls_css_settings = 'cc';
-
 	/**
-	 * Backend section controls.
-	 *
-	 * @note For frontend editor section controls, please see
-	 * include/templates/editors/partials/frontend_controls.tpl.php
-	 *
 	 * @var array
 	 */
 	protected $controls_list = array(
 		'edit',
 		'clone',
-		'copy',
 		'delete',
 	);
 
 	/**
-	 * Content of the shortcode.
-	 *
 	 * @var string
 	 */
 	protected $shortcode_content = '';
 
 	/**
-	 * Tag for the shortcode.
-	 *
-	 * @var string
+	 * @var string - shortcode tag
 	 */
 	protected $shortcode;
-
 	/**
-	 * HTML template for rendering the shortcode.
-	 *
-	 * @var string
+	 * @var
 	 */
 	protected $html_template;
 
 	/**
-	 * Shortcode attributes.
-	 *
-	 * @var array
+	 * @var
 	 */
 	protected $atts;
 
 	/**
-	 * Shortcode settings.
-	 *
-	 * @var array
+	 * @var
 	 */
 	protected $settings;
 
 	/**
-	 * JavaScript scripts associated with the shortcode.
-	 *
 	 * @var array
 	 */
 	protected static $js_scripts = array();
-
 	/**
-	 * CSS scripts associated with the shortcode.
-	 *
 	 * @var array
 	 */
 	protected static $css_scripts = array();
-
 	/**
-	 * Flag to check if default scripts have been enqueued.
-	 *
+	 * default scripts like scripts
 	 * @var bool
 	 * @since 4.4.3
 	 */
 	protected static $default_scripts_enqueued = false;
-
 	/**
-	 * String representation of the shortcode.
-	 *
 	 * @var string
 	 */
 	protected $shortcode_string = '';
-
 	/**
-	 * Path to the template file for rendering controls.
-	 *
 	 * @var string
 	 */
 	protected $controls_template_file = 'editors/partials/backend_controls.tpl.php';
 
-	/**
-	 * CSS class for non-draggable elements.
-	 *
-	 * @var string
-	 */
 	public $nonDraggableClass = 'vc-non-draggable';
+	/** @noinspection PhpMissingParentConstructorInspection */
 
 	/**
-	 * Constructor.
-	 *
-	 * @param array $settings
+	 * @param $settings
 	 */
 	public function __construct( $settings ) {
 		$this->settings = $settings;
@@ -131,9 +83,7 @@ abstract class WPBakeryShortCode {
 	}
 
 	/**
-	 * Initialize.
-	 *
-	 * @param array $settings
+	 * @param $settings
 	 * @deprecated not used
 	 */
 	public function init( $settings ) {
@@ -141,10 +91,8 @@ abstract class WPBakeryShortCode {
 	}
 
 	/**
-	 * Add action.
-	 *
-	 * @param string $action
-	 * @param string $method
+	 * @param $action
+	 * @param $method
 	 * @param int $priority
 	 * @return true|void
 	 * @deprecated 6.0 use native WordPress actions
@@ -157,14 +105,13 @@ abstract class WPBakeryShortCode {
 	}
 
 	/**
-	 * Remove action.
-	 *
-	 * @param string $action
-	 * @param string $method
+	 * @param $action
+	 * @param $method
 	 * @param int $priority
 	 *
 	 * @return bool
 	 * @deprecated 6.0 use native WordPress actions
+	 *
 	 */
 	public function removeAction( $action, $method, $priority = 10 ) {
 		return remove_action( $action, array(
@@ -174,14 +121,13 @@ abstract class WPBakeryShortCode {
 	}
 
 	/**
-	 * Add filter.
-	 *
-	 * @param string $filter
-	 * @param string $method
+	 * @param $filter
+	 * @param $method
 	 * @param int $priority
 	 *
 	 * @return bool|void
 	 * @deprecated 6.0 use native WordPress actions
+	 *
 	 */
 	public function addFilter( $filter, $method, $priority = 10 ) {
 		return add_filter( $filter, array(
@@ -191,13 +137,12 @@ abstract class WPBakeryShortCode {
 	}
 
 	/**
-	 * Remove filter.
-	 *
-	 * @param string $filter
-	 * @param string $method
+	 * @param $filter
+	 * @param $method
 	 * @param int $priority
 	 * @return bool
 	 * @deprecated 6.0 use native WordPress
+	 *
 	 */
 	public function removeFilter( $filter, $method, $priority = 10 ) {
 		return remove_filter( $filter, array(
@@ -207,94 +152,86 @@ abstract class WPBakeryShortCode {
 	}
 
 	/**
-	 * Add shortcode.
-	 *
-	 * @param string $tag
-	 * @param string $func
+	 * @param $tag
+	 * @param $func
 	 * @deprecated 6.0 not used
+	 *
 	 */
 	public function addShortCode( $tag, $func ) {
-		// this function is deprecated since 6.0.
+		// this function is deprecated since 6.0
 	}
 
 	/**
-	 * Execute shortcode.
-	 *
-	 * @param string $content
+	 * @param $content
 	 * @deprecated 6.0 not used
+	 *
 	 */
 	public function doShortCode( $content ) {
-		// this function is deprecated since 6.0.
+		// this function is deprecated since 6.0
 	}
 
 	/**
-	 * Remove shortcode.
-	 *
-	 * @param string $tag
+	 * @param $tag
 	 * @deprecated 6.0 not used
+	 *
 	 */
 	public function removeShortCode( $tag ) {
-		// this function is deprecated since 6.0.
+		// this function is deprecated since 6.0
 	}
 
 	/**
-	 * Post param.
-	 *
-	 * @param string $param
+	 * @param $param
 	 *
 	 * @return null
 	 * @deprecated 6.0 not used, use vc_post_param
+	 *
 	 */
 	public function post( $param ) {
-		// this function is deprecated since 6.0.
+		// this function is deprecated since 6.0
+
 		return vc_post_param( $param );
 	}
 
 	/**
-	 * Get param.
-	 *
-	 * @param string $param
+	 * @param $param
 	 *
 	 * @return null
 	 * @deprecated 6.0 not used, use vc_get_param
+	 *
 	 */
 	public function get( $param ) {
-		// this function is deprecated since 6.0.
+		// this function is deprecated since 6.0
 
 		return vc_get_param( $param );
 	}
 
 	/**
-	 * Assets url.
-	 *
-	 * @param string $asset
+	 * @param $asset
 	 *
 	 * @return string
 	 * @deprecated 4.5 use vc_asset_url
+	 *
 	 */
 	public function assetURL( $asset ) {
-		// this function is deprecated since 4.5.
+		// this function is deprecated since 4.5
 
 		return vc_asset_url( $asset );
 	}
 
 	/**
-	 * Assets path.
-	 *
-	 * @param string $asset
+	 * @param $asset
 	 *
 	 * @return string
 	 * @deprecated 6.0 not used
 	 */
 	public function assetPath( $asset ) {
-		// this function is deprecated since 6.0.
+		// this function is deprecated since 6.0
+
 		return self::$config['APP_ROOT'] . self::$config['ASSETS_DIR'] . $asset;
 	}
 
 	/**
-	 * Config.
-	 *
-	 * @param string $name
+	 * @param $name
 	 *
 	 * @return null
 	 * @deprecated 6.0 not used
@@ -304,9 +241,7 @@ abstract class WPBakeryShortCode {
 	}
 
 	/**
-	 * Get inline anchor.
-	 *
-	 * @param string $content
+	 * @param $content
 	 *
 	 * @return string
 	 */
@@ -315,7 +250,7 @@ abstract class WPBakeryShortCode {
 	}
 
 	/**
-	 * Enqueue assets.
+	 *
 	 */
 	public function enqueueAssets() {
 		if ( ! empty( $this->settings['admin_enqueue_js'] ) ) {
@@ -364,9 +299,7 @@ abstract class WPBakeryShortCode {
 	}
 
 	/**
-	 * Register js.
-	 *
-	 * @param mixed $param
+	 * @param $param
 	 */
 	protected function registerJs( $param ) {
 		if ( is_array( $param ) && ! empty( $param ) ) {
@@ -381,9 +314,7 @@ abstract class WPBakeryShortCode {
 	}
 
 	/**
-	 * Register css.
-	 *
-	 * @param mixed $param
+	 * @param $param
 	 */
 	protected function registerCss( $param ) {
 		if ( is_array( $param ) && ! empty( $param ) ) {
@@ -398,7 +329,7 @@ abstract class WPBakeryShortCode {
 	}
 
 	/**
-	 * Enqueue css.
+	 *
 	 */
 	public static function enqueueCss() {
 		if ( ! empty( self::$css_scripts ) ) {
@@ -409,7 +340,7 @@ abstract class WPBakeryShortCode {
 	}
 
 	/**
-	 * Enqueue js.
+	 *
 	 */
 	public static function enqueueJs() {
 		if ( ! empty( self::$js_scripts ) ) {
@@ -420,18 +351,14 @@ abstract class WPBakeryShortCode {
 	}
 
 	/**
-	 * Get shortcode.
-	 *
-	 * @param string $shortcode
+	 * @param $shortcode
 	 */
 	public function shortcode( $shortcode ) {
+
 	}
 
 	/**
-	 * Set shortcode template.
-	 *
-	 * @see include/templates
-	 * @param mixed $template
+	 * @param $template
 	 *
 	 * @return string
 	 */
@@ -440,9 +367,6 @@ abstract class WPBakeryShortCode {
 	}
 
 	/**
-	 * Get shortcode template.
-	 *
-	 * @see include/templates
 	 * @return bool
 	 */
 	protected function getTemplate() {
@@ -454,8 +378,6 @@ abstract class WPBakeryShortCode {
 	}
 
 	/**
-	 * Get name.
-	 *
 	 * @return mixed
 	 */
 	protected function getFileName() {
@@ -466,18 +388,18 @@ abstract class WPBakeryShortCode {
 	 * Find html template for shortcode output.
 	 */
 	protected function findShortcodeTemplate() {
-		// Check template path in shortcode's mapping settings.
+		// Check template path in shortcode's mapping settings
 		if ( ! empty( $this->settings['html_template'] ) && is_file( $this->settings( 'html_template' ) ) ) {
 			return $this->setTemplate( $this->settings['html_template'] );
 		}
 
-		// Check template in theme directory.
+		// Check template in theme directory
 		$user_template = vc_shortcodes_theme_templates_dir( $this->getFileName() . '.php' );
 		if ( is_file( $user_template ) ) {
 			return $this->setTemplate( $user_template );
 		}
 
-		// Check default place.
+		// Check default place
 		$default_dir = vc_manager()->getDefaultShortcodesTemplatesDir() . '/';
 		if ( is_file( $default_dir . $this->getFileName() . '.php' ) ) {
 			return $this->setTemplate( $default_dir . $this->getFileName() . '.php' );
@@ -492,9 +414,7 @@ abstract class WPBakeryShortCode {
 	}
 
 	/**
-	 * Get shortcode content.
-	 *
-	 * @param array $atts
+	 * @param $atts
 	 * @param null $content
 	 *
 	 * @return mixed
@@ -505,13 +425,11 @@ abstract class WPBakeryShortCode {
 	}
 
 	/**
-	 * Get shortcode output.
-	 *
-	 * @param array $atts
+	 * @param $atts
 	 * @param null $content
 	 *
-	 * @see vc_filter: vc_shortcode_content_filter - hook to edit template content
-	 * @see vc_filter: vc_shortcode_content_filter_after - hook after template is loaded to override output
+	 * vc_filter: vc_shortcode_content_filter - hook to edit template content
+	 * vc_filter: vc_shortcode_content_filter_after - hook after template is loaded to override output
 	 *
 	 * @return mixed
 	 * @throws \Exception
@@ -519,19 +437,19 @@ abstract class WPBakeryShortCode {
 	protected function loadTemplate( $atts, $content = null ) {
 		$output = '';
 		if ( ! is_null( $content ) ) {
-			// string $content.
+			/** @var string $content */
 			$content = apply_filters( 'vc_shortcode_content_filter', $content, $this->shortcode, $atts );
 		}
 		$this->findShortcodeTemplate();
 		if ( $this->html_template && file_exists( $this->html_template ) ) {
 			if ( strpos( $this->html_template, WPB_PLUGIN_DIR ) === false ) {
-				// Modified or new.
+				// Modified or new
 				Vc_Modifications::$modified = true;
 			}
 			ob_start();
-			// @var string $content - used inside template.
+			/** @var string $content - used inside template */
 			$output = require $this->html_template;
-			// Allow return in template files.
+			// Allow return in template files
 			if ( 1 === $output ) {
 				$output = ob_get_contents();
 			}
@@ -542,10 +460,8 @@ abstract class WPBakeryShortCode {
 	}
 
 	/**
-	 * Get admin output.
-	 *
-	 * @param array $atts
-	 * @param string $content
+	 * @param $atts
+	 * @param $content
 	 *
 	 * @return string
 	 * @throws \Exception
@@ -574,8 +490,6 @@ abstract class WPBakeryShortCode {
 	}
 
 	/**
-	 * Check if admin.
-	 *
 	 * @return bool
 	 */
 	public function isAdmin() {
@@ -583,8 +497,6 @@ abstract class WPBakeryShortCode {
 	}
 
 	/**
-	 * Check if inline.
-	 *
 	 * @return bool
 	 */
 	public function isInline() {
@@ -592,8 +504,6 @@ abstract class WPBakeryShortCode {
 	}
 
 	/**
-	 * Check if editor.
-	 *
 	 * @return bool
 	 */
 	public function isEditor() {
@@ -601,9 +511,7 @@ abstract class WPBakeryShortCode {
 	}
 
 	/**
-	 * Get shortcode output.
-	 *
-	 * @param array $atts
+	 * @param $atts
 	 * @param null $content
 	 * @param string $base
 	 *
@@ -613,9 +521,6 @@ abstract class WPBakeryShortCode {
 	 * @throws \Exception
 	 */
 	public function output( $atts, $content = null, $base = '' ) {
-		if ( '' !== $base ) {
-			_deprecated_argument( __METHOD__, '7.9', '$base' );
-		}
 		$this->atts = $prepared_atts = $this->prepareAtts( $atts );
 		$this->shortcode_content = $content;
 		$output = '';
@@ -625,37 +530,34 @@ abstract class WPBakeryShortCode {
 		} else {
 			$this->enqueueDefaultScripts();
 			$custom_output = VC_SHORTCODE_CUSTOMIZE_PREFIX . $this->shortcode;
-			$custom_output_before = VC_SHORTCODE_BEFORE_CUSTOMIZE_PREFIX . $this->shortcode; // before shortcode function hook.
-			$custom_output_after = VC_SHORTCODE_AFTER_CUSTOMIZE_PREFIX . $this->shortcode; // after shortcode function hook.
+			$custom_output_before = VC_SHORTCODE_BEFORE_CUSTOMIZE_PREFIX . $this->shortcode; // before shortcode function hook
+			$custom_output_after = VC_SHORTCODE_AFTER_CUSTOMIZE_PREFIX . $this->shortcode; // after shortcode function hook
 
-			// Before shortcode.
+			// Before shortcode
 			if ( function_exists( $custom_output_before ) ) {
 				$output .= $custom_output_before( $this->atts, $content );
 			} else {
 				$output .= $this->beforeShortcode( $this->atts, $content );
 			}
-			// Shortcode content.
+			// Shortcode content
 			if ( function_exists( $custom_output ) ) {
 				$output .= $custom_output( $this->atts, $content );
 			} else {
 				$output .= $this->content( $this->atts, $content );
 			}
-			// After shortcode.
+			// After shortcode
 			if ( function_exists( $custom_output_after ) ) {
 				$output .= $custom_output_after( $this->atts, $content );
 			} else {
 				$output .= $this->afterShortcode( $this->atts, $content );
 			}
 		}
-		// Filter for overriding outputs.
+		// Filter for overriding outputs
 		$output = apply_filters( 'vc_shortcode_output', $output, $this, $prepared_atts, $this->shortcode );
 
 		return $output;
 	}
 
-	/**
-	 * Enqueue default scripts.
-	 */
 	public function enqueueDefaultScripts() {
 		if ( false === self::$default_scripts_enqueued ) {
 			wp_enqueue_script( 'wpb_composer_front_js' );
@@ -666,7 +568,6 @@ abstract class WPBakeryShortCode {
 
 	/**
 	 * Return shortcode attributes, see \WPBakeryShortCode::output
-	 *
 	 * @return array
 	 * @since 4.4
 	 */
@@ -677,31 +578,29 @@ abstract class WPBakeryShortCode {
 	/**
 	 * Creates html before shortcode html.
 	 *
-	 * @param array $atts - shortcode attributes list.
-	 * @param string $content - shortcode content.
+	 * @param $atts - shortcode attributes list
+	 * @param $content - shortcode content
 	 *
 	 * @return string - html which will be displayed before shortcode html.
 	 */
-	public function beforeShortcode( $atts, $content ) { // phpcs:ignore:Generic.CodeAnalysis.UnusedFunctionParameter.FoundAfterLastUsed
+	public function beforeShortcode( $atts, $content ) {
 		return '';
 	}
 
 	/**
 	 * Creates html before shortcode html.
 	 *
-	 * @param array $atts - shortcode attributes list.
-	 * @param string $content - shortcode content.
+	 * @param $atts - shortcode attributes list
+	 * @param $content - shortcode content
 	 *
 	 * @return string - html which will be displayed after shortcode html.
 	 */
-	public function afterShortcode( $atts, $content ) { // phpcs:ignore:Generic.CodeAnalysis.UnusedFunctionParameter.FoundAfterLastUsed
+	public function afterShortcode( $atts, $content ) {
 		return '';
 	}
 
 	/**
-	 * Add element class.
-	 *
-	 * @param string $el_class
+	 * @param $el_class
 	 *
 	 * @return string
 	 */
@@ -715,9 +614,7 @@ abstract class WPBakeryShortCode {
 	}
 
 	/**
-	 * Add css animation.
-	 *
-	 * @param string $css_animation
+	 * @param $css_animation
 	 *
 	 * @return string
 	 */
@@ -735,20 +632,18 @@ abstract class WPBakeryShortCode {
 	/**
 	 * Create HTML comment for blocks only if wpb_debug=true
 	 *
-	 * @param string $initial
+	 * @param $string
 	 *
 	 * @return string
 	 * @deprecated 4.7 For debug type html comments use more generic debugComment function.
+	 *
 	 */
-	public function endBlockComment( $initial ) {
-		if ( null !== $initial ) {
-			_deprecated_argument( __METHOD__, '4.7', '$initial' );
-		}
+	public function endBlockComment( $string ) {
 		return '';
 	}
 
 	/**
-	 * If wpb_debug=true return HTML comment
+	 * if wpb_debug=true return HTML comment
 	 *
 	 * @param string $comment
 	 *
@@ -757,36 +652,27 @@ abstract class WPBakeryShortCode {
 	 * @deprecated 5.5 no need for extra info in output, use xdebug
 	 */
 	public function debugComment( $comment ) {
-		if ( null !== $comment ) {
-			_deprecated_argument( __METHOD__, '7.9', '$comment' );
-		}
 		return '';
 	}
 
 	/**
-	 * Get specific settings.
+	 * @param $name
 	 *
-	 * @param string $name
-	 *
-	 * @return string|null
+	 * @return null
 	 */
 	public function settings( $name ) {
 		return isset( $this->settings[ $name ] ) ? $this->settings[ $name ] : null;
 	}
 
 	/**
-	 * Set settings.
-	 *
-	 * @param string $name
-	 * @param mixed $value
+	 * @param $name
+	 * @param $value
 	 */
 	public function setSettings( $name, $value ) {
 		$this->settings[ $name ] = $value;
 	}
 
 	/**
-	 * Get all settings.
-	 *
 	 * @return mixed
 	 * @since 5.5
 	 */
@@ -795,9 +681,7 @@ abstract class WPBakeryShortCode {
 	}
 
 	/**
-	 * Get shortcode element holder.
-	 *
-	 * @param string $width
+	 * @param $width
 	 *
 	 * @return string
 	 * @throws \Exception
@@ -818,10 +702,10 @@ abstract class WPBakeryShortCode {
 		return $output;
 	}
 
+	// Return block controls
+
 	/**
-	 * Return block controls.
-	 *
-	 * @param string $controls
+	 * @param $controls
 	 * @param string $extended_css
 	 *
 	 * @return string
@@ -859,8 +743,7 @@ abstract class WPBakeryShortCode {
 	}
 
 	/**
-	 * Return list of controls.
-	 *
+	 * Return list of controls
 	 * @return array
 	 * @throws \Exception
 	 */
@@ -909,8 +792,6 @@ abstract class WPBakeryShortCode {
 	}
 
 	/**
-	 * Add control classes.
-	 *
 	 * @return string
 	 * @throws \Exception
 	 */
@@ -925,17 +806,16 @@ abstract class WPBakeryShortCode {
 	/**
 	 * This will fire callbacks if they are defined in map.php
 	 *
-	 * @param string $id
+	 * @param $id
 	 *
 	 * @return string
 	 */
-	public function getCallbacks( $id = '' ) { // phpcs:ignore:Generic.CodeAnalysis.UnusedFunctionParameter.Found
-
+	public function getCallbacks( $id ) {
 		$output = '';
 
 		if ( isset( $this->settings['js_callback'] ) ) {
 			foreach ( $this->settings['js_callback'] as $text_val => $val ) {
-				// TODO: name explain.
+				// TODO: name explain
 				$output .= '<input type="hidden" class="wpb_vc_callback wpb_vc_' . esc_attr( $text_val ) . '_callback " name="' . esc_attr( $text_val ) . '" value="' . $val . '" />';
 			}
 		}
@@ -944,10 +824,8 @@ abstract class WPBakeryShortCode {
 	}
 
 	/**
-	 * Add params html holders.
-	 *
-	 * @param array $param
-	 * @param string $value
+	 * @param $param
+	 * @param $value
 	 *
 	 * vc_filter: vc_wpbakeryshortcode_single_param_html_holder_value - hook to override param value (param type and etc is available in args)
 	 *
@@ -956,7 +834,7 @@ abstract class WPBakeryShortCode {
 	public function singleParamHtmlHolder( $param, $value ) {
 		$value = apply_filters( 'vc_wpbakeryshortcode_single_param_html_holder_value', $value, $param, $this->settings, $this->atts );
 		$output = '';
-		// Compatibility fixes.
+		// Compatibility fixes
 		$old_names = array(
 			'yellow_message',
 			'blue_message',
@@ -1003,9 +881,7 @@ abstract class WPBakeryShortCode {
 	}
 
 	/**
-	 * Retrieve icon.
-	 *
-	 * @param array $params
+	 * @param $params
 	 *
 	 * @return string
 	 */
@@ -1019,13 +895,11 @@ abstract class WPBakeryShortCode {
 			$title = 'title="' . esc_attr( $params['title'] ) . '" ';
 		}
 
-		return '<i ' . $title . ' class="vc_general vc_element-icon' . ( ! empty( $params['icon'] ) ? ' ' . sanitize_text_field( $params['icon'] ) : '' ) . '"' . $data . '></i> ';
+		return '<i ' . $title . 'class="vc_general vc_element-icon' . ( ! empty( $params['icon'] ) ? ' ' . sanitize_text_field( $params['icon'] ) : '' ) . '"' . $data . '></i> ';
 	}
 
 	/**
-	 * Get title.
-	 *
-	 * @param string $title
+	 * @param $title
 	 *
 	 * @return string
 	 */
@@ -1043,8 +917,6 @@ abstract class WPBakeryShortCode {
 	}
 
 	/**
-	 * Get template.
-	 *
 	 * @param string $content
 	 *
 	 * @return string
@@ -1055,10 +927,10 @@ abstract class WPBakeryShortCode {
 	}
 
 	/**
-	 * This functions prepares attributes to use in template.
-	 * Converts back escaped characters.
+	 * This functions prepares attributes to use in template
+	 * Converts back escaped characters
 	 *
-	 * @param array $atts
+	 * @param $atts
 	 *
 	 * @return array
 	 */
@@ -1082,8 +954,6 @@ abstract class WPBakeryShortCode {
 	}
 
 	/**
-	 * Get shortcode.
-	 *
 	 * @return string
 	 */
 	public function getShortcode() {
@@ -1091,8 +961,7 @@ abstract class WPBakeryShortCode {
 	}
 
 	/**
-	 * Get custom markup.
-	 *
+	 * Since 4.5
 	 * Possible placeholders:
 	 *      {{ content }}
 	 *      {{ title }}
@@ -1102,8 +971,7 @@ abstract class WPBakeryShortCode {
 	 *  {{
 	 *  <%
 	 *  %
-	 *
-	 * @param string $markup
+	 * @param $markup
 	 * @param string $content
 	 *
 	 * @return string
@@ -1149,9 +1017,7 @@ abstract class WPBakeryShortCode {
 	}
 
 	/**
-	 * Get params html holders.
-	 *
-	 * @param array $atts
+	 * @param $atts
 	 *
 	 * @return string
 	 */
@@ -1172,8 +1038,10 @@ abstract class WPBakeryShortCode {
 	 *
 	 * @return bool
 	 * @since 4.8
+	 *
 	 */
 	public function getAddAllowed() {
 		return true;
 	}
 }
+

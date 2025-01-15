@@ -1,12 +1,4 @@
 <?php
-/**
- * Controls access for the current user.
- *
- * Manages user permissions, capabilities, and access rules.
- * Extends Vc_Role_Access_Controller to handle user-specific
- * permissions and roles in the Visual Composer context.
- */
-
 if ( ! defined( 'ABSPATH' ) ) {
 	die( '-1' );
 }
@@ -19,8 +11,6 @@ require_once vc_path_dir( 'CORE_DIR', 'access/class-vc-role-access-controller.ph
 class Vc_Current_User_Access_Controller extends Vc_Role_Access_Controller {
 
 	/**
-	 * Sets the access control part and validates user login status.
-	 *
 	 * @param string $part
 	 *
 	 * @return $this
@@ -36,11 +26,9 @@ class Vc_Current_User_Access_Controller extends Vc_Role_Access_Controller {
 	}
 
 	/**
-	 *  Performs a capability check across multiple arguments using a callback function.
-	 *
-	 * @param callable $callback
-	 * @param bool $valid
-	 * @param array $argsList
+	 * @param $callback
+	 * @param $valid
+	 * @param $argsList
 	 *
 	 * @return $this
 	 */
@@ -48,6 +36,7 @@ class Vc_Current_User_Access_Controller extends Vc_Role_Access_Controller {
 		if ( $this->getValidAccess() ) {
 			require_once ABSPATH . 'wp-includes/pluggable.php';
 			$access = ! $valid;
+			/** @var Application $vcapp */
 			$vcapp = vcapp();
 			foreach ( $argsList as &$args ) {
 				if ( ! is_array( $args ) ) {
@@ -68,7 +57,7 @@ class Vc_Current_User_Access_Controller extends Vc_Role_Access_Controller {
 	}
 
 	/**
-	 * Check WordPress capability. Should be valid one cap at least.
+	 * Check Wordpress capability. Should be valid one cap at least.
 	 *
 	 * @return $this
 	 */
@@ -85,7 +74,7 @@ class Vc_Current_User_Access_Controller extends Vc_Role_Access_Controller {
 	}
 
 	/**
-	 * Check WordPress capability. Should be valid all caps.
+	 * Check Wordpress capability. Should be valid all caps.
 	 *
 	 * @return $this
 	 */
@@ -104,7 +93,7 @@ class Vc_Current_User_Access_Controller extends Vc_Role_Access_Controller {
 	/**
 	 * Get capability for current user.
 	 *
-	 * @param string $rule
+	 * @param $rule
 	 *
 	 * @return bool
 	 */
@@ -117,7 +106,7 @@ class Vc_Current_User_Access_Controller extends Vc_Role_Access_Controller {
 	/**
 	 * Add capability to role.
 	 *
-	 * @param string $rule
+	 * @param $rule
 	 * @param bool $value
 	 *
 	 * @return $this
@@ -153,8 +142,7 @@ class Vc_Current_User_Access_Controller extends Vc_Role_Access_Controller {
 		}
 
 		if ( $this->getValidAccess() ) {
-			// Administrators have all access always.
-            // phpcs:ignore
+			// Administrators have all access always
 			if ( current_user_can( 'administrator' ) ) {
 				$this->setValidAccess( true );
 
@@ -181,11 +169,6 @@ class Vc_Current_User_Access_Controller extends Vc_Role_Access_Controller {
 		return $this;
 	}
 
-	/**
-	 * Set state.
-	 *
-	 * @param mixed $value
-	 */
 	public function setState( $value = true ) {
 		if ( false === $value && is_null( $value ) ) {
 			wp_get_current_user()->remove_cap( $this->getStateKey() );
@@ -205,7 +188,6 @@ class Vc_Current_User_Access_Controller extends Vc_Role_Access_Controller {
 	public function getState() {
 		$currentUser = wp_get_current_user();
 		$allCaps = $currentUser->get_role_caps();
-        // phpcs:ignore
 		if ( current_user_can( 'administrator' ) ) {
 			return true;
 		}
@@ -215,27 +197,9 @@ class Vc_Current_User_Access_Controller extends Vc_Role_Access_Controller {
 			$state = $allCaps[ $capKey ];
 		}
 
-		// if state of rule not saving in settings we should get default value of it.
-		if ( is_null( $state ) && isset( $currentUser->roles ) ) {
-			foreach ( $currentUser->roles as $role ) {
-				$state = vc_role_access()->who( $role )->part( $this->getPart() )->getState();
-
-				if ( is_null( $state ) ) {
-					continue;
-				} else {
-					break;
-				}
-			}
-		}
-
 		return apply_filters( 'vc_user_access_with_' . $this->getPart() . '_get_state', $state, $this->getPart() );
 	}
 
-	/**
-	 * Get all capabilities for current user.
-	 *
-	 * @return array
-	 */
 	public function getAllCaps() {
 		$currentUser = wp_get_current_user();
 		$allCaps = $currentUser->get_role_caps();

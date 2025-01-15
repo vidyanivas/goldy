@@ -1,8 +1,4 @@
 <?php
-/**
- * Renders grid item preview.
- */
-
 if ( ! defined( 'ABSPATH' ) ) {
 	die( '-1' );
 }
@@ -11,23 +7,9 @@ if ( ! defined( 'ABSPATH' ) ) {
  * Class Vc_Grid_Item_Preview
  */
 class Vc_Grid_Item_Preview {
-	/**
-	 * Shortcodes string.
-	 *
-	 * @var string
-	 */
 	protected $shortcodes_string = '';
-
-	/**
-	 * Post ID.
-	 *
-	 * @var bool|int
-	 */
 	protected $post_id = false;
 
-	/**
-	 * Render template item preview output.
-	 */
 	public function render() {
 		$this->post_id = (int) vc_request_param( 'post_id' );
 		$this->shortcodes_string = stripslashes( vc_request_param( 'shortcodes_string', true ) );
@@ -47,9 +29,7 @@ class Vc_Grid_Item_Preview {
 	}
 
 	/**
-	 * Add css background image css.
-	 *
-	 * @param string $css
+	 * @param $css
 	 * @return string
 	 */
 	public function addCssBackgroundImage( $css ) {
@@ -61,9 +41,7 @@ class Vc_Grid_Item_Preview {
 	}
 
 	/**
-	 * Add image url.
-	 *
-	 * @param string $url
+	 * @param $url
 	 * @return string
 	 */
 	public function addImageUrl( $url ) {
@@ -75,9 +53,7 @@ class Vc_Grid_Item_Preview {
 	}
 
 	/**
-	 * Add image.
-	 *
-	 * @param string $img
+	 * @param $img
 	 * @return string
 	 */
 	public function addImage( $img ) {
@@ -89,27 +65,29 @@ class Vc_Grid_Item_Preview {
 	}
 
 	/**
-	 * Disable content link.
 	 *
-	 * @param string $link
-	 * @param array $atts
-	 * @param string $css_class
+	 * @param $link
+	 *
+	 * @param $atts
+	 * @param $css_class
 	 * @return string
 	 * @since 4.5
+	 *
 	 */
 	public function disableContentLink( $link, $atts, $css_class ) {
 		return 'a' . ( strlen( $css_class ) > 0 ? ' class="' . esc_attr( $css_class ) . '"' : '' );
 	}
 
 	/**
-	 * Disable real content link.
 	 *
-	 * @param string $link
-	 * @param array $atts
-	 * @param WP_Post $post
-	 * @param string $css_class
+	 * @param $link
+	 *
+	 * @param $atts
+	 * @param $post
+	 * @param $css_class
 	 * @return string
 	 * @since 4.5
+	 *
 	 */
 	public function disableRealContentLink( $link, $atts, $post, $css_class ) {
 		return 'a' . ( strlen( $css_class ) > 0 ? ' class="' . esc_attr( $css_class ) . '"' : '' );
@@ -117,22 +95,16 @@ class Vc_Grid_Item_Preview {
 
 	/**
 	 * Used for filter: vc_gitem_zone_image_block_link
-	 *
-	 * @param string $link
+	 * @param $link
 	 *
 	 * @return string
 	 * @since 4.5
+	 *
 	 */
 	public function disableGitemZoneLink( $link ) {
-		if ( null === $link ) {
-			_deprecated_argument( __METHOD__, '7.9', '$link' );
-		}
 		return '';
 	}
 
-	/**
-	 * Enqueue assets.
-	 */
 	public function enqueue() {
 		wpbakery()->frontCss();
 		wpbakery()->frontJsRegister();
@@ -140,10 +112,7 @@ class Vc_Grid_Item_Preview {
 		wp_enqueue_style( 'prettyphoto' );
 		wp_enqueue_style( 'js_composer_front' );
 		wp_enqueue_script( 'wpb_composer_front_js' );
-
-		if ( vc_modules_manager()->is_module_on( 'custom_css' ) ) {
-			wp_enqueue_style( 'js_composer_custom_css' );
-		}
+		wp_enqueue_style( 'js_composer_custom_css' );
 
 		VcShortcodeAutoloader::getInstance()->includeClass( 'WPBakeryShortCode_Vc_Basic_Grid' );
 
@@ -153,9 +122,7 @@ class Vc_Grid_Item_Preview {
 	}
 
 	/**
-	 * Set mock post values.
-	 *
-	 * @return array|WP_Post|null
+	 * @return array|\WP_Post|null
 	 */
 	public function mockingPost() {
 		$post = get_post( $this->post_id );
@@ -173,10 +140,8 @@ class Vc_Grid_Item_Preview {
 	}
 
 	/**
-	 * Get the categories.
-	 *
-	 * @param array $categories
-	 * @param int $post_id
+	 * @param $categories
+	 * @param $post_id
 	 * @return array
 	 */
 	public function getTheCategories( $categories, $post_id ) {
@@ -192,9 +157,7 @@ class Vc_Grid_Item_Preview {
 	}
 
 	/**
-	 * Add placeholder image.
-	 *
-	 * @param mixed $img
+	 * @param $img
 	 * @return array
 	 */
 	public function addPlaceholderImage( $img ) {

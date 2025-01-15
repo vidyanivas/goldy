@@ -1,15 +1,7 @@
 <?php
-/**
- * Autoload hooks related to grid editor.
- *
- * @note we require our autoload files everytime and everywhere after plugin load.
- * @since 4.4
- */
-
 if ( ! defined( 'ABSPATH' ) ) {
 	die( '-1' );
 }
-
 global $vc_grid_item_editor;
 /**
  * Creates new post type for grid_editor.
@@ -21,14 +13,12 @@ function vc_grid_item_editor_create_post_type() {
 		require_once vc_path_dir( 'PARAMS_DIR', 'vc_grid_item/editor/class-vc-grid-item-editor.php' );
 		Vc_Grid_Item_Editor::createPostType();
 		add_action( 'vc_menu_page_build', 'vc_gitem_add_submenu_page' );
-		// TODO: add check vendor is active.
+		// TODO: add check vendor is active
 		add_filter( 'vc_vendor_qtranslate_enqueue_js_backend', 'vc_vendor_qtranslate_enqueue_js_backend_grid_editor' );
 	}
 }
 
 /**
- * Init for vendor.
- *
  * @since 4.5
  */
 function vc_vendor_qtranslate_enqueue_js_backend_grid_editor() {
@@ -55,7 +45,6 @@ function vc_grid_item_editor_init() {
 
 /**
  *  Render preview for grid item
- *
  * @since 4.4
  */
 function vc_grid_item_render_preview() {
@@ -68,40 +57,40 @@ function vc_grid_item_render_preview() {
 	$grid_item = new Vc_Grid_Item();
 	$grid_item->mapShortcodes();
 	require_once vc_path_dir( 'PARAMS_DIR', 'vc_grid_item/editor/class-vc-grid-item-preview.php' );
-	$vc_grid_preview = new Vc_Grid_Item_Preview();
+	$vcGridPreview = new Vc_Grid_Item_Preview();
 	add_filter( 'vc_gitem_template_attribute_post_image_background_image_css_value', array(
-		$vc_grid_preview,
+		$vcGridPreview,
 		'addCssBackgroundImage',
 	) );
 	add_filter( 'vc_gitem_template_attribute_post_image_url_value', array(
-		$vc_grid_preview,
+		$vcGridPreview,
 		'addImageUrl',
 	) );
 	add_filter( 'vc_gitem_template_attribute_post_full_image_url_value', array(
-		$vc_grid_preview,
+		$vcGridPreview,
 		'addImageUrl',
 	) );
 	add_filter( 'vc_gitem_template_attribute_post_image_html', array(
-		$vc_grid_preview,
+		$vcGridPreview,
 		'addImage',
 	) );
 	add_filter( 'vc_gitem_attribute_featured_image_img', array(
-		$vc_grid_preview,
+		$vcGridPreview,
 		'addPlaceholderImage',
 	) );
 	add_filter( 'vc_gitem_post_data_get_link_real_link', array(
-		$vc_grid_preview,
+		$vcGridPreview,
 		'disableRealContentLink',
 	), 10, 4 );
 	add_filter( 'vc_gitem_post_data_get_link_link', array(
-		$vc_grid_preview,
+		$vcGridPreview,
 		'disableContentLink',
 	), 10, 3 );
 	add_filter( 'vc_gitem_zone_image_block_link', array(
-		$vc_grid_preview,
+		$vcGridPreview,
 		'disableGitemZoneLink',
 	) );
-	$vc_grid_preview->render();
+	$vcGridPreview->render();
 	die();
 }
 
@@ -136,13 +125,13 @@ function vc_grid_item_get_post_type() {
 
 /**
  * Check and Map grid element shortcodes if required.
- *
  * @since 4.5
  */
 function vc_grid_item_editor_shortcodes() {
 	require_once vc_path_dir( 'PARAMS_DIR', 'vc_grid_item/editor/class-vc-grid-item-editor.php' );
-	// TODO: remove this because mapping can be based on post_type.
-	if ( ( 'true' === vc_request_param( 'vc_grid_item_editor' ) || ( is_admin() && vc_grid_item_get_post_type() === Vc_Grid_Item_Editor::postType() ) && vc_user_access()->wpAny( 'edit_posts', 'edit_pages' )->part( 'grid_builder' )->can()->get() ) ) {
+	// TODO: remove this because mapping can be based on post_type
+	if ( ( 'true' === vc_request_param( 'vc_grid_item_editor' ) || ( is_admin() && vc_grid_item_get_post_type() === Vc_Grid_Item_Editor::postType() ) && vc_user_access()
+			->wpAny( 'edit_posts', 'edit_pages' )->part( 'grid_builder' )->can()->get() ) ) {
 
 		global $vc_grid_item_editor;
 		add_action( 'vc_user_access_check-shortcode_edit', array(
@@ -159,7 +148,7 @@ function vc_grid_item_editor_shortcodes() {
 }
 
 /**
- * Add action in admin for vc grid item editor manager
+ * add action in admin for vc grid item editor manager
  */
 add_action( 'init', 'vc_grid_item_editor_create_post_type' );
 add_action( 'admin_init', 'vc_grid_item_editor_init' );
@@ -177,9 +166,7 @@ if ( is_admin() ) {
 }
 
 /**
- * Register pointers for grid item editor.
- *
- * @param array $pointers
+ * @param $pointers
  * @return mixed
  */
 function vc_grid_item_register_pointer( $pointers ) {
@@ -231,7 +218,7 @@ function vc_grid_item_register_pointer( $pointers ) {
 				array(
 					'target' => '#wpadminbar',
 					'options' => array(
-						'content' => sprintf( '<h3> %s </h3> %s', esc_html__( 'Watch Video Tutorial', 'js_composer' ), '<p>' . esc_html__( 'Have a look how easy it is to work with grid element builder.', 'js_composer' ) . '</p><iframe width="500" height="281" src="https://www.youtube.com/embed/sBvEiIL6Blo" frameborder="0" allowfullscreen></iframe>' ),
+						'content' => sprintf( '<h3> %s </h3> %s', esc_html__( 'Watch Video Tutorial', 'js_composer' ), '<p>' . esc_html__( 'Have a look how easy it is to work with grid element builder.', 'js_composer' ) . '</p>' . '<iframe width="500" height="281" src="https://www.youtube.com/embed/sBvEiIL6Blo" frameborder="0" allowfullscreen></iframe>' ),
 						'position' => array(
 							'edge' => 'top',
 							'align' => 'center',
@@ -248,8 +235,6 @@ function vc_grid_item_register_pointer( $pointers ) {
 }
 
 /**
- * Get shortcodes for grid item content.
- *
  * @return array|mixed|void
  */
 function vc_gitem_content_shortcodes() {
@@ -270,9 +255,7 @@ function vc_gitem_content_shortcodes() {
 }
 
 /**
- * Check if grid item has content.
- *
- * @param string $content
+ * @param $content
  * @return false|int
  */
 function vc_gitem_has_content( $content ) {
@@ -288,7 +271,7 @@ function vc_gitem_has_content( $content ) {
  * @since 4.5
  */
 function vc_gitem_add_submenu_page() {
-	if ( vc_user_access()->part( 'grid_builder' )->getState() ) {
+	if ( vc_user_access()->part( 'grid_builder' )->can()->get() ) {
 		$labels = Vc_Grid_Item_Editor::getPostTypesLabels();
 		add_submenu_page( VC_PAGE_MAIN_SLUG, $labels['name'], $labels['name'], 'edit_posts', 'edit.php?post_type=' . rawurlencode( Vc_Grid_Item_Editor::postType() ), '' );
 	}
@@ -296,7 +279,6 @@ function vc_gitem_add_submenu_page() {
 
 /**
  * Highlight Vc submenu.
- *
  * @since 4.5
  */
 function vc_gitem_menu_highlight() {
@@ -306,13 +288,11 @@ function vc_gitem_menu_highlight() {
 		$parent_file = VC_PAGE_MAIN_SLUG;
 		$submenu_file = 'edit.php?post_type=' . rawurlencode( Vc_Grid_Item_Editor::postType() );
 	}
+
 }
 
 add_action( 'admin_head', 'vc_gitem_menu_highlight' );
 
-/**
- * Set check for access to false if grid item editor is active.
- */
 function vc_gitem_set_mapper_check_access() {
 	if ( vc_user_access()->checkAdminNonce()->wpAny( 'edit_posts', 'edit_pages' )->part( 'grid_builder' )->can()->get() && 'true' === vc_post_param( 'vc_grid_item_editor' ) ) {
 		vc_mapper()->setCheckForAccess( false );

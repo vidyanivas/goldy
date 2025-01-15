@@ -1,10 +1,4 @@
 <?php
-/**
- * Configuration file for [vc_text_separator] shortcode of 'Separator with Text' element.
- *
- * @see https://kb.wpbakery.com/docs/inner-api/vc_map/ for more detailed information about element attributes.
- */
-
 if ( ! defined( 'ABSPATH' ) ) {
 	die( '-1' );
 }
@@ -21,7 +15,7 @@ $icons_params = vc_map_integrate_shortcode( $icon_params, 'i_', esc_html__( 'Ico
 		'link',
 		'css_animation',
 	),
-	// we need only type, icon_fontawesome, icon_blabla..., NOT color and etc.
+	// we need only type, icon_fontawesome, icon_blabla..., NOT color and etc
 ), array(
 	'element' => 'add_icon',
 	'value' => 'true',
@@ -32,7 +26,7 @@ if ( is_array( $icons_params ) && ! empty( $icons_params ) ) {
 	foreach ( $icons_params as $key => $param ) {
 		if ( is_array( $param ) && ! empty( $param ) ) {
 			if ( isset( $param['admin_label'] ) ) {
-				// remove admin label.
+				// remove admin label
 				unset( $icons_params[ $key ]['admin_label'] );
 			}
 		}
@@ -43,7 +37,6 @@ return array(
 	'name' => esc_html__( 'Separator with Text', 'js_composer' ),
 	'base' => 'vc_text_separator',
 	'icon' => 'icon-wpb-ui-separator-label',
-	'element_default_class' => 'wpb_content_element',
 	'category' => esc_html__( 'Content', 'js_composer' ),
 	'description' => esc_html__( 'Horizontal separator line with heading', 'js_composer' ),
 	'params' => array_merge( array(
@@ -95,7 +88,6 @@ return array(
 		array(
 			'type' => 'colorpicker',
 			'heading' => esc_html__( 'Custom Color', 'js_composer' ),
-			'default_colorpicker_color' => '#EBEBEB',
 			'param_name' => 'accent_color',
 			'description' => esc_html__( 'Custom separator color for your element.', 'js_composer' ),
 			'dependency' => array(
@@ -129,7 +121,7 @@ return array(
 			'type' => 'el_id',
 			'heading' => esc_html__( 'Element ID', 'js_composer' ),
 			'param_name' => 'el_id',
-			'description' => sprintf( esc_html__( 'Enter element ID (Note: make sure it is unique and valid according to %1$sw3c specification%2$s).', 'js_composer' ), '<a href="https://www.w3schools.com/tags/att_global_id.asp" target="_blank">', '</a>' ),
+			'description' => sprintf( esc_html__( 'Enter element ID (Note: make sure it is unique and valid according to %sw3c specification%s).', 'js_composer' ), '<a href="https://www.w3schools.com/tags/att_global_id.asp" target="_blank">', '</a>' ),
 		),
 		array(
 			'type' => 'textfield',
@@ -147,9 +139,6 @@ return array(
 			'heading' => esc_html__( 'CSS box', 'js_composer' ),
 			'param_name' => 'css',
 			'group' => esc_html__( 'Design Options', 'js_composer' ),
-			'value' => array(
-				'margin-bottom' => '35px',
-			),
 		),
 	) ),
 	'js_view' => 'VcTextSeparatorView',

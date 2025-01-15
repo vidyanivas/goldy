@@ -1,23 +1,17 @@
 <?php
-/**
- * Lib of functions related grid shortcodes elements.
- */
-
 if ( ! defined( 'ABSPATH' ) ) {
 	die( '-1' );
 }
 
 /**
- * Get taxonomies types for autocomplete.
- *
- * @param mixed $term
+ * @param $term
  *
  * @return array|bool
  * @since 4.5.2
+ *
  */
 function vc_autocomplete_taxonomies_field_render( $term ) {
 	$vc_taxonomies_types = vc_taxonomies_types();
-	// phpcs:ignore
 	$terms = get_terms( array_keys( $vc_taxonomies_types ), array(
 		'include' => array( $term['value'] ),
 		'hide_empty' => false,
@@ -32,12 +26,11 @@ function vc_autocomplete_taxonomies_field_render( $term ) {
 }
 
 /**
- * Get taxonomies search fields for autocomplete.
- *
- * @param string $search_string
+ * @param $search_string
  *
  * @return array|bool
  * @since 4.5.2
+ *
  */
 function vc_autocomplete_taxonomies_field_search( $search_string ) {
 	$data = array();
@@ -47,7 +40,6 @@ function vc_autocomplete_taxonomies_field_search( $search_string ) {
 	if ( empty( $vc_taxonomies_types ) ) {
 		return array();
 	}
-	// phpcs:ignore
 	$vc_taxonomies = get_terms( $vc_taxonomies_types, array(
 		'hide_empty' => false,
 		'search' => $search_string,
@@ -64,10 +56,8 @@ function vc_autocomplete_taxonomies_field_search( $search_string ) {
 }
 
 /**
- * Add search by title to search query.
- *
- * @param string $search
- * @param WP_Query $wp_query
+ * @param $search
+ * @param $wp_query
  *
  * @return string
  */
@@ -76,7 +66,7 @@ function vc_search_by_title_only( $search, $wp_query ) {
 	if ( empty( $search ) ) {
 		return $search;
 	}
-	// skip processing - no search term in query.
+	// skip processing - no search term in query
 	$q = $wp_query->query_vars;
 	if ( isset( $q['vc_search_by_title_only'] ) && $q['vc_search_by_title_only'] ) {
 		$n = ! empty( $q['exact'] ) ? '' : '%';
@@ -100,9 +90,7 @@ function vc_search_by_title_only( $search, $wp_query ) {
 }
 
 /**
- * Include search field to search query.
- *
- * @param string $search_string
+ * @param $search_string
  *
  * @return array
  */
@@ -134,9 +122,7 @@ function vc_include_field_search( $search_string ) {
 }
 
 /**
- * Include render field.
- *
- * @param array $value
+ * @param $value
  *
  * @return array|bool
  */
@@ -151,9 +137,7 @@ function vc_include_field_render( $value ) {
 }
 
 /**
- * Exclude search field from search query.
- *
- * @param array $data_arr
+ * @param $data_arr
  *
  * @return array
  */
@@ -189,9 +173,7 @@ function vc_exclude_field_search( $data_arr ) {
 }
 
 /**
- * Exclude render field.
- *
- * @param array $value
+ * @param $value
  *
  * @return array|bool
  */

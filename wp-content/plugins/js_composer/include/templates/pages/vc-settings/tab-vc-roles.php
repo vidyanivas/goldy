@@ -1,10 +1,4 @@
 <?php
-/**
- * Roles tab settings template.
- *
- * @var Vc_Page $page
- */
-
 if ( ! defined( 'ABSPATH' ) ) {
 	die( '-1' );
 }
@@ -97,9 +91,7 @@ $vc_role = new Vc_Roles();
 	<?php
 	wp_nonce_field( 'vc_settings-' . $tab . '-action', 'vc_nonce_field' );
 	$submit_button_attributes = array();
-    // phpcs:ignore:WordPress.NamingConventions.ValidHookName.UseUnderscores
 	$submit_button_attributes = apply_filters( 'vc_settings-tab-submit-button-attributes', $submit_button_attributes, $tab );
-    // phpcs:ignore:WordPress.NamingConventions.ValidHookName.UseUnderscores
 	$submit_button_attributes = apply_filters( 'vc_settings-tab-submit-button-attributes-' . $tab, $submit_button_attributes, $tab );
 	submit_button( esc_html__( 'Save Changes', 'js_composer' ), 'primary', 'submit_btn', true, $submit_button_attributes );
 	?>

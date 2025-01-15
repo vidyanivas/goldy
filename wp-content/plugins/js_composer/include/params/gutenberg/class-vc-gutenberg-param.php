@@ -1,7 +1,4 @@
 <?php
-/**
- * Base class for 'gutenberg' param type.
- */
 
 if ( ! defined( 'ABSPATH' ) ) {
 	header( 'Status: 403 Forbidden' );
@@ -13,16 +10,8 @@ if ( ! defined( 'ABSPATH' ) ) {
  * Class Vc_Gutenberg_Param
  */
 class Vc_Gutenberg_Param {
-	/**
-	 * The slug used for the custom post type associated with Gutenberg parameters.
-	 *
-	 * @var string
-	 */
 	protected $postTypeSlug = 'wpb_gutenberg_param';
 
-	/**
-	 * Vc_Gutenberg_Param constructor.
-	 */
 	public function __construct() {
 		add_action( 'init', array(
 			$this,
@@ -30,14 +19,12 @@ class Vc_Gutenberg_Param {
 		) );
 	}
 
-	/**
-	 * Initialize the class.
-	 */
 	public function initialize() {
 		global $pagenow, $wp_version;
-		if ( version_compare( $wp_version, '4.9.8', '>' ) && 'post-new.php' === $pagenow && vc_user_access()->wpAll( 'edit_posts' )->get() && vc_request_param( 'post_type' ) === $this->postTypeSlug ) {
+		if ( version_compare( $wp_version, '4.9.8', '>' ) && 'post-new.php' === $pagenow && vc_user_access()->wpAll( 'edit_posts' )
+				->get() && vc_request_param( 'post_type' ) === $this->postTypeSlug ) {
 			$this->registerGutenbergAttributeType();
-			// @see Vc_Gutenberg_Param::removeAdminUi
+			/** @see \Vc_Gutenberg_Param::removeAdminUi */
 			add_action( 'admin_enqueue_scripts', array(
 				$this,
 				'removeAdminUI',
@@ -45,9 +32,6 @@ class Vc_Gutenberg_Param {
 		}
 	}
 
-	/**
-	 * Removes the WordPress admin UI elements on the Gutenberg editor page.
-	 */
 	public function removeAdminUi() {
 		$style = '
             #adminmenumain, #wpadminbar {
@@ -85,9 +69,6 @@ class Vc_Gutenberg_Param {
 		wp_add_inline_style( 'wp-edit-blocks', $style );
 	}
 
-	/**
-	 * Registers the custom post type for Gutenberg attributes.
-	 */
 	protected function registerGutenbergAttributeType() {
 		$labels = array(
 			'name' => _x( 'Gutenberg attrs', 'Post type general name', 'js_composer' ),

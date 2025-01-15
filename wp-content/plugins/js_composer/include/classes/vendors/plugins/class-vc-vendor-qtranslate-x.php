@@ -1,24 +1,14 @@
 <?php
-/**
- * Backward compatibility with "qtranslate" WordPress plugin.
- *
- * @since 4.4 vendors initialization moved to hooks in autoload/vendors.
- */
-
 if ( ! defined( 'ABSPATH' ) ) {
 	die( '-1' );
 }
 
 /**
  * Class Vc_Vendor_QtranslateX
- *
  * @since 4.12
  */
 class Vc_Vendor_QtranslateX {
 
-	/**
-	 * Load hooks.
-	 */
 	public function load() {
 		add_action( 'vc_backend_editor_render', array(
 			$this,
@@ -46,9 +36,6 @@ class Vc_Vendor_QtranslateX {
 		}
 	}
 
-	/**
-	 * Enqueue JS for backend.
-	 */
 	public function enqueueJsBackend() {
 		wp_enqueue_script( 'vc_vendor_qtranslatex_backend', vc_asset_url( 'js/vendors/qtranslatex_backend.js' ), array(
 			'vc-backend-min-js',
@@ -57,9 +44,7 @@ class Vc_Vendor_QtranslateX {
 	}
 
 	/**
-	 * Append language to URL.
-	 *
-	 * @param string $link
+	 * @param $link
 	 * @return string
 	 */
 	public function appendLangToUrl( $link ) {
@@ -71,9 +56,6 @@ class Vc_Vendor_QtranslateX {
 		return $link;
 	}
 
-	/**
-	 * Enqueue JS for frontend.
-	 */
 	public function enqueueJsFrontend() {
 		wp_enqueue_script( 'vc_vendor_qtranslatex_frontend', vc_asset_url( 'js/vendors/qtranslatex_frontend.js' ), array(
 			'vc-frontend-editor-min-js',
@@ -82,8 +64,6 @@ class Vc_Vendor_QtranslateX {
 	}
 
 	/**
-	 * Generate select for frontend.
-	 *
 	 * @return string
 	 */
 	public function generateSelectFrontend() {
@@ -91,10 +71,10 @@ class Vc_Vendor_QtranslateX {
 		$output = '';
 		$output .= '<select id="vc_vendor_qtranslatex_langs_front" class="vc_select vc_select-navbar">';
 		$inline_url = vc_frontend_editor()->getInlineUrl();
-		$active_language = $q_config['language'];
-		$available_languages = $q_config['enabled_languages'];
-		foreach ( $available_languages as $lang ) {
-			$output .= '<option value="' . add_query_arg( array( 'lang' => $lang ), $inline_url ) . '"' . ( $active_language == $lang ? ' selected' : '' ) . ' > ' . qtranxf_getLanguageNameNative( $lang ) . '</option > ';
+		$activeLanguage = $q_config['language'];
+		$availableLanguages = $q_config['enabled_languages'];
+		foreach ( $availableLanguages as $lang ) {
+			$output .= '<option value="' . add_query_arg( array( 'lang' => $lang ), $inline_url ) . '"' . ( $activeLanguage == $lang ? ' selected' : '' ) . ' > ' . qtranxf_getLanguageNameNative( $lang ) . '</option > ';
 		}
 		$output .= '</select > ';
 
@@ -102,34 +82,30 @@ class Vc_Vendor_QtranslateX {
 	}
 
 	/**
-	 * VC Nav controls frontend.
-	 *
-	 * @param string $init_list
+	 * @param $list
 	 *
 	 * @return array
 	 */
-	public function vcNavControlsFrontend( $init_list ) {
-		if ( is_array( $init_list ) ) {
-			$init_list[] = array(
+	public function vcNavControlsFrontend( $list ) {
+		if ( is_array( $list ) ) {
+			$list[] = array(
 				'qtranslatex',
 				'<li class="vc_pull-right" > ' . $this->generateSelectFrontend() . '</li > ',
 			);
 		}
 
-		return $init_list;
+		return $list;
 	}
 
 	/**
-	 * Render edit button link.
-	 *
-	 * @param string $link
+	 * @param $link
 	 *
 	 * @return string
 	 */
 	public function vcRenderEditButtonLink( $link ) {
 		global $q_config;
-		$active_language = $q_config['language'];
+		$activeLanguage = $q_config['language'];
 
-		return add_query_arg( array( 'lang' => $active_language ), $link );
+		return add_query_arg( array( 'lang' => $activeLanguage ), $link );
 	}
 }

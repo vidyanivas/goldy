@@ -1,10 +1,4 @@
 <?php
-/**
- * Class that handles specific [vc_tta_accordion] shortcode.
- *
- * @see js_composer/include/templates/shortcodes/vc_tta_accordion.php
- */
-
 if ( ! defined( 'ABSPATH' ) ) {
 	die( '-1' );
 }
@@ -13,72 +7,27 @@ if ( ! defined( 'ABSPATH' ) ) {
  * Class WPBakeryShortCode_Vc_Tta_Accordion
  */
 class WPBakeryShortCode_Vc_Tta_Accordion extends WPBakeryShortCodesContainer {
-	/**
-	 * CSS settings for controls.
-	 *
-	 * @var string
-	 */
 	protected $controls_css_settings = 'out-tc vc_controls-content-widget';
-
-	/**
-	 * List of controls available.
-	 *
-	 * @var array
-	 */
 	protected $controls_list = array(
 		'add',
 		'edit',
 		'clone',
-		'copy',
-		'paste',
 		'delete',
 	);
-
-	/**
-	 * Template variables.
-	 *
-	 * @var array
-	 */
 	protected $template_vars = array();
 
-	/**
-	 * Layout type.
-	 *
-	 * @var string
-	 */
 	public $layout = 'accordion';
-
-	/**
-	 * Content of the accordion.
-	 *
-	 * @var mixed
-	 */
 	protected $content;
 
-	/**
-	 * Active class name.
-	 *
-	 * @var string
-	 */
 	public $activeClass = 'vc_active';
-
 	/**
-	 * Section class instance.
-	 *
 	 * @var WPBakeryShortCode_Vc_Tta_Section
 	 */
 	protected $sectionClass;
 
-	/**
-	 * Non-draggable class name.
-	 *
-	 * @var string
-	 */
 	public $nonDraggableClass = 'vc-non-draggable-container';
 
 	/**
-	 * Get name.
-	 *
 	 * @return mixed|string
 	 */
 	public function getFileName() {
@@ -86,8 +35,6 @@ class WPBakeryShortCode_Vc_Tta_Accordion extends WPBakeryShortCodesContainer {
 	}
 
 	/**
-	 * Get container content class.
-	 *
 	 * @return string
 	 */
 	public function containerContentClass() {
@@ -95,10 +42,9 @@ class WPBakeryShortCode_Vc_Tta_Accordion extends WPBakeryShortCodesContainer {
 	}
 
 	/**
-	 * Reset var values.
+	 * @param $atts
+	 * @param $content
 	 *
-	 * @param array $atts
-	 * @param string $content
 	 */
 	public function resetVariables( $atts, $content ) {
 		$this->atts = $atts;
@@ -107,8 +53,6 @@ class WPBakeryShortCode_Vc_Tta_Accordion extends WPBakeryShortCodesContainer {
 	}
 
 	/**
-	 * Set tta info data.
-	 *
 	 * @return bool
 	 * @throws \Exception
 	 */
@@ -116,7 +60,7 @@ class WPBakeryShortCode_Vc_Tta_Accordion extends WPBakeryShortCodesContainer {
 		$sectionClass = wpbakery()->getShortCode( 'vc_tta_section' )->shortcodeClass();
 		$this->sectionClass = $sectionClass;
 
-		// WPBakeryShortCode_Vc_Tta_Section $sectionClass - instance of section class.
+		/** @var WPBakeryShortCode_Vc_Tta_Section $sectionClass */
 		if ( is_object( $sectionClass ) ) {
 			VcShortcodeAutoloader::getInstance()->includeClass( 'WPBakeryShortCode_Vc_Tta_Section' );
 			WPBakeryShortCode_Vc_Tta_Section::$tta_base_shortcode = $this;
@@ -139,7 +83,7 @@ class WPBakeryShortCode_Vc_Tta_Accordion extends WPBakeryShortCodesContainer {
 	 * @throws \Exception
 	 */
 	public function getColumnControls( $controls = 'full', $extended_css = '' ) {
-		// we don't need containers bottom-controls for tabs.
+		// we don't need containers bottom-controls for tabs
 		if ( 'bottom-controls' === $extended_css ) {
 			return '';
 		}
@@ -149,8 +93,6 @@ class WPBakeryShortCode_Vc_Tta_Accordion extends WPBakeryShortCodesContainer {
 	}
 
 	/**
-	 * Get tta container classes.
-	 *
 	 * @return string
 	 */
 	public function getTtaContainerClasses() {
@@ -161,8 +103,6 @@ class WPBakeryShortCode_Vc_Tta_Accordion extends WPBakeryShortCodesContainer {
 	}
 
 	/**
-	 * Add specific tta classes.
-	 *
 	 * @return string
 	 */
 	public function getTtaGeneralClasses() {
@@ -186,7 +126,9 @@ class WPBakeryShortCode_Vc_Tta_Accordion extends WPBakeryShortCodesContainer {
 			$classes[] = 'vc_tta-has-pagination';
 		}
 
-		// since 4.6.2.
+		/**
+		 * @since 4.6.2
+		 */
 		if ( isset( $this->atts['el_class'] ) ) {
 			$classes[] = $this->getExtraClass( $this->atts['el_class'] );
 		}
@@ -195,8 +137,6 @@ class WPBakeryShortCode_Vc_Tta_Accordion extends WPBakeryShortCodesContainer {
 	}
 
 	/**
-	 * Retrieve tta pagination classes.
-	 *
 	 * @return string
 	 */
 	public function getTtaPaginationClasses() {
@@ -218,8 +158,6 @@ class WPBakeryShortCode_Vc_Tta_Accordion extends WPBakeryShortCodesContainer {
 	}
 
 	/**
-	 * Get element wrapper attributes.
-	 *
 	 * @return string
 	 */
 	public function getWrapperAttributes() {
@@ -242,28 +180,24 @@ class WPBakeryShortCode_Vc_Tta_Accordion extends WPBakeryShortCodesContainer {
 	}
 
 	/**
-	 * Get element template variables.
-	 *
-	 * @param string $initial
+	 * @param $string
 	 * @return mixed|string
 	 */
-	public function getTemplateVariable( $initial ) {
-		if ( isset( $this->template_vars[ $initial ] ) ) {
-			return $this->template_vars[ $initial ];
-		} elseif ( method_exists( $this, 'getParam' . vc_studly( $initial ) ) ) {
-			$this->template_vars[ $initial ] = $this->{'getParam' . vc_studly( $initial )}( $this->atts, $this->content );
+	public function getTemplateVariable( $string ) {
+		if ( isset( $this->template_vars[ $string ] ) ) {
+			return $this->template_vars[ $string ];
+		} elseif ( method_exists( $this, 'getParam' . vc_studly( $string ) ) ) {
+			$this->template_vars[ $string ] = $this->{'getParam' . vc_studly( $string )}( $this->atts, $this->content );
 
-			return $this->template_vars[ $initial ];
+			return $this->template_vars[ $string ];
 		}
 
 		return '';
 	}
 
 	/**
-	 * Get optional param color class.
-	 *
-	 * @param array $atts
-	 * @param string $content
+	 * @param $atts
+	 * @param $content
 	 *
 	 * @return string|null
 	 */
@@ -276,10 +210,8 @@ class WPBakeryShortCode_Vc_Tta_Accordion extends WPBakeryShortCodesContainer {
 	}
 
 	/**
-	 * Get optional param style class.
-	 *
-	 * @param array $atts
-	 * @param string $content
+	 * @param $atts
+	 * @param $content
 	 *
 	 * @return string|null
 	 */
@@ -292,10 +224,8 @@ class WPBakeryShortCode_Vc_Tta_Accordion extends WPBakeryShortCodesContainer {
 	}
 
 	/**
-	 * Get element title html.
-	 *
-	 * @param array $atts
-	 * @param string $content
+	 * @param $atts
+	 * @param $content
 	 *
 	 * @return string|null
 	 */
@@ -313,10 +243,8 @@ class WPBakeryShortCode_Vc_Tta_Accordion extends WPBakeryShortCodesContainer {
 	}
 
 	/**
-	 * Get element icon html.
-	 *
-	 * @param array $atts
-	 * @param string $content
+	 * @param $atts
+	 * @param $content
 	 *
 	 * @return string|null
 	 */
@@ -337,10 +265,8 @@ class WPBakeryShortCode_Vc_Tta_Accordion extends WPBakeryShortCodesContainer {
 	}
 
 	/**
-	 * Get optional param shape class.
-	 *
-	 * @param array $atts
-	 * @param string $content
+	 * @param $atts
+	 * @param $content
 	 *
 	 * @return string|null
 	 */
@@ -353,10 +279,8 @@ class WPBakeryShortCode_Vc_Tta_Accordion extends WPBakeryShortCodesContainer {
 	}
 
 	/**
-	 * Get optional param spacing class.
-	 *
-	 * @param array $atts
-	 * @param string $content
+	 * @param $atts
+	 * @param $content
 	 *
 	 * @return string
 	 */
@@ -365,15 +289,13 @@ class WPBakeryShortCode_Vc_Tta_Accordion extends WPBakeryShortCodesContainer {
 			return 'vc_tta-spacing-' . $atts['spacing'];
 		}
 
-		// In case if no spacing set we need to append extra class.
+		// In case if no spacing set we need to append extra class
 		return 'vc_tta-o-shape-group';
 	}
 
 	/**
-	 * Get optional param gap class.
-	 *
-	 * @param array $atts
-	 * @param string $content
+	 * @param $atts
+	 * @param $content
 	 *
 	 * @return string|null
 	 */
@@ -386,10 +308,8 @@ class WPBakeryShortCode_Vc_Tta_Accordion extends WPBakeryShortCodesContainer {
 	}
 
 	/**
-	 * Get optional param no fill class.
-	 *
-	 * @param array $atts
-	 * @param string $content
+	 * @param $atts
+	 * @param $content
 	 *
 	 * @return string|null
 	 */
@@ -402,10 +322,8 @@ class WPBakeryShortCode_Vc_Tta_Accordion extends WPBakeryShortCodesContainer {
 	}
 
 	/**
-	 * Get optional param align class.
-	 *
-	 * @param array $atts
-	 * @param string $content
+	 * @param $atts
+	 * @param $content
 	 *
 	 * @return string|null
 	 */
@@ -420,8 +338,8 @@ class WPBakeryShortCode_Vc_Tta_Accordion extends WPBakeryShortCodesContainer {
 	/**
 	 * Accordion doesn't have pagination
 	 *
-	 * @param array $atts
-	 * @param string $content
+	 * @param $atts
+	 * @param $content
 	 *
 	 * @return null
 	 */
@@ -432,8 +350,8 @@ class WPBakeryShortCode_Vc_Tta_Accordion extends WPBakeryShortCodesContainer {
 	/**
 	 * Accordion doesn't have pagination
 	 *
-	 * @param array $atts
-	 * @param string $content
+	 * @param $atts
+	 * @param $content
 	 *
 	 * @return null
 	 */
@@ -444,8 +362,8 @@ class WPBakeryShortCode_Vc_Tta_Accordion extends WPBakeryShortCodesContainer {
 	/**
 	 * Get currently active section (from $atts)
 	 *
-	 * @param array $atts
-	 * @param bool $strict_bounds If true, check for min/max bounds.
+	 * @param $atts
+	 * @param bool $strict_bounds If true, check for min/max bounds
 	 *
 	 * @return int nth position (one-based) of active section
 	 */
@@ -465,10 +383,8 @@ class WPBakeryShortCode_Vc_Tta_Accordion extends WPBakeryShortCodesContainer {
 	}
 
 	/**
-	 * Get pagination list html.
-	 *
-	 * @param array $atts
-	 * @param string $content
+	 * @param $atts
+	 * @param $content
 	 *
 	 * @return string
 	 */
@@ -501,20 +417,14 @@ class WPBakeryShortCode_Vc_Tta_Accordion extends WPBakeryShortCodesContainer {
 		return implode( '', $html );
 	}
 
-	/**
-	 * Enqueue element specific styles.
-	 */
 	public function enqueueTtaStyles() {
 		wp_register_style( 'vc_tta_style', vc_asset_url( 'css/js_composer_tta.min.css' ), false, WPB_VC_VERSION );
 		wp_enqueue_style( 'vc_tta_style' );
 	}
 
-	/**
-	 * Enqueue element specific scripts.
-	 */
 	public function enqueueTtaScript() {
-		wp_register_script( 'vc_accordion_script', vc_asset_url( 'lib/vc/vc_accordion/vc-accordion.min.js' ), array( 'jquery-core' ), WPB_VC_VERSION, true );
-		wp_register_script( 'vc_tta_autoplay_script', vc_asset_url( 'lib/vc/vc-tta-autoplay/vc-tta-autoplay.min.js' ), array( 'vc_accordion_script' ), WPB_VC_VERSION, true );
+		wp_register_script( 'vc_accordion_script', vc_asset_url( 'lib/vc_accordion/vc-accordion.min.js' ), array( 'jquery-core' ), WPB_VC_VERSION, true );
+		wp_register_script( 'vc_tta_autoplay_script', vc_asset_url( 'lib/vc-tta-autoplay/vc-tta-autoplay.min.js' ), array( 'vc_accordion_script' ), WPB_VC_VERSION, true );
 
 		wp_enqueue_script( 'vc_accordion_script' );
 		if ( ! vc_is_page_editable() ) {
@@ -525,7 +435,7 @@ class WPBakeryShortCode_Vc_Tta_Accordion extends WPBakeryShortCodesContainer {
 	/**
 	 * Override default outputTitle (also Icon). To remove anything, also Icon.
 	 *
-	 * @param string $title - just for strict standards.
+	 * @param $title - just for strict standards
 	 *
 	 * @return string
 	 */

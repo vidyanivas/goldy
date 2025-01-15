@@ -1,33 +1,25 @@
 <?php
-/**
- * Class that handles specific [vc_cta] shortcode.
- *
- * @see js_composer/include/templates/shortcodes/vc_cta.php
- */
-
 if ( ! defined( 'ABSPATH' ) ) {
 	die( '-1' );
 }
 
 /**
- * Class WPBakeryShortCode_Vc_Cta
+ * WPBakery WPBakery Page Builder shortcodes
  *
+ * @package WPBakeryPageBuilder
  * @since 4.5
  */
-class WPBakeryShortCode_Vc_Cta extends WPBakeryShortCode {
 
-	/**
-	 * Template variables list.
-	 *
-	 * @var array
-	 */
+/**
+ * @since 4.5
+ * Class WPBakeryShortCode_Vc_Cta
+ */
+class WPBakeryShortCode_Vc_Cta extends WPBakeryShortCode {
 	protected $template_vars = array();
 
 	/**
-	 * Build element template variables.
-	 *
-	 * @param array $atts
-	 * @param string $content
+	 * @param $atts
+	 * @param $content
 	 * @throws \Exception
 	 */
 	public function buildTemplate( $atts, $content ) {
@@ -98,10 +90,8 @@ class WPBakeryShortCode_Vc_Cta extends WPBakeryShortCode {
 	}
 
 	/**
-	 * Get element heading.
-	 *
-	 * @param string $tag
-	 * @param array $atts
+	 * @param $tag
+	 * @param $atts
 	 * @return string
 	 * @throws \Exception
 	 */
@@ -114,7 +104,7 @@ class WPBakeryShortCode_Vc_Cta extends WPBakeryShortCode {
 					'tag:' . $tag,
 					$data['font_container'],
 				) ) );
-				$data['text'] = $atts[ $tag ]; // provide text to shortcode.
+				$data['text'] = $atts[ $tag ]; // provide text to shortcode
 
 				return $custom_heading->render( array_filter( $data ) );
 			} else {
@@ -137,9 +127,7 @@ class WPBakeryShortCode_Vc_Cta extends WPBakeryShortCode {
 	}
 
 	/**
-	 * Render element shortcode button as independent shortcode.
-	 *
-	 * @param array $atts
+	 * @param $atts
 	 * @return string
 	 * @throws \Exception
 	 */
@@ -156,9 +144,7 @@ class WPBakeryShortCode_Vc_Cta extends WPBakeryShortCode {
 	}
 
 	/**
-	 * Get element icon output.
-	 *
-	 * @param array $atts
+	 * @param $atts
 	 * @return string
 	 * @throws \Exception
 	 */
@@ -179,15 +165,13 @@ class WPBakeryShortCode_Vc_Cta extends WPBakeryShortCode {
 	}
 
 	/**
-	 * Get template variable list.
-	 *
-	 * @param string $name
+	 * @param $string
 	 * @return mixed|string
 	 */
-	public function getTemplateVariable( $name ) {
-		if ( is_array( $this->template_vars ) && isset( $this->template_vars[ $name ] ) ) {
+	public function getTemplateVariable( $string ) {
+		if ( is_array( $this->template_vars ) && isset( $this->template_vars[ $string ] ) ) {
 
-			return $this->template_vars[ $name ];
+			return $this->template_vars[ $string ];
 		}
 
 		return '';

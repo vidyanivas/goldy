@@ -1,19 +1,10 @@
 <?php
-/**
- * The template for displaying [vc_tweetmeme] shortcode output of 'Tweetmeme Button' element.
- *
- * This template can be overridden by copying it to yourtheme/vc_templates/vc_tweetmeme.php.
- *
- * @see https://kb.wpbakery.com/docs/developers-how-tos/change-shortcodes-html-output
- */
-
 if ( ! defined( 'ABSPATH' ) ) {
 	die( '-1' );
 }
 
 /**
  * Shortcode attributes
- *
  * @var $atts
  * Shortcode class
  * @var WPBakeryShortCode_Vc_TweetMeMe $this
@@ -44,8 +35,7 @@ switch ( $type ) {
 }
 $data = array();
 $classes = array();
-$element_class = empty( $this->settings['element_default_class'] ) ? '' : $this->settings['element_default_class'];
-$class_to_filter = 'vc_tweetmeme-element' . vc_shortcode_custom_css_class( $atts['css'], ' ' ) . $this->getCSSAnimation( $atts['css_animation'] ) . ' ' . esc_attr( $element_class ) . $this->getExtraClass( $atts['el_class'] );
+$class_to_filter = 'vc_tweetmeme-element' . vc_shortcode_custom_css_class( $atts['css'], ' ' ) . $this->getCSSAnimation( $atts['css_animation'] ) . $this->getExtraClass( $atts['el_class'] );
 $el_class = apply_filters( VC_SHORTCODE_CUSTOM_CSS_FILTER_TAG, $class_to_filter, $this->getShortcode(), $atts );
 if ( ! empty( $atts['large_button'] ) ) {
 	$data['data-size'] = 'large';
@@ -81,7 +71,7 @@ if ( 'share' === $type ) {
 	if ( 'yes' !== $atts['follow_show_username'] ) {
 		$data['data-show-screen-name'] = 'false';
 	}
-	$data['data-show-count'] = ( ! ! $atts['show_followers_count'] ) ? 'true' : 'false'; // phpcs:ignore Universal.CodeAnalysis.NoDoubleNegative.FoundDouble
+	$data['data-show-count'] = ( ! ! $atts['show_followers_count'] ) ? 'true' : 'false';
 
 } elseif ( 'hashtag' === $type ) {
 	$url = 'https://twitter.com/intent/tweet?';

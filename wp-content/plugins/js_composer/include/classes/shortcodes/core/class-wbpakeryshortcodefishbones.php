@@ -1,8 +1,4 @@
 <?php
-/**
- * Shortcode fish bones class.
- */
-
 if ( ! defined( 'ABSPATH' ) ) {
 	die( '-1' );
 }
@@ -12,16 +8,12 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 class WPBakeryShortCodeFishBones extends WPBakeryShortCode {
 	/**
-	 * Shortcode class.
-	 *
-	 * @var bool|object
+	 * @var bool
 	 */
 	protected $shortcode_class = false;
 
 	/**
-	 * WPBakeryShortCodeFishBones constructor.
-	 *
-	 * @param array $settings
+	 * @param $settings
 	 * @throws \Exception
 	 */
 	public function __construct( $settings ) {
@@ -42,9 +34,6 @@ class WPBakeryShortCodeFishBones extends WPBakeryShortCode {
 		}
 	}
 
-	/**
-	 * Fire up shortcode admin hooks.
-	 */
 	public function hookAdmin() {
 		$this->enqueueAssets();
 		add_action( 'admin_init', array(
@@ -52,7 +41,7 @@ class WPBakeryShortCodeFishBones extends WPBakeryShortCode {
 			'enqueueAssets',
 		) );
 		if ( vc_is_page_editable() ) {
-			// fix for page editable.
+			// fix for page editable
 			add_action( 'wp_head', array(
 				$this,
 				'printIconStyles',
@@ -62,7 +51,7 @@ class WPBakeryShortCodeFishBones extends WPBakeryShortCode {
 		add_action( 'admin_head', array(
 			$this,
 			'printIconStyles',
-		) ); // fe+be.
+		) ); // fe+be
 		add_action( 'admin_print_scripts-post.php', array(
 			$this,
 			'enqueueAssets',
@@ -74,8 +63,6 @@ class WPBakeryShortCodeFishBones extends WPBakeryShortCode {
 	}
 
 	/**
-	 * Get shortcode class.
-	 *
 	 * @return WPBakeryShortCodeFishBones
 	 * @throws \Exception
 	 */
@@ -107,13 +94,14 @@ class WPBakeryShortCodeFishBones extends WPBakeryShortCode {
 	}
 
 	/**
-	 * Get element class.
 	 *
-	 * @param string $tag
+	 *
+	 * @param $tag
 	 *
 	 * @return \WPBakeryShortCodeFishBones
 	 * @throws \Exception
 	 * @since 4.9
+	 *
 	 */
 	public static function getElementClass( $tag ) {
 		$settings = WPBMap::getShortCode( $tag );
@@ -143,9 +131,7 @@ class WPBakeryShortCodeFishBones extends WPBakeryShortCode {
 	}
 
 	/**
-	 * Retrieve output.
-	 *
-	 * @param array $atts
+	 * @param $atts
 	 * @param null $content
 	 * @param null $tag
 	 *
@@ -157,8 +143,6 @@ class WPBakeryShortCodeFishBones extends WPBakeryShortCode {
 	}
 
 	/**
-	 * Retrieve template
-	 *
 	 * @param string $content
 	 *
 	 * @return string

@@ -1,33 +1,21 @@
 <?php
-/**
- * Backward compatibility with "Revolution Slider" WordPress plugin.
- *
- * @see https://www.sliderrevolution.com/
- *
- * @since 4.4 vendors initialization moved to hooks in autoload/vendors.
- */
-
 if ( ! defined( 'ABSPATH' ) ) {
 	die( '-1' );
 }
 
 /**
  * RevSlider loader.
- *
  * @since 4.3
  */
 class Vc_Vendor_Revslider {
 	/**
-	 * Instance index.
-	 *
 	 * @since 4.3
 	 * @var int - index of revslider
 	 */
-	protected static $instance_index = 1;
+	protected static $instanceIndex = 1;
 
 	/**
 	 * Add shortcode to WPBakery Page Builder also add fix for frontend to regenerate id of revslider.
-	 *
 	 * @since 4.3
 	 */
 	public function load() {
@@ -35,11 +23,10 @@ class Vc_Vendor_Revslider {
 			$this,
 			'buildShortcode',
 		) );
+
 	}
 
 	/**
-	 * Build shortcode.
-	 *
 	 * @since 4.3
 	 */
 	public function buildShortcode() {
@@ -58,8 +45,6 @@ class Vc_Vendor_Revslider {
 	}
 
 	/**
-	 * Map shortcode.
-	 *
 	 * @param array $revsliders
 	 *
 	 * @since 4.4
@@ -101,39 +86,42 @@ class Vc_Vendor_Revslider {
 
 	/**
 	 * Replaces id of revslider for frontend editor.
-	 *
-	 * @param string $output
+	 * @param $output
 	 *
 	 * @return string
 	 * @since 4.3
+	 *
 	 */
 	public function setId( $output ) {
-		return preg_replace( '/rev_slider_(\d+)_(\d+)/', 'rev_slider_$1_$2' . time() . '_' . self::$instance_index++, $output );
+		return preg_replace( '/rev_slider_(\d+)_(\d+)/', 'rev_slider_$1_$2' . time() . '_' . self::$instanceIndex ++, $output );
 	}
 
 	/**
 	 * Mapping settings for lean method.
 	 *
-	 * @param string $tag
+	 * @param $tag
 	 *
 	 * @return array
 	 * @since 4.9
+	 *
 	 */
 	public function addShortcodeSettings( $tag ) {
+		/** @noinspection PhpUndefinedClassInspection */
 		$slider = new RevSlider();
-		$sliders = $slider->getArrSliders();
+		$arrSliders = $slider->getArrSliders();
 
 		$revsliders = array();
-		if ( $sliders ) {
-			foreach ( $sliders as $slider ) {
-				// RevSlider $slider.
+		if ( $arrSliders ) {
+			foreach ( $arrSliders as $slider ) {
+				/** @noinspection PhpUndefinedClassInspection */
+				/** @var RevSlider $slider */
 				$revsliders[ $slider->getTitle() ] = $slider->getAlias();
 			}
 		} else {
 			$revsliders[ esc_html__( 'No sliders found', 'js_composer' ) ] = 0;
 		}
 
-		// Add fixes for frontend editor to regenerate id.
+		// Add fixes for frontend editor to regenerate id
 		return array(
 			'base' => $tag,
 			'name' => esc_html__( 'Revolution Slider', 'js_composer' ),

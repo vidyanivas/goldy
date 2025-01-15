@@ -1,21 +1,10 @@
 <?php
-/**
- * The template for displaying [vc_googleplus] shortcode output of 'Google+ Button' element.
- *
- * This template can be overridden by copying it to yourtheme/vc_templates/vc_googleplus.php
- *
- * @see https://kb.wpbakery.com/docs/developers-how-tos/change-shortcodes-html-output
- *
- * @depecated
- */
-
 if ( ! defined( 'ABSPATH' ) ) {
 	die( '-1' );
 }
 
 /**
  * Shortcode attributes
- *
  * @var $atts
  * @var $type
  * @var $el_class
@@ -35,8 +24,8 @@ if ( empty( $annotation ) ) {
 	$annotation = 'bubble';
 }
 $params = '';
-$params .= ( '' !== $type ) ? ' size="' . esc_attr( $type ) . '"' : '';
-$params .= ( '' !== $annotation ) ? ' annotation="' . esc_attr( $annotation ) . '"' : '';
+$params .= ( '' !== $type ) ? ' size="' . $type . '"' : '';
+$params .= ( '' !== $annotation ) ? ' annotation="' . $annotation . '"' : '';
 
 if ( empty( $type ) ) {
 	$type = 'standard';

@@ -1,9 +1,4 @@
 <?php
-/**
- * Handles shortcode and attachment remapping during WXR imports.
- * Processes shortcodes and updates post content with new URLs.
- */
-
 if ( ! defined( 'ABSPATH' ) ) {
 	die( '-1' );
 }
@@ -12,12 +7,6 @@ if ( ! defined( 'ABSPATH' ) ) {
  * Class Vc_WXR_Parser_Plugin
  */
 class Vc_WXR_Parser_Plugin {
-
-	/**
-	 * Shortcodes to process.
-	 *
-	 * @var array
-	 */
 	public $shortcodes = array(
 		'gallery' => array(
 			'ids',
@@ -38,24 +27,8 @@ class Vc_WXR_Parser_Plugin {
 			'include',
 		),
 	);
-
-	/**
-	 * Remaps.
-	 *
-	 * @var int
-	 */
 	protected $remaps = 0;
 
-	/**
-	 * IDs remap.
-	 *
-	 * @var array
-	 */
-	private $idsRemap = array();
-
-	/**
-	 * Vc_WXR_Parser_Plugin constructor.
-	 */
 	public function __construct() {
 		$this->shortcodes = apply_filters( 'vc_shared_templates_import_shortcodes', $this->shortcodes );
 		add_filter( 'vc_import_post_data_processed', array(
@@ -69,9 +42,9 @@ class Vc_WXR_Parser_Plugin {
 		) );
 	}
 
+	private $idsRemap = array();
+
 	/**
-	 * Process post content and parse shortcodes.
-	 *
 	 * @param array $postdata
 	 *
 	 * @return array
@@ -85,13 +58,11 @@ class Vc_WXR_Parser_Plugin {
 	}
 
 	/**
-	 * Remap attachment IDs in post content.
-	 *
 	 * @param Vc_WP_Import $importer
 	 */
 	public function remapIdsInPosts( $importer ) {
 		$currentPost = reset( $importer->processed_posts );
-		// Nothing to remap or something wrong.
+		// Nothing to remap or something wrong
 		if ( ! $currentPost ) {
 			return;
 		}
@@ -99,7 +70,7 @@ class Vc_WXR_Parser_Plugin {
 		if ( empty( $post ) || ! is_object( $post ) || 'vc4_templates' !== $post->post_type ) {
 			return;
 		}
-		// We ready to remap attributes in processed attachments.
+		// We ready to remap attributes in processed attachments
 		$attachments = $importer->processed_attachments;
 		$this->remaps = 0;
 		$newContent = $this->processAttachments( $attachments, $post->post_content );
@@ -111,10 +82,8 @@ class Vc_WXR_Parser_Plugin {
 	}
 
 	/**
-	 * Process attachments and remap IDs.
-	 *
-	 * @param array $attachments
-	 * @param string $content
+	 * @param $attachments
+	 * @param $content
 	 * @return mixed
 	 */
 	protected function processAttachments( $attachments, $content ) {
@@ -127,7 +96,7 @@ class Vc_WXR_Parser_Plugin {
 
 				if ( $newQuery ) {
 					$content = str_replace( $rawQuery, $newQuery, $content );
-					$this->remaps++;
+					$this->remaps ++;
 				}
 			}
 		}
@@ -150,12 +119,10 @@ class Vc_WXR_Parser_Plugin {
 	}
 
 	/**
-	 * Remap attachment URLs.
-	 *
-	 * @param array $attachments
-	 * @param mixed $content
-	 * @param string $url
-	 * @param array $vals
+	 * @param $attachments
+	 * @param $content
+	 * @param $url
+	 * @param $vals
 	 * @return mixed
 	 */
 	protected function remapAttachmentUrls( $attachments, $content, $url, $vals ) {
@@ -170,18 +137,16 @@ class Vc_WXR_Parser_Plugin {
 	}
 
 	/**
-	 * Remap shortcode attributes.
-	 *
-	 * @param array $shortcode
-	 * @param array $attributes
-	 * @param string $newQuery
-	 * @param array $attachments
+	 * @param $shortcode
+	 * @param $attributes
+	 * @param $newQuery
+	 * @param $attachments
 	 * @return bool|mixed
 	 */
 	protected function shortcodeAttributes( $shortcode, $attributes, $newQuery, $attachments ) {
 		$replacements = 0;
 		foreach ( $attributes as $attribute ) {
-			// for example in vc_single_image 'image' attribute.
+			// for example in vc_single_image 'image' attribute
 			if ( isset( $shortcode['attrs'][ $attribute ] ) ) {
 				$attributeValue = $shortcode['attrs'][ $attribute ];
 				$attributeValues = explode( ',', $attributeValue );
@@ -194,7 +159,7 @@ class Vc_WXR_Parser_Plugin {
 				) );
 				$newAttributeValue = implode( ',', $newValues );
 				$newQuery = str_replace( sprintf( '%s="%s"', $attribute, $attributeValue ), sprintf( '%s="%s"', $attribute, $newAttributeValue ), $newQuery );
-				$replacements++;
+				$replacements ++;
 			}
 		}
 		if ( $replacements ) {
@@ -205,11 +170,9 @@ class Vc_WXR_Parser_Plugin {
 	}
 
 	/**
-	 * Walk through attributes and remap IDs.
-	 *
-	 * @param mixed $attributeValue
-	 * @param string $key
-	 * @param array $data
+	 * @param $attributeValue
+	 * @param $key
+	 * @param $data
 	 */
 	public function attributesWalker( &$attributeValue, $key, $data ) {
 		$intValue = intval( $attributeValue );
@@ -219,9 +182,7 @@ class Vc_WXR_Parser_Plugin {
 	}
 
 	/**
-	 * Parse shortcodes.
-	 *
-	 * @param string $content
+	 * @param $content
 	 * @return array
 	 */
 	private function parseShortcodes( $content ) {

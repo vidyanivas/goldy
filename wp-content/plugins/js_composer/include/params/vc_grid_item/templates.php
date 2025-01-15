@@ -1,8 +1,4 @@
 <?php
-/**
- * List of predefined grid templates.
- */
-
 if ( ! defined( 'ABSPATH' ) ) {
 	die( '-1' );
 }

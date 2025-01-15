@@ -1,12 +1,4 @@
 <?php
-/**
- * Param type 'animation_style'
- *
- * Used to create dropdown field with animation styles.
- *
- * @see https://kb.wpbakery.com/docs/inner-api/vc_map/#vc_map()-ParametersofparamsArray
- */
-
 if ( ! defined( 'ABSPATH' ) ) {
 	die( '-1' );
 }
@@ -21,31 +13,26 @@ if ( ! defined( 'ABSPATH' ) ) {
  *        'param_name' => 'animation',
  * ),
  * Preview in https://daneden.github.io/animate.css/
- *
  * @since 4.4
  */
 class Vc_ParamAnimation {
 	/**
-	 * Parameter settings from vc_map.
-	 *
 	 * @since 4.4
-	 * @var array $settings
+	 * @var array $settings parameter settings from vc_map
 	 */
 	protected $settings;
 	/**
-	 * Parameter value.
-	 *
 	 * @since 4.4
-	 * @var string $value
+	 * @var string $value parameter value
 	 */
 	protected $value;
 
 	/**
-	 * Define available animation effects.
-	 *
-	 * @since 4.4
-	 * @see vc_filter: vc_param_animation_style_list - to override animation styles array.
+	 * Define available animation effects
 	 * @return array
+	 * @since 4.4
+	 * vc_filter: vc_param_animation_style_list - to override animation styles
+	 *     array
 	 */
 	protected function animationStyles() {
 		$styles = array(
@@ -57,7 +44,7 @@ class Vc_ParamAnimation {
 			array(
 				'label' => esc_html__( 'Attention Seekers', 'js_composer' ),
 				'values' => array(
-					// text to display => value.
+					// text to display => value
 					esc_html__( 'bounce', 'js_composer' ) => array(
 						'value' => 'bounce',
 						'type' => 'other',
@@ -95,7 +82,7 @@ class Vc_ParamAnimation {
 			array(
 				'label' => esc_html__( 'Bouncing Entrances', 'js_composer' ),
 				'values' => array(
-					// text to display => value.
+					// text to display => value
 					esc_html__( 'bounceIn', 'js_composer' ) => array(
 						'value' => 'bounceIn',
 						'type' => 'in',
@@ -121,7 +108,7 @@ class Vc_ParamAnimation {
 			array(
 				'label' => esc_html__( 'Bouncing Exits', 'js_composer' ),
 				'values' => array(
-					// text to display => value.
+					// text to display => value
 					esc_html__( 'bounceOut', 'js_composer' ) => array(
 						'value' => 'bounceOut',
 						'type' => 'out',
@@ -147,7 +134,7 @@ class Vc_ParamAnimation {
 			array(
 				'label' => esc_html__( 'Fading Entrances', 'js_composer' ),
 				'values' => array(
-					// text to display => value.
+					// text to display => value
 					esc_html__( 'fadeIn', 'js_composer' ) => array(
 						'value' => 'fadeIn',
 						'type' => 'in',
@@ -428,7 +415,6 @@ class Vc_ParamAnimation {
 
 		/**
 		 * Used to override animation style list
-		 *
 		 * @since 4.4
 		 */
 
@@ -436,10 +422,8 @@ class Vc_ParamAnimation {
 	}
 
 	/**
-	 * Group styles by type.
-	 *
-	 * @param array $styles - array of styles to group.
-	 * @param string|array $type - what type to return.
+	 * @param array $styles - array of styles to group
+	 * @param string|array $type - what type to return
 	 *
 	 * @return array
 	 * @since 4.4
@@ -465,21 +449,20 @@ class Vc_ParamAnimation {
 	}
 
 	/**
-	 * Set variables and register animate-css asset.
-	 *
-	 * @param array $settings
-	 * @param string $value
+	 * Set variables and register animate-css asset
+	 * @param $settings
+	 * @param $value
 	 * @since 4.4
+	 *
 	 */
 	public function __construct( $settings, $value ) {
 		$this->settings = $settings;
 		$this->value = $value;
-		wp_register_style( 'vc_animate-css', vc_asset_url( 'lib/vendor/node_modules/animate.css/animate.min.css' ), array(), WPB_VC_VERSION );
+		wp_register_style( 'vc_animate-css', vc_asset_url( 'lib/bower/animate-css/animate.min.css' ), array(), WPB_VC_VERSION );
 	}
 
 	/**
-	 * Render edit form output.
-	 *
+	 * Render edit form output
 	 * @return string
 	 * @since 4.4
 	 */
@@ -518,12 +501,12 @@ class Vc_ParamAnimation {
 			$output .= $left_side;
 
 			$right_side = '<div class="vc_col-sm-6">';
-			$right_side .= '<div class="vc_param-animation-style-preview"><button class="vc_btn-grey vc_general vc_param-animation-style-trigger vc_ui-button vc_ui-button-shape-rounded">' . esc_html__( 'Animate it', 'js_composer' ) . '</button></div>';
+			$right_side .= '<div class="vc_param-animation-style-preview"><button class="vc_btn vc_btn-grey vc_btn-sm vc_param-animation-style-trigger">' . esc_html__( 'Animate it', 'js_composer' ) . '</button></div>';
 			$right_side .= '</div>';
 			$output .= $right_side;
 		}
 
-		$output .= '</div>'; // Close Row.
+		$output .= '</div>'; // Close Row
 		$output .= sprintf( '<input name="%s" class="wpb_vc_param_value  %s %s_field" type="hidden" value="%s"  />', esc_attr( $this->settings['param_name'] ), esc_attr( $this->settings['param_name'] ), esc_attr( $this->settings['type'] ), $this->value );
 
 		return $output;
@@ -534,11 +517,11 @@ class Vc_ParamAnimation {
  * Function for rendering param in edit form (add element)
  * Parse settings from vc_map and entered 'values'.
  *
- * @param array $settings - parameter settings in vc_map.
- * @param string $value - parameter value.
- * @param string $tag - shortcode tag.
+ * @param array $settings - parameter settings in vc_map
+ * @param string $value - parameter value
+ * @param string $tag - shortcode tag
  *
- * @see vc_filter: vc_animation_style_render_filter - filter to override editor form
+ * vc_filter: vc_animation_style_render_filter - filter to override editor form
  *     field output
  *
  * @return mixed rendered template for params in edit form
@@ -551,9 +534,9 @@ function vc_animation_style_form_field( $settings, $value, $tag ) {
 
 	/**
 	 * Filter used to override full output of edit form field animation style
-	 *
 	 * @since 4.4
 	 */
 
 	return apply_filters( 'vc_animation_style_render_filter', $field->render(), $settings, $value, $tag );
 }
+

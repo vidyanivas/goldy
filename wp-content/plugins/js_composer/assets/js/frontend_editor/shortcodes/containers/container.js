@@ -1,4 +1,4 @@
-( function ( $ ) {
+(function ( $ ) {
 	'use strict';
 
 	window.vc.events.on( 'shortcodeView:updated', function ( model ) {
@@ -8,24 +8,15 @@
 			modelId = model.get( 'id' );
 			window.vc.frame_window.vc_iframe.updateChildGrids( modelId );
 		}
-	});
-	window.InlineShortcodeViewContainer = window.InlineShortcodeView.extend({
+	} );
+	window.InlineShortcodeViewContainer = window.InlineShortcodeView.extend( {
 		controls_selector: '#vc_controls-template-container',
 		events: {
 			'click > .vc_controls .vc_element .vc_control-btn-delete': 'destroy',
-			'touchstart > .vc_controls .vc_element .vc_control-btn-delete': 'destroy',
 			'click > .vc_controls .vc_element .vc_control-btn-edit': 'edit',
-			'touchstart > .vc_controls .vc_element .vc_control-btn-edit': 'edit',
 			'click > .vc_controls .vc_element .vc_control-btn-clone': 'clone',
-			'touchstart > .vc_controls .vc_element .vc_control-btn-clone': 'clone',
-			'click > .vc_controls .vc_element .vc_control-btn-copy': 'copy',
-			'touchstart > .vc_controls .vc_element .vc_control-btn-copy': 'copy',
-			'click > .vc_controls .vc_element .vc_control-btn-paste': 'paste',
-			'touchstart > .vc_controls .vc_element .vc_control-btn-paste': 'paste',
 			'click > .vc_controls .vc_element .vc_control-btn-prepend': 'prependElement',
-			'touchstart > .vc_controls .vc_element .vc_control-btn-prepend': 'prependElement',
 			'click > .vc_controls .vc_control-btn-append': 'appendElement',
-			'touchstart > .vc_controls .vc_control-btn-append': 'appendElement',
 			'click > .vc_empty-element': 'appendElement',
 			'mouseenter': 'resetActive',
 			'mouseleave': 'holdActive'
@@ -39,12 +30,12 @@
 				this.parent_view = vc.shortcodes.get( this.model.get( 'parent_id' ) ).view;
 			}
 		},
-		resetActive: function () {
+		resetActive: function ( e ) {
 			if ( this.hold_active ) {
 				window.clearTimeout( this.hold_active );
 			}
 		},
-		holdActive: function () {
+		holdActive: function ( e ) {
 			this.resetActive();
 			this.$el.addClass( 'vc_hold-active' );
 			var view = this;
@@ -123,13 +114,8 @@
 				switcherPrefix: !parentAllAccess || !allAccess ? '-disable-switcher' : ''
 			};
 			var compiledTemplate = vc.template( _.unescape( template ),
-				_.extend({}, vc.templateOptions.custom, { evaluate: /\{#([\s\S]+?)#}/g }) );
-			var controlsClasses = 'vc_controls';
-			if ( this.model.setting( 'as_parent' ) && this.model.setting( 'content_element' ) ) {
-				controlsClasses += ' vc_controls-parent';
-			}
-
-			this.$controls = $( compiledTemplate( data ).trim() ).addClass( controlsClasses );
+				_.extend( {}, vc.templateOptions.custom, { evaluate: /\{#([\s\S]+?)#}/g } ) );
+			this.$controls = $( compiledTemplate( data ).trim() ).addClass( 'vc_controls' );
 
 			this.$controls.appendTo( this.$el );
 		},
@@ -146,7 +132,7 @@
 			}
 			if ( parent ) {
 				models.push( parent );
-				children = vc.shortcodes.where({ parent_id: parent.get( 'id' ) });
+				children = vc.shortcodes.where( { parent_id: parent.get( 'id' ) } );
 				window.vc.multi_edit_element_block_view.render( models.concat( children ), this.model.get( 'id' ) );
 			} else {
 				window.vc.edit_element_block_view.render( this.model );
@@ -155,5 +141,5 @@
 		allowAddControlOnEmpty: function () {
 			return 'edit' !== vc_user_access().getState( 'shortcodes' );
 		}
-	});
+	} );
 })( window.jQuery );

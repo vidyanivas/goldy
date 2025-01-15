@@ -1,13 +1,14 @@
 <?php
-/**
- * WPBakery Page Builder Plugin
- *
- * @package WPBakeryPageBuilder
- */
-
 if ( ! defined( 'ABSPATH' ) ) {
 	die( '-1' );
 }
+
+/**
+ * WPBakery WPBakery Page Builder Plugin
+ *
+ * @package WPBakeryPageBuilder
+ *
+ */
 
 /**
  * Manage license
@@ -32,34 +33,19 @@ class Vc_License {
 	protected static $license_key_token_option = 'license_key_token';
 
 	/**
-	 * Url to support portal.
-	 *
 	 * @var string
 	 */
 	protected static $support_host = 'https://support.wpbakery.com';
 
 	/**
-	 * License errors option slug.
-	 *
-	 * @since 8.1
-	 * @var string
-	 */
-	protected $license_errors_slug = 'wpb_license_errors';
-
-	/**
-	 * Error holder.
-	 *
 	 * @var string
 	 */
 	public $error = null;
 
-	/**
-	 * Initialization.
-	 */
 	public function init() {
 
 		if ( 'vc-updater' === vc_get_param( 'page' ) ) {
-			// clear transient for check the license.
+			// clear transient for check the license
 			$site_url = self::getSiteUrl();
 			$transient_name = 'wpb_license_key_check_' . md5( $site_url );
 			delete_transient( $transient_name );
@@ -80,25 +66,21 @@ class Vc_License {
 			$this,
 			'startDeactivationResponse',
 		) );
-		add_action( 'wp_ajax_vc_sync_license', array(
-			$this,
-			'syncLicense',
-		) );
 
 		add_action( 'wp_ajax_nopriv_vc_check_license_key', array(
 			vc_license(),
 			'checkLicenseKeyFromRemote',
 		) );
 
+		add_action( 'admin_notices', array(
+			$this,
+			'outputLastError',
+		) );
+
 		add_action( 'vc_after_init', array(
 			$this,
 			'checkLicenseKey',
 		) );
-
-		add_action( 'admin_notices', array(
-			$this,
-			'outputLastError',
-		), 20 );
 	}
 
 	/**
@@ -108,7 +90,7 @@ class Vc_License {
 	 * @param bool $success
 	 */
 	public function outputNotice( $message, $success = true ) {
-		printf( '<div class="%s"><p>%s</p></div>', (bool) $success ? 'updated' : 'error', wp_kses( $message, array(
+		echo sprintf( '<div class="%s"><p>%s</p></div>', (bool) $success ? 'updated' : 'error', wp_kses( $message, array(
 			'a' => array(
 				'href' => array(),
 				'title' => array(),
@@ -124,55 +106,34 @@ class Vc_License {
 	 * @param string $error
 	 */
 	public function showError( $error ) {
-		// save error in db.
-		// get current errors from db.
-		$errors = $this->getLicenseErrors();
-		// add new error.
+		// save error in db
+		// get current errors from db
+		$errors = get_option( 'wpb_license_errors', array() );
+		// add new error
 		$errors[] = [
 			'message' => $error,
 			'time' => time(),
 		];
-
-		$this->setLicenseErrors( $errors );
-	}
-
-	/**
-	 * Set license errors option.
-	 *
-	 * @since 8.1
-	 * @param array $errors
-	 */
-	public function setLicenseErrors( $errors ) {
-		update_option( $this->license_errors_slug, $errors );
-	}
-
-	/**
-	 * Get license errors option.
-	 *
-	 * @since 8.1
-	 * @return array
-	 */
-	public function getLicenseErrors() {
-		return get_option( $this->license_errors_slug, [] );
+		// save errors
+		update_option( 'wpb_license_errors', $errors );
 	}
 
 	/**
 	 * Output last error
 	 */
 	public function outputLastError() {
-		// get errors from db.
-		$errors = $this->getLicenseErrors();
-		// filter errors by time < 10 min.
+		// get errors from db
+		$errors = get_option( 'wpb_license_errors', array() );
+		// filter errors by time < 10 min
 		$errors = array_filter( $errors, function ( $error ) {
 			return $error['time'] > time() - 600;
 		} );
-		// update db.
-		$this->setLicenseErrors( $errors );
-		// output all errors.
-		// unique.
+		// update db
+		update_option( 'wpb_license_errors', $errors );
+		// output all errors
+		// unique
 		$errors = array_unique( array_column( $errors, 'message' ) );
 		foreach ( $errors as $error ) {
-			$error = esc_html__( 'WPBakery License Error: ', 'js_composer' ) . $error;
 			$this->outputNotice( $error, false );
 		}
 	}
@@ -198,19 +159,19 @@ class Vc_License {
 	 * 2) Receive success status and license key
 	 * 3) Set new license key
 	 *
-	 * @param bool $isActivation
+	 * @param bool $activation
 	 * @param string $user_token
 	 *
 	 * @return bool
 	 */
-	public function finishActivationDeactivation( $isActivation, $user_token ) {
+	public function finishActivationDeactivation( $activation, $user_token ) {
 		if ( ! $this->isValidToken( $user_token ) ) {
 			$this->showError( esc_html__( 'Token is not valid or has expired', 'js_composer' ) );
 
 			return false;
 		}
 
-		if ( $isActivation ) {
+		if ( $activation ) {
 			$url = self::$support_host . '/finish-license-activation';
 		} else {
 			$url = self::$support_host . '/finish-license-deactivation';
@@ -220,7 +181,7 @@ class Vc_License {
 			'body' => array( 'token' => $user_token ),
 			'timeout' => 30,
 		);
-		// FIX SSL SNI.
+		// FIX SSL SNI
 		$filter_add = true;
 		if ( function_exists( 'curl_version' ) ) {
 			$version = curl_version();
@@ -262,23 +223,23 @@ class Vc_License {
 			return false;
 		}
 
-		if ( $isActivation ) {
+		if ( $activation ) {
 			if ( ! isset( $json['license_key'] ) || ! $this->isValidFormat( $json['license_key'] ) ) {
 				$this->showError( esc_html__( 'Invalid response structure. Please contact us for support.', 'js_composer' ) );
 
 				return false;
 			}
 
-			$this->setLicenseOptions( $json['license_key'] );
+			$this->setLicenseKey( $json['license_key'] );
 
+			update_option( 'wpb_license_errors', array() );
 			add_action( 'admin_notices', array(
 				$this,
 				'outputActivatedSuccess',
 			) );
 		} else {
 			$this->setLicenseKey( '' );
-
-			$this->setLicenseOptions();
+			update_option( 'wpb_license_errors', array() );
 
 			add_action( 'admin_notices', array(
 				$this,
@@ -286,36 +247,16 @@ class Vc_License {
 			) );
 		}
 
+		$this->setLicenseKeyToken( '' );
+
 		return true;
 	}
 
 	/**
-	 * Set some options related to license.
-	 *
-	 * @param string $licenseKey
-	 */
-	public function setLicenseOptions( $licenseKey = '' ) {
-		$this->setLicenseKey( $licenseKey );
-		$this->setLicenseErrors( [] );
-		$this->setLicenseKeyToken( '' );
-	}
-
-	/**
-	 * Check if license is activated.
-	 *
 	 * @return boolean
 	 */
 	public function isActivated() {
 		return (bool) $this->getLicenseKey();
-	}
-
-	/**
-	 * Check if license support period is expired.
-	 *
-	 * @return boolean
-	 */
-	public function isExpired() {
-		return (bool) get_transient( 'wpb_support_expire_check_' . md5( self::getSiteUrl() ) );
 	}
 
 	/**
@@ -338,19 +279,15 @@ class Vc_License {
 		die( wp_json_encode( $response ) );
 	}
 
-	/**
-	 * Check license key
-	 */
 	public function checkLicenseKey() {
 		$site_url = self::getSiteUrl();
-		// Send request to remote server to check is license is activated on this domain.
+		// Send request to remote server to check is license is activated on this domain
 		$license_key = $this->getLicenseKey();
 		if ( empty( $license_key ) ) {
 			return;
 		}
 		$transient_key = 'wpb_license_key_check_' . md5( $site_url );
-		$support_expire_transient_key = 'wpb_support_expire_check_' . md5( $site_url );
-		// if transient cache exists skip.
+		// if transient cache exists skip
 		if ( false !== get_transient( $transient_key ) ) {
 			return;
 		}
@@ -363,7 +300,7 @@ class Vc_License {
 			),
 			'timeout' => 30,
 		);
-		// FIX SSL SNI.
+		// FIX SSL SNI
 		$filter_add = true;
 		if ( function_exists( 'curl_version' ) ) {
 			$version = curl_version();
@@ -396,47 +333,21 @@ class Vc_License {
 			return false;
 		}
 		if ( ! $json['result'] ) {
-			// license not found or not activated or activated on another domain.
+			// license not found or not activated or activated on another domain
 			$message = $json['message'];
-			// force deactivate license.
+			// force deactivate license
 			$this->setLicenseKey( '' );
 			$this->setLicenseKeyToken( '' );
 
 			$this->showError( $message );
-			set_transient( $transient_key, true, 600 ); // 10 minutes wait for next check in case if error.
+			set_transient( $transient_key, true, 600 ); // 10 minutes wait for next check in case if error
 
 			return false;
 		}
-		// all good.
-		delete_transient( $support_expire_transient_key );
-		set_transient( $transient_key, true, 86400 ); // 24 hours wait for next check.
-		$this->setLicenseErrors( [] );
+		// all good
+		set_transient( $transient_key, true, 86400 ); // 24 hours wait for next check
 
-		if ( isset( $json['is_expired'] ) && $json['is_expired'] ) {
-			return $this->handleExpiredLicense( $json, $support_expire_transient_key );
-		}
-
-		return [
-			'is_expired' => false,
-			'support_period_expiration_date' => $json['support_period_expiration_date'] ?? '',
-		];
-	}
-
-	/**
-	 * Handle expired license case
-	 *
-	 * @param array $json Response from license check.
-	 * @param string $support_expire_transient_key Transient key for support expiration.
-	 * @return array License status information
-	 */
-	private function handleExpiredLicense( $json, $support_expire_transient_key ) {
-		delete_site_transient( 'update_plugins' );
-		set_transient( $support_expire_transient_key, true, 86400 );
-
-		return [
-			'is_expired' => true,
-			'support_period_expiration_date' => $json['support_period_expiration_date'] ?? '',
-		];
+		return true;
 	}
 
 	/**
@@ -484,47 +395,14 @@ class Vc_License {
 	 * Start deactivation process and output redirect URL as JSON
 	 */
 	public function startDeactivationResponse() {
-		vc_user_access()->checkAdminNonce()->validateDie( 'Failed nonce check' )->wpAny( 'manage_options' )->validateDie( 'Failed access check' )->part( 'settings' )->can( 'vc-updater-tab' )->validateDie( 'Failed access check #2' );
+		vc_user_access()->checkAdminNonce()->validateDie( 'Failed nonce check' )->wpAny( 'manage_options' )->validateDie( 'Failed access check' )->part( 'settings' )->can( 'vc-updater-tab' )
+			->validateDie( 'Failed access check #2' );
 
 		$response = array(
 			'status' => true,
 			'url' => $this->generateDeactivationUrl(),
 		);
 
-		die( wp_json_encode( $response ) );
-	}
-
-	/**
-	 * This method responsible to clear transient and check license key and support expire date again.
-	 *
-	 * @return void
-	 * @throws \Exception
-	 */
-	public function syncLicense() {
-		// Check capabilities.
-		vc_user_access()->checkAdminNonce()->validateDie( 'Failed nonce check' )->wpAny( 'manage_options' )->validateDie( 'Failed access check' )->part( 'settings' )->can( 'vc-updater-tab' )->validateDie( 'Failed access check #2' );
-
-		// Clear transients.
-		$transient_key = 'wpb_license_key_check_' . md5( self::getSiteUrl() );
-		$expired_transient_key = 'wpb_support_expire_check_' . md5( self::getSiteUrl() );
-		delete_transient( $transient_key );
-		delete_transient( $expired_transient_key );
-		delete_site_transient( 'update_plugins' );
-
-		// Check license key again.
-		$response = $this->checkLicenseKey();
-		if ( false === $response['is_expired'] ) {
-			// License renewed.
-			$response = [
-				'status' => true,
-				'message' => sprintf( ' ' . esc_html__( 'Your license data has been synchronized with support.wpbakery.com. Your support period expiration date is: %s', 'js_composer' ), $response['support_period_expiration_date'] ),
-			];
-		} else {
-			$response = [
-				'status' => false,
-				'message' => sprintf( ' ' . esc_html__( 'Your license data has been synchronized with support.wpbakery.com. Your support period expiration date is: %1$s. You can renew the support period %2$shere%3$s.', 'js_composer' ), $response['support_period_expiration_date'], '<a href="https://support.wpbakery.com" target="_blank">', '</a>' ),
-			];
-		}
 		die( wp_json_encode( $response ) );
 	}
 
@@ -588,14 +466,14 @@ class Vc_License {
 	}
 
 	/**
-	 * Check if current environment is dev
+	 * Check if current enviroment is dev
 	 *
 	 * Environment is considered dev if host is:
 	 * - ip address
 	 * - tld is local, dev, wp, test, example, localhost or invalid
 	 * - no tld (localhost, custom hosts)
 	 *
-	 * @param string $host Hostname to check. If null, use HTTP_HOST.
+	 * @param string $host Hostname to check. If null, use HTTP_HOST
 	 *
 	 * @return boolean
 	 */
@@ -629,9 +507,6 @@ class Vc_License {
 		return false;
 	}
 
-	/**
-	 * Admin notice for license activation.
-	 */
 	public function adminNoticeLicenseActivation() {
 		if ( vc_is_network_plugin() ) {
 			update_site_option( 'wpb_js_composer_license_activation_notified', 'yes' );
@@ -695,7 +570,7 @@ class Vc_License {
 	 *
 	 * @param string $token
 	 *
-	 * @return bool
+	 * @return string
 	 */
 	public function setLicenseKeyToken( $token ) {
 		if ( vc_is_network_plugin() ) {
@@ -717,7 +592,6 @@ class Vc_License {
 	 * @return string
 	 */
 	public function generateLicenseKeyToken() {
-        // phpcs:ignore
 		$token = current_time( 'timestamp' ) . '|' . vc_random_string( 20 );
 
 		return $token;
@@ -739,8 +613,8 @@ class Vc_License {
 	/**
 	 * Check if specified license key token is valid
 	 *
-	 * @param string $token_to_check SHA1 hashed token.
-	 * @param int $ttl_in_seconds Time to live in seconds. Default = 20min.
+	 * @param string $token_to_check SHA1 hashed token
+	 * @param int $ttl_in_seconds Time to live in seconds. Default = 20min
 	 *
 	 * @return boolean
 	 */
@@ -753,7 +627,6 @@ class Vc_License {
 
 		$chunks = explode( '|', $token );
 
-        // phpcs:ignore
 		if ( intval( $chunks[0] ) < ( current_time( 'timestamp' ) - $ttl_in_seconds ) ) {
 			return false;
 		}
@@ -764,7 +637,7 @@ class Vc_License {
 	/**
 	 * Check if license key format is valid
 	 *
-	 * License key is version 4 UUID, that have form xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx
+	 * license key is version 4 UUID, that have form xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx
 	 * where x is any hexadecimal digit and y is one of 8, 9, A, or B.
 	 *
 	 * @param string $license_key
@@ -778,9 +651,10 @@ class Vc_License {
 	}
 
 	/**
-	 * Get site URL.
-	 *
-	 * @return string
+	 * @return string|void
+	 */
+	/**
+	 * @return string|void
 	 */
 	public static function getSiteUrl() {
 		if ( vc_is_network_plugin() ) {

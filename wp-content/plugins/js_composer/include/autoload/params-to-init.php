@@ -1,11 +1,4 @@
 <?php
-/**
- * Autoload hooks initialisation of our element params.
- *
- * @see https://kb.wpbakery.com/docs/inner-api/vc_map
- * @note we require our autoload files everytime and everywhere after plugin load.
- */
-
 if ( ! defined( 'ABSPATH' ) ) {
 	die( '-1' );
 }
@@ -18,9 +11,7 @@ if ( 'vc_edit_form' === vc_post_param( 'action' ) ) {
 }
 
 /**
- * Add optional params to edit form fields.
- *
- * @param array $params
+ * @param $params
  * @return array
  */
 function vc_edit_for_fields_add_optional_params( $params ) {
@@ -57,9 +48,6 @@ function vc_edit_for_fields_add_optional_params( $params ) {
 	return $params;
 }
 
-/**
- * Output required params to init.
- */
 function vc_output_required_params_to_init() {
 	$params = WpbakeryShortcodeParams::getRequiredInitParams();
 
@@ -75,15 +63,11 @@ function vc_output_required_params_to_init() {
 	$custom_tag = 'script';
 	$output = '<' . $custom_tag . '>' . $data . '</' . $custom_tag . '>';
 
-    // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 	echo $output;
 }
 
 add_action( 'wp_ajax_wpb_gallery_html', 'vc_gallery_html' );
 
-/**
- * Get gallery images.
- */
 function vc_gallery_html() {
 	vc_user_access()->checkAdminNonce()->validateDie()->wpAny( 'edit_posts', 'edit_pages' )->validateDie();
 

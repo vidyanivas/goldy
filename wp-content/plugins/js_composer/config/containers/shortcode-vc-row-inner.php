@@ -1,10 +1,4 @@
 <?php
-/**
- * Configuration file for [vc_row_inner] shortcode.
- *
- * @see https://kb.wpbakery.com/docs/inner-api/vc_map/ for more detailed information about element attributes.
- */
-
 if ( ! defined( 'ABSPATH' ) ) {
 	die( '-1' );
 }

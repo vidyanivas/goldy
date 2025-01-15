@@ -1,16 +1,12 @@
 <?php
-/**
- * Configuration file for [vc_cta] shortcode of 'Call to Action' element.
- *
- * @see https://kb.wpbakery.com/docs/inner-api/vc_map/ for more detailed information about element attributes.
- *
- * @since 4.5
- */
-
 if ( ! defined( 'ABSPATH' ) ) {
 	die( '-1' );
 }
 
+/**
+ * Call to action
+ * @since 4.5
+ */
 require_once vc_path_dir( 'CONFIG_DIR', 'content/vc-custom-heading-element.php' );
 $h2_custom_heading = vc_map_integrate_shortcode( vc_custom_heading_element_params(), 'h2_', esc_html__( 'Heading', 'js_composer' ), array(
 	'exclude' => array(
@@ -64,7 +60,7 @@ $params = array_merge( array(
 		'type' => 'checkbox',
 		'heading' => esc_html__( 'Use custom font?', 'js_composer' ),
 		'param_name' => 'use_custom_fonts_h2',
-		'description' => esc_html__( 'Enable custom font option.', 'js_composer' ),
+		'description' => esc_html__( 'Enable Google fonts.', 'js_composer' ),
 		'edit_field_class' => 'vc_col-sm-3',
 	),
 ), $h2_custom_heading, array(
@@ -89,7 +85,7 @@ $params = array_merge( array(
 		'heading' => esc_html__( 'Text alignment', 'js_composer' ),
 		'param_name' => 'txt_align',
 		'value' => vc_get_shared( 'text align' ),
-		// default left.
+		// default left
 		'description' => esc_html__( 'Select text alignment in "Call to Action" block.', 'js_composer' ),
 	),
 	array(
@@ -123,7 +119,6 @@ $params = array_merge( array(
 		'heading' => esc_html__( 'Background color', 'js_composer' ),
 		'param_name' => 'custom_background',
 		'description' => esc_html__( 'Select custom background color.', 'js_composer' ),
-		'default_colorpicker_color' => '#EBEBEB',
 		'dependency' => array(
 			'element' => 'style',
 			'value' => array( 'custom' ),
@@ -135,7 +130,6 @@ $params = array_merge( array(
 		'heading' => esc_html__( 'Text color', 'js_composer' ),
 		'param_name' => 'custom_text',
 		'description' => esc_html__( 'Select custom text color.', 'js_composer' ),
-		'default_colorpicker_color' => '#111111',
 		'dependency' => array(
 			'element' => 'style',
 			'value' => array( 'custom' ),
@@ -227,13 +221,13 @@ $params = array_merge( array(
 	'element' => 'add_icon',
 	'not_empty' => true,
 ) ), array(
-	// cta3.
+	// cta3
 	vc_map_add_css_animation(),
 	array(
 		'type' => 'el_id',
 		'heading' => esc_html__( 'Element ID', 'js_composer' ),
 		'param_name' => 'el_id',
-		'description' => sprintf( esc_html__( 'Enter element ID (Note: make sure it is unique and valid according to %1$sw3c specification%2$s).', 'js_composer' ), '<a href="https://www.w3schools.com/tags/att_global_id.asp" target="_blank">', '</a>' ),
+		'description' => sprintf( esc_html__( 'Enter element ID (Note: make sure it is unique and valid according to %sw3c specification%s).', 'js_composer' ), '<a href="https://www.w3schools.com/tags/att_global_id.asp" target="_blank">', '</a>' ),
 	),
 	array(
 		'type' => 'textfield',
@@ -246,13 +240,6 @@ $params = array_merge( array(
 		'heading' => esc_html__( 'CSS box', 'js_composer' ),
 		'param_name' => 'css',
 		'group' => esc_html__( 'Design Options', 'js_composer' ),
-		'value' => array(
-			'padding-top' => '28px',
-			'padding-right' => '28px',
-			'padding-bottom' => '28px',
-			'padding-left' => '28px',
-			'margin-bottom' => '35px',
-		),
 	),
 ) );
 
@@ -260,7 +247,6 @@ return array(
 	'name' => esc_html__( 'Call to Action', 'js_composer' ),
 	'base' => 'vc_cta',
 	'icon' => 'icon-wpb-call-to-action',
-	'element_default_class' => 'vc_do_cta3',
 	'category' => array( esc_html__( 'Content', 'js_composer' ) ),
 	'description' => esc_html__( 'Catch visitors attention with CTA block', 'js_composer' ),
 	'since' => '4.5',

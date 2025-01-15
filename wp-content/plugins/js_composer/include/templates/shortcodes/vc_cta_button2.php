@@ -1,18 +1,9 @@
 <?php
-/**
- * The template for displaying [vc_cta_button2] shortcode output.
- *
- * This template can be overridden by copying it to yourtheme/vc_templates/vc_cta_button2.php.
- *
- * @see https://kb.wpbakery.com/docs/developers-how-tos/change-shortcodes-html-output
- */
-
 if ( ! defined( 'ABSPATH' ) ) {
 	die( '-1' );
 }
 /**
  * Shortcode attributes
- *
  * @var $atts
  * @var $h2
  * @var $h4
@@ -53,7 +44,7 @@ $css_class = apply_filters( VC_SHORTCODE_CUSTOM_CSS_FILTER_TAG, $class, $this->s
 $css_class .= $this->getCSSAnimation( $css_animation );
 $output = '';
 
-$output .= '<div ' . esc_attr( $inline_css ) . ' class="' . esc_attr( trim( $css_class ) ) . '">';
+$output .= '<div ' . $inline_css . ' class="' . esc_attr( trim( $css_class ) ) . '">';
 if ( '' !== $link && 'bottom' !== $position ) {
 	$output .= do_shortcode( '[vc_button2 align="' . $position . '" link="' . $link . '" title="' . $title . '" color="' . $color . '" size="' . $size . '" style="' . $btn_style . '" el_class="vc_cta_btn"]' );
 }
@@ -74,4 +65,4 @@ if ( '' !== $link && 'bottom' === $position ) {
 }
 $output .= '</div>';
 
-echo $output; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+echo $output;

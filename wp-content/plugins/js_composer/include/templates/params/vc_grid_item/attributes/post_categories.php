@@ -1,16 +1,14 @@
 <?php
-/**
- * Post categories shortcode grid builder template.
- *
- * @var WPBakeryShortCode_Vc_Gitem_Post_Categories $vc_btn
- * @var WP_Post $post
- * @var $atts
- */
-
 if ( ! defined( 'ABSPATH' ) ) {
 	die( '-1' );
 }
 
+/**
+ * @var WPBakeryShortCode_Vc_Gitem_Post_Categories $vc_btn
+ * @var WP_Post $post
+ * @var $atts
+ *
+ */
 VcShortcodeAutoloader::getInstance()->includeClass( 'WPBakeryShortCode_Vc_Gitem_Post_Categories' );
 
 $categories = get_the_category();
@@ -43,7 +41,7 @@ if ( ! empty( $categories ) ) {
 		$wrapper = '<div class="vc_grid-filter-item vc_gitem-post-category-name">';
 		$content = esc_html( $category->name );
 		if ( ! empty( $category_link ) ) {
-			$content = '<span class="vc_gitem-post-category-name"><a ' . $category_link . ' class="vc_gitem-link">' . $content . '</a></span>';
+			$content = '<span class="vc_gitem-post-category-name"><a ' . $category_link . ' class="vc_gitem-link">' . $content . '</a>' . '</span>';
 		} else {
 			$content = '<span class="vc_gitem-post-category-name">' . $content . '</span>';
 		}

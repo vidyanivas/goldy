@@ -1,32 +1,21 @@
 <?php
-/**
- * Manager for new post type for single grid item design with constructor.
- *
- * @package WPBakeryPageBuilder
- * @since 4.4
- */
-
 if ( ! defined( 'ABSPATH' ) ) {
 	die( '-1' );
 }
 
+/**
+ * Manger for new post type for single grid item design with constructor
+ *
+ * @package WPBakeryPageBuilder
+ * @since 4.4
+ */
 require_once vc_path_dir( 'EDITORS_DIR', 'class-vc-backend-editor.php' );
 
 /**
  * Class Vc_Grid_Item_Editor
  */
 class Vc_Grid_Item_Editor extends Vc_Backend_Editor {
-	/**
-	 * Post type for grid item.
-	 *
-	 * @var string
-	 */
 	protected static $post_type = 'vc_grid_item';
-	/**
-	 * Templates editor instance.
-	 *
-	 * @var bool|Vc_Templates_Editor_Grid_Item
-	 */
 	protected $templates_editor = false;
 
 	/**
@@ -46,24 +35,19 @@ class Vc_Grid_Item_Editor extends Vc_Backend_Editor {
 		), 10, 2 );
 	}
 
-	/**
-	 * Add scripts.
-	 */
 	public function addScripts() {
 		$this->render( get_post_type() );
 	}
 
 	/**
-	 * Render grid item editor.
-	 *
-	 * @param string $post_type
-	 * @throws Exception
+	 * @param $post_type
+	 * @throws \Exception
 	 */
 	public function render( $post_type ) {
 		if ( $this->isValidPostType( $post_type ) ) {
 			$this->registerBackendJavascript();
 			$this->registerBackendCss();
-			// B.C.
+			// B.C:
 			wpbakery()->registerAdminCss();
 			wpbakery()->registerAdminJavascript();
 			add_action( 'admin_print_scripts-post.php', array(
@@ -78,18 +62,13 @@ class Vc_Grid_Item_Editor extends Vc_Backend_Editor {
 	}
 
 	/**
-	 * Check if editor is enabled.
-	 *
 	 * @return bool
-	 * @throws Exception
+	 * @throws \Exception
 	 */
 	public function editorEnabled() {
 		return vc_user_access()->part( 'grid_builder' )->can()->get();
 	}
 
-	/**
-	 * Replace templates panel editor js.
-	 */
 	public function replaceTemplatesPanelEditorJsAction() {
 		wp_dequeue_script( 'vc-template-preview-script' );
 		$this->templatesEditor()->addScriptsToTemplatePreview();
@@ -97,7 +76,6 @@ class Vc_Grid_Item_Editor extends Vc_Backend_Editor {
 
 	/**
 	 * Create post type and new item in the admin menu.
-	 *
 	 * @return void
 	 */
 	public static function createPostType() {
@@ -122,8 +100,6 @@ class Vc_Grid_Item_Editor extends Vc_Backend_Editor {
 	}
 
 	/**
-	 * Get post type labels.
-	 *
 	 * @return array
 	 */
 	public static function getPostTypesLabels() {
@@ -145,7 +121,7 @@ class Vc_Grid_Item_Editor extends Vc_Backend_Editor {
 	 * @param string $type
 	 *
 	 * @return bool
-	 * @throws Exception
+	 * @throws \Exception
 	 */
 	public function isValidPostType( $type = '' ) {
 		$type = ! empty( $type ) ? $type : get_post_type();
@@ -192,7 +168,7 @@ class Vc_Grid_Item_Editor extends Vc_Backend_Editor {
 	 *
 	 * @param null|int $post
 	 *
-	 * @throws Exception
+	 * @throws \Exception
 	 */
 	public function renderEditor( $post = null ) {
 		if ( ! vc_user_access()->part( 'grid_builder' )->can()->get() ) {
@@ -222,45 +198,23 @@ class Vc_Grid_Item_Editor extends Vc_Backend_Editor {
 	}
 
 	/**
-	 * Check if user has access to edit shortcode.
-	 *
-	 * @param null $nullable
-	 * @param string $shortcode
+	 * @param $null
+	 * @param $shortcode
 	 * @return bool
-	 * @throws Exception
+	 * @throws \Exception
 	 */
-	public function accessCheckShortcodeEdit( $nullable, $shortcode ) {
-		if ( ! vc_user_access()->part( 'grid_builder' )->can()->get() ) {
-			return false;
-		}
-
-		$params = vc_get_shortcode( $shortcode );
-		if ( ! empty( $params['category'] ) && 'Post' === $params['category'] ) {
-				return true;
-		} else {
-			return vc_get_user_shortcode_access( $shortcode, 'edit' );
-		}
+	public function accessCheckShortcodeEdit( $null, $shortcode ) {
+		return vc_user_access()->part( 'grid_builder' )->can()->get();
 	}
 
 	/**
-	 * Check if user has access to all shortcodes.
-	 *
-	 * @param null $nullable
-	 * @param string $shortcode
+	 * @param $null
+	 * @param $shortcode
 	 * @return bool
-	 * @throws Exception
+	 * @throws \Exception
 	 */
-	public function accessCheckShortcodeAll( $nullable, $shortcode ) {
-		if ( ! vc_user_access()->part( 'grid_builder' )->can()->get() ) {
-			return false;
-		}
-
-		$params = vc_get_shortcode( $shortcode );
-		if ( ! empty( $params['category'] ) && 'Post' === $params['category'] ) {
-			return true;
-		} else {
-			return vc_get_user_shortcode_access( $shortcode );
-		}
+	public function accessCheckShortcodeAll( $null, $shortcode ) {
+		return vc_user_access()->part( 'grid_builder' )->can()->get();
 	}
 
 	/**
@@ -276,9 +230,6 @@ class Vc_Grid_Item_Editor extends Vc_Backend_Editor {
 		do_action( 'vc_backend_editor_footer_render' );
 	}
 
-	/**
-	 * Register and localize backend javascript.
-	 */
 	public function registerBackendJavascript() {
 		parent::registerBackendJavascript();
 		wp_register_script( 'vc_grid_item_editor', vc_asset_url( 'js/dist/grid-builder.min.js' ), array( 'vc-backend-min-js' ), WPB_VC_VERSION, true );
@@ -289,18 +240,13 @@ class Vc_Grid_Item_Editor extends Vc_Backend_Editor {
 		) );
 	}
 
-	/**
-	 * Enqueue js.
-	 */
 	public function enqueueJs() {
 		parent::enqueueJs();
 		wp_enqueue_script( 'vc_grid_item_editor' );
 	}
 
 	/**
-	 * Set templates editor instance.
-	 *
-	 * @return bool|Vc_Templates_Editor_Grid_Item
+	 * @return bool|\Vc_Templates_Editor_Grid_Item
 	 */
 	public function templatesEditor() {
 		if ( false === $this->templates_editor ) {
@@ -312,10 +258,8 @@ class Vc_Grid_Item_Editor extends Vc_Backend_Editor {
 	}
 
 	/**
-	 * Load predefined template.
-	 *
-	 * @param int $template_id
-	 * @param string $template_type
+	 * @param $template_id
+	 * @param $template_type
 	 * @return false|string
 	 */
 	public function loadPredefinedTemplate( $template_id, $template_type ) {
@@ -323,13 +267,12 @@ class Vc_Grid_Item_Editor extends Vc_Backend_Editor {
 		$this->templatesEditor()->load( $template_id );
 
 		return ob_get_clean();
+
 	}
 
 	/**
-	 * Load template.
-	 *
-	 * @param int $template_id
-	 * @param string $template_type
+	 * @param $template_id
+	 * @param $template_type
 	 * @return false|string
 	 */
 	public function loadTemplate( $template_id, $template_type ) {
@@ -343,18 +286,13 @@ class Vc_Grid_Item_Editor extends Vc_Backend_Editor {
 	}
 
 	/**
-	 * Get template preview path.
-	 *
-	 * @param string $path
+	 * @param $path
 	 * @return string
 	 */
 	public function templatePreviewPath( $path ) {
 		return 'params/vc_grid_item/editor/vc_ui-template-preview.tpl.php';
 	}
 
-	/**
-	 * Render template preview.
-	 */
 	public function renderTemplatePreview() {
 		vc_user_access()->checkAdminNonce()->validateDie()->wpAny( 'edit_posts', 'edit_pages' )->validateDie()->part( 'grid_builder' )->can()->validateDie();
 

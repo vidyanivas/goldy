@@ -1,20 +1,10 @@
 <?php
-/**
- * The template for displaying [vc_round_chart] shortcode output of 'Round Chart' element.
- *
- * This template can be overridden by copying it to yourtheme/vc_templates/vc_round_chart.php.
- *
- * @see https://kb.wpbakery.com/docs/developers-how-tos/change-shortcodes-html-output
- */
-
 if ( ! defined( 'ABSPATH' ) ) {
 	die( '-1' );
 }
 
 /**
  * Shortcode attributes
- *
- * @var $atts
  * @var $title
  * @var $el_class
  * @var $el_id
@@ -113,8 +103,7 @@ foreach ( $base_colors['active'] as $name => $color ) {
 
 wp_enqueue_script( 'vc_round_chart' );
 
-$element_class = empty( $this->settings['element_default_class'] ) ? '' : $this->settings['element_default_class'];
-$class_to_filter = 'vc_chart vc_round-chart ' . esc_attr( $element_class );
+$class_to_filter = 'vc_chart vc_round-chart wpb_content_element';
 $class_to_filter .= vc_shortcode_custom_css_class( $css, ' ' ) . $this->getExtraClass( $el_class ) . $this->getCSSAnimation( $css_animation );
 $css_class = apply_filters( VC_SHORTCODE_CUSTOM_CSS_FILTER_TAG, $class_to_filter, $this->settings['base'], $atts );
 
@@ -155,8 +144,8 @@ $data = array();
 
 $labels = [];
 $datasets = [];
-$dataset_values = [];
-$dataset_colors = [];
+$datasetValues = [];
+$datasetColors = [];
 foreach ( $values as $k => $v ) {
 
 	if ( 'custom' === $style ) {
@@ -169,28 +158,28 @@ foreach ( $values as $k => $v ) {
 		$color = isset( $colors[ $style ]['normal'][ $v['color'] ] ) ? $colors[ $style ]['normal'][ $v['color'] ] : $v['normal']['color'];
 	}
 	$labels[] = isset( $v['title'] ) ? $v['title'] : '';
-	$dataset_values[] = (int) ( isset( $v['value'] ) ? $v['value'] : 0 );
-	$dataset_colors[] = $color;
+	$datasetValues[] = (int) ( isset( $v['value'] ) ? $v['value'] : 0 );
+	$datasetColors[] = $color;
 }
 
 $options[] = 'data-vc-type="' . esc_attr( $type ) . '"';
-$legend_color = isset( $atts['legend_color'] ) ? $atts['legend_color'] : 'black';
-if ( 'custom' === $legend_color ) {
-	$legend_color = isset( $atts['custom_legend_color'] ) ? $atts['custom_legend_color'] : 'black';
+$legendColor = isset( $atts['legend_color'] ) ? $atts['legend_color'] : 'black';
+if ( 'custom' === $legendColor ) {
+	$legendColor = isset( $atts['custom_legend_color'] ) ? $atts['custom_legend_color'] : 'black';
 } else {
-	$legend_color = vc_convert_vc_color( $legend_color );
+	$legendColor = vc_convert_vc_color( $legendColor );
 }
 $round_chart_data = [
 	'labels' => $labels,
 	'datasets' => [
 		[
-			'data' => $dataset_values,
-			'backgroundColor' => $dataset_colors,
+			'data' => $datasetValues,
+			'backgroundColor' => $datasetColors,
 		],
 	],
 ];
 $options[] = 'data-vc-values="' . esc_attr( wp_json_encode( $round_chart_data ) ) . '"';
-$options[] = 'data-vc-legend-color="' . esc_attr( $legend_color ) . '"';
+$options[] = 'data-vc-legend-color="' . esc_attr( $legendColor ) . '"';
 $options[] = 'data-vc-legend-position="' . esc_attr( $legend_position ) . '"';
 if ( '' !== $title ) {
 	$title = '<h2 class="wpb_heading">' . $title . '</h4>';

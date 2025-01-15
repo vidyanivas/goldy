@@ -1,21 +1,11 @@
 <?php
-/**
- * Param type 'el_id'.
- *
- * Used to create input text field specifically for element ID.
- *
- * @see https://kb.wpbakery.com/docs/inner-api/vc_map/#vc_map()-ParametersofparamsArray
- */
-
 if ( ! defined( 'ABSPATH' ) ) {
 	die( '-1' );
 }
 
 /**
- * Get output for el_id form field.
- *
- * @param array $settings
- * @param string $value
+ * @param $settings
+ * @param $value
  *
  * @return string
  * @since 4.5

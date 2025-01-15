@@ -1,12 +1,4 @@
 <?php
-/**
- * Param type 'param_group'.
- *
- * Use it add group level for prams.
- *
- * @see https://kb.wpbakery.com/docs/inner-api/vc_map/#vc_map()-ParametersofparamsArray
- */
-
 if ( ! defined( 'ABSPATH' ) ) {
 	die( '-1' );
 }
@@ -15,16 +7,15 @@ require_once vc_path_dir( 'EDITORS_DIR', 'class-vc-edit-form-fields.php' );
 
 /**
  * Class Vc_ParamGroup_Edit_Form_Fields
- *
  * @since 4.4
  */
 class Vc_ParamGroup_Edit_Form_Fields extends Vc_Edit_Form_Fields {
+	/** @noinspection PhpMissingParentConstructorInspection */
+
 	/**
-	 * Vc_ParamGroup_Edit_Form_Fields constructor.
-	 *
-	 * @noinspection PhpMissingParentConstructorInspection
-	 * @param array $settings
+	 * @param $settings
 	 * @since 4.4
+	 *
 	 */
 	public function __construct( $settings ) {
 		$this->setSettings( $settings );
@@ -34,12 +25,12 @@ class Vc_ParamGroup_Edit_Form_Fields extends Vc_Edit_Form_Fields {
 	 * Get shortcode attribute value wrapper for params group.
 	 *
 	 * This function checks if value isn't set then it uses std or value fields in param settings.
-	 *
-	 * @param array $params_settings
+	 * @param $params_settings
 	 * @param null $value
 	 *
 	 * @return mixed;
 	 * @since 5.2.1
+	 *
 	 */
 	public function getParamGroupAttributeValue( $params_settings, $value = null ) {
 		return $this->parseShortcodeAttributeValue( $params_settings, $value );
@@ -48,56 +39,35 @@ class Vc_ParamGroup_Edit_Form_Fields extends Vc_Edit_Form_Fields {
 
 /**
  * Class Vc_ParamGroup
- *
  * @since 4.4
  */
 class Vc_ParamGroup {
 	/**
-	 * Settings for the parameter group.
-	 *
 	 * @since 4.4
-	 * @var array
+	 * @var
 	 */
 	protected $settings;
-
 	/**
-	 * Parsed values for the parameter group.
-	 *
 	 * @since 4.4
 	 * @var array|mixed
 	 */
 	protected $value;
-
 	/**
-	 * Map of parameters.
-	 *
 	 * @since 4.4
-	 * @var array
+	 * @var
 	 */
 	protected $map;
-
 	/**
-	 * Attributes associated with the parameter group.
-	 *
 	 * @since 4.4
-	 * @var array
+	 * @var
 	 */
 	protected $atts;
-
-	/**
-	 * Original unparsed value of the parameter group.
-	 *
-	 * @since 4.4
-	 * @var string
-	 */
 	public $unparsed_value;
 
 	/**
-	 * Vc_ParamGroup constructor.
-	 *
-	 * @param array $settings
-	 * @param array $value
-	 * @param string $tag
+	 * @param $settings
+	 * @param $value
+	 * @param $tag
 	 *
 	 * @since 4.4
 	 */
@@ -109,10 +79,8 @@ class Vc_ParamGroup {
 	}
 
 	/**
-	 * Convert parameters to array.
-	 *
-	 * @param string $param_name
-	 * @param array $arr
+	 * @param $param_name
+	 * @param $arr
 	 *
 	 * @return array
 	 * @since 4.4
@@ -127,8 +95,6 @@ class Vc_ParamGroup {
 	}
 
 	/**
-	 * Renders the HTML output.
-	 *
 	 * @return mixed|string
 	 * @since 4.4
 	 */
@@ -141,7 +107,7 @@ class Vc_ParamGroup {
 
 		$template = vc_include_template( 'params/param_group/content.tpl.php' );
 
-		// Parsing values.
+		// Parsing values
 		if ( ! empty( $this->value ) ) {
 			foreach ( $this->value as $values ) {
 				$output .= $template;
@@ -161,7 +127,7 @@ class Vc_ParamGroup {
 
 		}
 
-		// Empty fields wrapper and Add new fields wrapper.
+		// Empty fields wrapper and Add new fields wrapper
 		$content = "<div class='vc_param_group-wrapper vc_clearfix'>";
 		foreach ( $this->settings['params'] as $param ) {
 			$param['param_name'] = $this->settings['param_name'] . '_' . $param['param_name'];
@@ -171,7 +137,7 @@ class Vc_ParamGroup {
 		$content .= '</div>';
 		$output = str_replace( '%content%', $content, $output );
 
-		// And button on bottom.
+		// And button on bottom
 		$output .= '<li class="wpb_column_container vc_container_for_children vc_param_group-add_content vc_empty-container"></li></ul>';
 
 		$add_template = vc_include_template( 'params/param_group/add.tpl.php' );
@@ -189,14 +155,15 @@ class Vc_ParamGroup {
  * Function for rendering param in edit form (add element)
  * Parse settings from vc_map and entered values.
  *
- * @param array $param_settings
- * @param array $param_value
- * @param string $tag
+ * @param $param_settings
+ * @param $param_value
+ * @param $tag
  *
  * @return mixed rendered template for params in edit form
  * @since 4.4
  *
  * vc_filter: vc_param_group_render_filter
+ *
  */
 function vc_param_group_form_field( $param_settings, $param_value, $tag ) {
 	$param_group = new Vc_ParamGroup( $param_settings, $param_value, $tag );
@@ -207,8 +174,6 @@ function vc_param_group_form_field( $param_settings, $param_value, $tag ) {
 add_action( 'wp_ajax_vc_param_group_clone', 'vc_param_group_clone' );
 
 /**
- * Handles the cloning of param.
- *
  * @since 4.4
  */
 function vc_param_group_clone() {
@@ -221,11 +186,9 @@ function vc_param_group_clone() {
 }
 
 /**
- * Clone param by data.
- *
- * @param string $tag
- * @param array $params
- * @param array $data
+ * @param $tag
+ * @param $params
+ * @param $data
  *
  * @return mixed|string
  * @since 4.4
@@ -255,9 +218,7 @@ function vc_param_group_clone_by_data( $tag, $params, $data ) {
 }
 
 /**
- * Parses attributes string into an associative array.
- *
- * @param string $atts_string
+ * @param $atts_string
  *
  * @return array|mixed
  * @since 4.4
@@ -270,10 +231,8 @@ function vc_param_group_parse_atts( $atts_string ) {
 
 add_filter( 'vc_map_get_param_defaults', 'vc_param_group_param_defaults', 10, 2 );
 /**
- * Filters the default values for a parameter group.
- *
- * @param string $value
- * @param array $param
+ * @param $value
+ * @param $param
  * @return string
  */
 function vc_param_group_param_defaults( $value, $param ) {

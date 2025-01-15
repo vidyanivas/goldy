@@ -1,13 +1,4 @@
 <?php
-/**
- * UI Panel Post Settings template.
- *
- * @var array $page_settings_data
- * @var Vc_Post_Settings $box
- * @var array $header_tabs_template_variables
- * @var array $controls
- */
-
 if ( ! defined( 'ABSPATH' ) ) {
 	die( '-1' );
 }
@@ -19,39 +10,46 @@ if ( ! defined( 'ABSPATH' ) ) {
 			'title' => esc_html__( 'Page Settings', 'js_composer' ),
 			'controls' => array( 'minimize', 'close' ),
 			'header_css_class' => 'vc_ui-post-settings-header-container',
-			'header_tabs_template' => 'editors/partials/add_element_tabs.tpl.php',
-			'header_tabs_template_variables' => $header_tabs_template_variables,
-			'box' => $box,
+			'content_template' => '',
 		));
 		?>
 		<div class="vc_ui-panel-content-container">
 			<div class="vc_ui-panel-content vc_properties-list vc_edit_form_elements" data-vc-ui-element="panel-content">
-				<div class="vc_panel-tabs">
-					<?php
-					foreach ( $header_tabs_template_variables['templates'] as $key => $template_name ) {
-						$active_class = 0 === $key ? ' vc_active' : '';
-						echo '<div id="vc_page-settings-tab-' . esc_attr( $key ) . '" class="vc_panel-tab vc_row' . esc_attr( $active_class ) . '" data-tab-index="' . esc_attr( $key ) . '">';
-						vc_include_template(
-							$template_name,
-							[
-								'page_settings_data' => $page_settings_data,
-							]
-						);
-						echo '</div>';
-					}
-					?>
+				<div class="vc_row">
+					<div class="vc_col-sm-12 vc_column" id="vc_settings-title-container">
+						<div class="wpb_element_label"><?php esc_html_e( 'Page title', 'js_composer' ); ?></div>
+						<div class="edit_form_line">
+							<input name="page_title" class="wpb-textinput vc_title_name" type="text" value="" id="vc_page-title-field" placeholder="<?php esc_attr_e( 'Please enter page title', 'js_composer' ); ?>">
+					<span class="vc_description"><?php printf( esc_html__( 'Change title of the current %s (Note: changes may not be displayed in a preview, but will take effect after saving page).', 'js_composer' ), esc_html( get_post_type() ) ); ?></span>
+						</div>
+					</div>
+					<div class="vc_col-sm-12 vc_column">
+						<div class="wpb_element_label"><?php esc_html_e( 'Custom CSS settings', 'js_composer' ); ?></div>
+						<div class="edit_form_line">
+							<pre id="wpb_csseditor" class="wpb_content_element custom_css wpb_frontend"></pre>
+					<span
+						class="vc_description vc_clearfix"><?php esc_html_e( 'Enter custom CSS (Note: it will be outputted only on this particular page).', 'js_composer' ); ?></span>
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>
 		<!-- param window footer-->
 		<?php
-		// Include the template with the dynamic controls array.
-		vc_include_template(
-			'editors/popups/vc_ui-footer.tpl.php',
-			array(
-				'controls' => $controls,
-			)
-		);
+		vc_include_template('editors/popups/vc_ui-footer.tpl.php', array(
+			'controls' => array(
+				array(
+					'name' => 'close',
+					'label' => esc_html__( 'Close', 'js_composer' ),
+				),
+				array(
+					'name' => 'save',
+					'label' => esc_html__( 'Save changes', 'js_composer' ),
+					'css_classes' => 'vc_ui-button-fw',
+					'style' => 'action',
+				),
+			),
+		));
 		?>
 	</div>
 </div>

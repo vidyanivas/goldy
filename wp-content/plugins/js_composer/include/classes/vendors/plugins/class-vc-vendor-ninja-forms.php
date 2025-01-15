@@ -1,32 +1,17 @@
 <?php
-/**
- * Backward compatibility with "Ninja Forms" WordPress plugin.
- *
- * @see https://wordpress.org/plugins/ninja-forms
- *
- * @since 4.4 vendors initialization moved to hooks in autoload/vendors.
- */
-
 if ( ! defined( 'ABSPATH' ) ) {
 	die( '-1' );
 }
 
 /**
  * Ninja Forms vendor
- *
  * @since 4.4
  */
 class Vc_Vendor_NinjaForms {
-	/**
-	 * Counter.
-	 *
-	 * @var null
-	 */
-	private static $ninja_count;
+	private static $ninjaCount;
 
 	/**
 	 * Implement interface, map ninja forms shortcode
-	 *
 	 * @since 4.4
 	 */
 	public function load() {
@@ -44,10 +29,11 @@ class Vc_Vendor_NinjaForms {
 	/**
 	 * Mapping settings for lean method.
 	 *
-	 * @param string $tag
+	 * @param $tag
 	 *
 	 * @return array
 	 * @since 4.9
+	 *
 	 */
 	public function addShortcodeSettings( $tag ) {
 
@@ -73,8 +59,6 @@ class Vc_Vendor_NinjaForms {
 	}
 
 	/**
-	 * Get all forms.
-	 *
 	 * @return array
 	 */
 	private function get_forms() {
@@ -84,7 +68,7 @@ class Vc_Vendor_NinjaForms {
 			$ninja_forms_data = ninja_forms_get_all_forms();
 
 			if ( ! empty( $ninja_forms_data ) ) {
-				// Fill array with Name=>Value(ID).
+				// Fill array with Name=>Value(ID)
 				foreach ( $ninja_forms_data as $key => $value ) {
 					if ( is_array( $value ) ) {
 						$ninja_forms[ $value['name'] ] = $value['id'];
@@ -96,7 +80,7 @@ class Vc_Vendor_NinjaForms {
 			$ninja_forms_data = Ninja_Forms()->form()->get_forms();
 
 			if ( ! empty( $ninja_forms_data ) ) {
-				// Fill array with Name=>Value(ID).
+				// Fill array with Name=>Value(ID)
 				foreach ( $ninja_forms_data as $form ) {
 					$ninja_forms[ $form->get_setting( 'title' ) ] = $form->get_id();
 				}
@@ -107,26 +91,21 @@ class Vc_Vendor_NinjaForms {
 	}
 
 	/**
-	 * Check if vendor plugin version 3.0 is installed.
-	 *
 	 * @return bool
 	 */
 	private function is_ninja_forms_three() {
-		return version_compare( get_option( 'ninja_forms_version', '0.0.0' ), '3.0', '<' ) ||
-			( get_option( 'ninja_forms_load_deprecated', false ) && function_exists( 'ninja_forms_get_all_forms' ) );
+		return ( version_compare( get_option( 'ninja_forms_version', '0.0.0' ), '3.0', '<' ) || get_option( 'ninja_forms_load_deprecated', false ) );
 	}
 
 	/**
-	 * Replace ids.
-	 *
-	 * @param string $output
+	 * @param $output
 	 * @return mixed
 	 */
 	public function replaceIds( $output ) {
-		if ( is_null( self::$ninja_count ) ) {
-			self::$ninja_count = 1;
+		if ( is_null( self::$ninjaCount ) ) {
+			self::$ninjaCount = 1;
 		} else {
-			self::$ninja_count++;
+			self::$ninjaCount ++;
 		}
 		$patterns = array(
 			'(nf-form-)(\d+)(-cont)',
@@ -134,12 +113,11 @@ class Vc_Vendor_NinjaForms {
 			'(nf-form-errors-)(\d+)()',
 			'(form.id\s*=\s*\')(\d+)(\')',
 		);
-        // phpcs:ignore
-		$time = time() . self::$ninja_count . rand( 100, 999 );
+		$time = time() . self::$ninjaCount . rand( 100, 999 );
 		foreach ( $patterns as $pattern ) {
 			$output = preg_replace( '/' . $pattern . '/', '${1}' . $time . '${3}', $output );
 		}
-		$replace_to = <<<JS
+		$replaceTo = <<<JS
 if (typeof nfForms !== 'undefined') {
   nfForms = nfForms.filter( function(item) {
     if (item && item.id) {
@@ -148,7 +126,7 @@ if (typeof nfForms !== 'undefined') {
   })
 }
 JS;
-		$response = str_replace( 'var nfForms', $replace_to . ';var nfForms', $output );
+		$response = str_replace( 'var nfForms', $replaceTo . ';var nfForms', $output );
 
 		return $response;
 	}

@@ -1,21 +1,14 @@
 <?php
-/**
- * WPBakery Page Builder admin editor
- *
- * @package WPBakeryPageBuilder
- */
-
 if ( ! defined( 'ABSPATH' ) ) {
 	die( '-1' );
 }
 
 /**
- * Base functionality for VC editors
+ * WPBakery WPBakery Page Builder admin editor
  *
  * @package WPBakeryPageBuilder
- * @since 7.4
+ *
  */
-require_once vc_path_dir( 'EDITORS_DIR', 'class-vc-editor.php' );
 
 /**
  * VC backend editor.
@@ -25,12 +18,18 @@ require_once vc_path_dir( 'EDITORS_DIR', 'class-vc-editor.php' );
  *
  * @since 4.2
  */
-class Vc_Backend_Editor extends Vc_Editor {
+class Vc_Backend_Editor {
 
 	/**
-	 * Stores data about the current post.
-	 *
-	 * @var mixed
+	 * @var
+	 */
+	protected $layout;
+	/**
+	 * @var
+	 */
+	public $post_custom_css;
+	/**
+	 * @var bool|string $post - stores data about post.
 	 */
 	public $post = false;
 
@@ -41,11 +40,8 @@ class Vc_Backend_Editor extends Vc_Editor {
 	 * @access public
 	 */
 	public function addHooksSettings() {
-		if ( ! vc_user_access()->part( 'backend_editor' )->can()->get() ) {
-			return;
-		}
-
-		// load backend editor.
+		// @todo - fix_roles do this only if be editor is enabled.
+		// load backend editor
 		if ( function_exists( 'add_theme_support' ) ) {
 			add_theme_support( 'post-thumbnails' ); // @todo check is it needed?
 		}
@@ -69,30 +65,27 @@ class Vc_Backend_Editor extends Vc_Editor {
 			$this,
 			'printScriptsMessages',
 		) );
+
 	}
 
-	/**
-	 * Registers required JavaScript and CSS files.
-	 */
 	public function registerScripts() {
 		$this->registerBackendJavascript();
 		$this->registerBackendCss();
-		// B.C.
+		// B.C:
 		wpbakery()->registerAdminCss();
 		wpbakery()->registerAdminJavascript();
 	}
 
 	/**
-	 * Renders the meta box for the backend editor.
-	 *
-	 * @param string $post_type
+	 * @param $post_type
 	 * @throws \Exception
 	 * @since  4.2
 	 * @access public
+	 *
 	 */
 	public function render( $post_type ) {
 		if ( $this->isValidPostType( $post_type ) ) {
-			// meta box to render.
+			// meta box to render
 			add_meta_box( 'wpb_wpbakery', esc_html__( 'WPBakery Page Builder', 'js_composer' ), array(
 				$this,
 				'renderEditor',
@@ -115,12 +108,11 @@ class Vc_Backend_Editor extends Vc_Editor {
 			return false;
 		}
 		$this->post = $post;
-		$this->set_post_meta( $post );
-
+		$post_custom_css = wp_strip_all_tags( get_post_meta( $post->ID, '_wpb_post_custom_css', true ) );
+		$this->post_custom_css = $post_custom_css;
 		vc_include_template( 'editors/backend_editor.tpl.php', array(
 			'editor' => $this,
 			'post' => $this->post,
-			'wpb_vc_status' => $this->getEditorPostStatus(),
 		) );
 		add_action( 'admin_footer', array(
 			$this,
@@ -132,33 +124,11 @@ class Vc_Backend_Editor extends Vc_Editor {
 	}
 
 	/**
-	 * Check if current post is edited lastly by our editor.
-	 *
-	 * @since 7.8
-	 * @return mixed
-	 */
-	public function getEditorPostStatus() {
-		$post_editor_status = wpb_get_post_editor_status( $this->post->ID );
-		$get_param_status = vc_get_param( 'wpb_vc_js_status', $post_editor_status );
-		$wpb_vc_status = apply_filters( 'wpb_vc_js_status_filter', $get_param_status );
-
-		if ( '' === $wpb_vc_status || ! isset( $wpb_vc_status ) ) {
-			$wpb_vc_status = vc_user_access()->part( 'backend_editor' )->checkState( 'default' )->get() ? 'true' : 'false';
-		}
-
-		return $wpb_vc_status;
-	}
-
-
-	/**
 	 * Output required html and js content for VC editor.
 	 *
 	 * Here comes panels, modals and js objects with data for mapped shortcodes.
 	 */
 	public function renderEditorFooter() {
-		if ( vc_is_gutenberg_editor() ) {
-			return;
-		}
 		vc_include_template( 'editors/partials/backend_editor_footer.tpl.php', array(
 			'editor' => $this,
 			'post' => $this->post,
@@ -211,85 +181,58 @@ class Vc_Backend_Editor extends Vc_Editor {
 			WPBakeryShortCodeFishBones::enqueueJs();
 		} else {
 			wp_enqueue_script( 'vc-backend-actions-js' );
-			$this->enqueueCss(); // needed for navbar @todo split.
+			$this->enqueueCss(); // needed for navbar @todo split
 		}
 		do_action( 'vc_backend_editor_enqueue_js_css' );
 	}
 
-	/**
-	 * Registers JavaScript files needed for the backend editor.
-	 */
 	public function registerBackendJavascript() {
-		// editor can be disabled but fe can be enabled. so we currently need this file. @todo maybe make backend-disabled.min.js.
+		// editor can be disabled but fe can be enabled. so we currently need this file. @todo maybe make backend-disabled.min.js
 		wp_register_script( 'vc-backend-actions-js', vc_asset_url( 'js/dist/backend-actions.min.js' ), array(
 			'jquery-core',
 			'backbone',
 			'underscore',
 		), WPB_VC_VERSION, true );
 		// used in tta shortcodes, and panels.
-		wp_register_script( 'vc_accordion_script', vc_asset_url( 'lib/vc/vc_accordion/vc-accordion.min.js' ), array( 'jquery-core' ), WPB_VC_VERSION, true );
-		wp_register_script( 'vc-image-drop', vc_asset_url( 'js/dist/image-drop.min.js' ), array( 'jquery-core' ), WPB_VC_VERSION, true );
+		wp_register_script( 'vc_accordion_script', vc_asset_url( 'lib/vc_accordion/vc-accordion.min.js' ), array( 'jquery-core' ), WPB_VC_VERSION, true );
 		wp_register_script( 'vc-backend-min-js', vc_asset_url( 'js/dist/backend.min.js' ), array(
 			'vc-backend-actions-js',
 			'vc_accordion_script',
 			'wp-color-picker',
 		), WPB_VC_VERSION, true );
-		wp_register_script( 'wpb_php_js', vc_asset_url( 'lib/vendor/php.default/php.default.min.js' ), array( 'jquery-core' ), WPB_VC_VERSION, true );
-		// used as polyfill for JSON.stringify and etc.
-		wp_register_script( 'wpb_json-js', vc_asset_url( 'lib/vendor/node_modules/json-js/json2.min.js' ), array(), WPB_VC_VERSION, true );
-		// used in post settings editor.
-		wp_register_script( 'ace-editor', vc_asset_url( 'lib/vendor/node_modules/ace-builds/src-min-noconflict/ace.js' ), array( 'jquery-core' ), WPB_VC_VERSION, true );
-		wp_register_script( 'wpb-code-editor', vc_asset_url( 'js/dist/post-code-editor.min.js' ), array( 'jquery-core' ), WPB_VC_VERSION, true );
-		wp_register_script( 'webfont', 'https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js', array(), WPB_VC_VERSION, true ); // Google Web Font CDN.
-		wp_register_script( 'wpb-popper', vc_asset_url( 'lib/vendor/node_modules/@popperjs/core/dist/umd/popper.min.js' ), array(), WPB_VC_VERSION, true );
-		wp_register_script( 'pickr', vc_asset_url( 'lib/vendor/node_modules/@simonwep/pickr/dist/pickr.es5.min.js' ), array(), WPB_VC_VERSION, true );
-
-		vc_modules_manager()->register_modules_script();
+		wp_register_script( 'wpb_php_js', vc_asset_url( 'lib/php.default/php.default.min.js' ), array( 'jquery-core' ), WPB_VC_VERSION, true );
+		// used as polyfill for JSON.stringify and etc
+		wp_register_script( 'wpb_json-js', vc_asset_url( 'lib/bower/json-js/json2.min.js' ), array(), WPB_VC_VERSION, true );
+		// used in post settings editor
+		wp_register_script( 'ace-editor', vc_asset_url( 'lib/bower/ace-builds/src-min-noconflict/ace.js' ), array( 'jquery-core' ), WPB_VC_VERSION, true );
+		wp_register_script( 'webfont', 'https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js', array(), WPB_VC_VERSION, true ); // Google Web Font CDN
 
 		wp_localize_script( 'vc-backend-actions-js', 'i18nLocale', wpbakery()->getEditorsLocale() );
-		wp_localize_script( 'vc-backend-actions-js', 'wpbData', wpbakery()->getEditorsWpbData() );
-
-		do_action( 'wpb_after_register_backend_editor_js', $this );
 	}
 
-	/**
-	 * Registers CSS files needed for the backend editor.
-	 */
 	public function registerBackendCss() {
 		wp_register_style( 'js_composer', vc_asset_url( 'css/js_composer_backend_editor.min.css' ), array(), WPB_VC_VERSION, false );
-		wp_register_style( 'wpb_modules_css', vc_asset_url( 'css/modules.min.css' ), array(), WPB_VC_VERSION, false );
 
 		if ( $this->editorEnabled() ) {
 			/**
-			 * Used for accordions/tabs/tours.
-			 *
-			 * @deprecated
+			 * @deprecated, used for accordions/tabs/tours
 			 */
-			wp_register_style( 'ui-custom-theme', vc_asset_url( 'css/jquery-ui-less.custom.min.css' ), array(), WPB_VC_VERSION );
+			wp_register_style( 'ui-custom-theme', vc_asset_url( 'css/ui-custom-theme/jquery-ui-less.custom.min.css' ), array(), WPB_VC_VERSION );
 
 			/**
-			 * Also used in vc_icon shortcode.
-			 *
 			 * @todo check vc_add-element-deprecated-warning for fa icon usage ( set to our font )
+			 * also used in vc_icon shortcode
 			 */
-			wp_register_style( 'vc_font_awesome_5_shims', vc_asset_url( 'lib/vendor/node_modules/@fortawesome/fontawesome-free/css/v4-shims.min.css' ), array(), WPB_VC_VERSION );
-			wp_register_style( 'vc_font_awesome_5', vc_asset_url( 'lib/vendor/node_modules/@fortawesome/fontawesome-free/css/all.min.css' ), array( 'vc_font_awesome_5_shims' ), WPB_VC_VERSION );
+			wp_register_style( 'vc_font_awesome_5_shims', vc_asset_url( 'lib/bower/font-awesome/css/v4-shims.min.css' ), array(), WPB_VC_VERSION );
+			wp_register_style( 'vc_font_awesome_5', vc_asset_url( 'lib/bower/font-awesome/css/all.min.css' ), array( 'vc_font_awesome_5_shims' ), WPB_VC_VERSION );
 			/**
-			 * Definitely used in edit form param: css_animation, but currently vc_add_shortcode_param doesn't accept css.
-			 *
 			 * @todo check for usages
+			 * definetelly used in edit form param: css_animation, but curreny vc_add_shortcode_param doesn't accept css [ @todo refactor that ]
 			 */
-			wp_register_style( 'vc_animate-css', vc_asset_url( 'lib/vendor/node_modules/animate.css/animate.min.css' ), array(), WPB_VC_VERSION );
-			wp_register_style( 'pickr', vc_asset_url( 'lib/vendor/node_modules/@simonwep/pickr/dist/themes/classic.min.css' ), array(), WPB_VC_VERSION, false );
-			wp_register_style( 'vc_google_fonts', 'https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,400;0,700;1,500&display=swap', array(), WPB_VC_VERSION );
+			wp_register_style( 'vc_animate-css', vc_asset_url( 'lib/bower/animate-css/animate.min.css' ), array(), WPB_VC_VERSION );
 		}
-
-		do_action( 'wpb_after_register_backend_editor_css', $this );
 	}
 
-	/**
-	 * Enqueues JavaScript files for the backend editor.
-	 */
 	public function enqueueJs() {
 		$wp_dependencies = array(
 			'jquery-core',
@@ -305,71 +248,54 @@ class Vc_Backend_Editor extends Vc_Editor {
 			'jquery-ui-draggable',
 			'jquery-ui-autocomplete',
 			'jquery-ui-resizable',
-			// used in @deprecated tabs.
+			// used in @deprecated tabs
 			'jquery-ui-tabs',
 			'jquery-ui-accordion',
 		);
 		$dependencies = array(
 			'vc_accordion_script',
 			'wpb_php_js',
-			// used in our files [e.g. edit form saving sprintf].
+			// used in our files [e.g. edit form saving sprintf]
 			'wpb_json-js',
-			'webfont',
-			'wpb-popper',
-			'vc-backend-min-js',
-			'wpb-modules-js',
-			'pickr',
 			'ace-editor',
+			'webfont',
+			'vc-backend-min-js',
 		);
 
-		// Enqueue image drop script only if it is allowed via Role Manager.
-		if (
-			vc_user_access()->part( 'shortcodes' )->getState() === true ||
-			vc_user_access()->part( 'shortcodes' )->can( 'vc_single_image_all' )->get() === true
-		) {
-			$dependencies[] = 'vc-image-drop';
+		// This workaround will allow to disable any of dependency on-the-fly
+		foreach ( $wp_dependencies as $dependency ) {
+			wp_enqueue_script( $dependency );
 		}
-
-		$common = apply_filters( 'wpb_enqueue_backend_editor_js', array_merge( $wp_dependencies, $dependencies ) );
-
-		// This workaround will allow to disable any of dependency on-the-fly.
-		foreach ( $common as $dependency ) {
+		foreach ( $dependencies as $dependency ) {
 			wp_enqueue_script( $dependency );
 		}
 	}
 
-	/**
-	 * Enqueues CSS files for the backend editor.
-	 */
 	public function enqueueCss() {
 		$wp_dependencies = array(
 			'wp-color-picker',
 			'farbtastic',
-			// deprecated for tabs/accordion.
+			// deprecated for tabs/accordion
 			'ui-custom-theme',
-			// used in deprecated message and also in vc-icon shortcode.
+			// used in deprecated message and also in vc-icon shortcode
 			'vc_font_awesome_5',
-			// used in css_animation edit form param.
+			// used in css_animation edit form param
 			'vc_animate-css',
 		);
 		$dependencies = array(
 			'js_composer',
-			'wpb_modules_css',
-			'pickr',
-			'vc_google_fonts',
 		);
 
-		$common = apply_filters( 'wpb_enqueue_backend_editor_css', array_merge( $wp_dependencies, $dependencies ) );
-
-		// This workaround will allow to disable any of dependency on-the-fly.
-		foreach ( $common as $dependency ) {
+		// This workaround will allow to disable any of dependency on-the-fly
+		foreach ( $wp_dependencies as $dependency ) {
+			wp_enqueue_style( $dependency );
+		}
+		foreach ( $dependencies as $dependency ) {
 			wp_enqueue_style( $dependency );
 		}
 	}
 
 	/**
-	 * Checks if the backend editor is enabled.
-	 *
 	 * @return bool
 	 * @throws \Exception
 	 */

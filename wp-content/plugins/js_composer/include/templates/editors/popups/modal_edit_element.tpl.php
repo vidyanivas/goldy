@@ -1,8 +1,4 @@
 <?php
-/**
- * Modal edit element template.
- */
-
 if ( ! defined( 'ABSPATH' ) ) {
 	die( '-1' );
 }

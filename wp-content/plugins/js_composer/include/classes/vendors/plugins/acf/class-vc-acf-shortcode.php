@@ -1,50 +1,18 @@
 <?php
-/**
- * Backward compatibility with "Advanced custom fields" WordPress plugin.
- *
- * @see https://wordpress.org/plugins/advanced-custom-fields/
- *
- * @since 4.4 vendors initialization moved to hooks in autoload/vendors.
- */
-
 if ( ! defined( 'ABSPATH' ) ) {
 	die( '-1' );
 }
-
-require_once vc_path_dir( 'VENDORS_DIR', 'plugins/acf/class-wpb-acf-provider.php' );
 
 /**
  * Class WPBakeryShortCode_Vc_Acf
  */
 class WPBakeryShortCode_Vc_Acf extends WPBakeryShortCode {
-
 	/**
-	 * Provider instance.
-	 *
-	 * @var Wpb_Acf_Provider
-	 * @since 8.1
-	 */
-	public $provider;
-
-	/**
-	 * Constructor.
-	 *
-	 * @param array $settings
-	 * @since 8.1
-	 */
-	public function __construct( $settings ) {
-		parent::__construct( $settings );
-		$this->provider = new Wpb_Acf_Provider();
-	}
-
-	/**
-	 * Content rendering function.
-	 *
-	 * @param array $atts
+	 * @param $atts
 	 * @param null $content
 	 *
-	 * @return string
-	 * @throws Exception
+	 * @return mixed
+	 * @throws \Exception
 	 */
 	protected function content( $atts, $content = null ) {
 		$atts = $atts + vc_map_get_attributes( $this->getShortcode(), $atts );
@@ -77,7 +45,7 @@ class WPBakeryShortCode_Vc_Acf extends WPBakeryShortCode {
 		if ( $field_key ) {
 			$css_class[] = $field_key;
 
-			$value = $this->provider->get_field_value( $field_key );
+			$value = do_shortcode( '[acf field="' . $field_key . '" post_id="' . get_the_ID() . '"]' );
 
 			if ( $atts['show_label'] ) {
 				if ( empty( $value ) && ! $show_empty_acf ) {
@@ -87,7 +55,7 @@ class WPBakeryShortCode_Vc_Acf extends WPBakeryShortCode {
 					$label = is_array( $field ) && isset( $field['label'] ) ? '<span class="vc_acf-label">' . $field['label'] . ':</span> ' : '';
 					$value = $label . $value;
 				}
-			} elseif ( empty( $value ) && ! $show_empty_acf ) {
+			} else if ( empty( $value ) && ! $show_empty_acf ) {
 				$value = '';
 			}
 		}
@@ -101,4 +69,5 @@ class WPBakeryShortCode_Vc_Acf extends WPBakeryShortCode {
 
 		return $output;
 	}
+
 }

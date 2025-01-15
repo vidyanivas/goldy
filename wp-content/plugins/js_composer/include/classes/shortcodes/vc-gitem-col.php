@@ -1,10 +1,4 @@
 <?php
-/**
- * Class that handles specific [vc_gitem_col] shortcode.
- *
- * @see js_composer/include/templates/shortcodes/vc_gitem_col.php
- */
-
 if ( ! defined( 'ABSPATH' ) ) {
 	die( '-1' );
 }
@@ -15,19 +9,11 @@ require_once vc_path_dir( 'SHORTCODES_DIR', 'vc-column.php' );
  * Class WPBakeryShortCode_Vc_Gitem_Col
  */
 class WPBakeryShortCode_Vc_Gitem_Col extends WPBakeryShortCode_Vc_Column {
-
-	/**
-	 * Non draggable class.
-	 *
-	 * @var string
-	 */
 	public $nonDraggableClass = 'vc-non-draggable-column';
 
 	/**
-	 * Add main html block attributes.
-	 *
-	 * @param string $width
-	 * @param int $i
+	 * @param $width
+	 * @param $i
 	 * @return string
 	 * @throws \Exception
 	 */
@@ -38,8 +24,6 @@ class WPBakeryShortCode_Vc_Gitem_Col extends WPBakeryShortCode_Vc_Column {
 	}
 
 	/**
-	 * Add element controls to editor.
-	 *
 	 * @return string
 	 */
 	public function outputEditorControlAlign() {

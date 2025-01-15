@@ -1,15 +1,8 @@
 <?php
-/**
- * Drag and drop template.
- *
- * @var string $part
- * @var string $role
- */
-
 if ( ! defined( 'ABSPATH' ) ) {
 	die( '-1' );
 }
-
+/** @var string $part */
 vc_include_template( 'pages/partials/vc-roles-parts/_part.tpl.php', array(
 	'part' => $part,
 	'role' => $role,

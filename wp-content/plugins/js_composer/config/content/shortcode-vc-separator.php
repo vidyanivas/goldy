@@ -1,10 +1,4 @@
 <?php
-/**
- * Configuration file for [vc_separator] shortcode of 'Separator' element.
- *
- * @see https://kb.wpbakery.com/docs/inner-api/vc_map/ for more detailed information about element attributes.
- */
-
 if ( ! defined( 'ABSPATH' ) ) {
 	die( '-1' );
 }
@@ -13,7 +7,6 @@ return array(
 	'name' => esc_html__( 'Separator', 'js_composer' ),
 	'base' => 'vc_separator',
 	'icon' => 'icon-wpb-ui-separator',
-	'element_default_class' => 'wpb_content_element',
 	'show_settings_on_create' => true,
 	'category' => esc_html__( 'Content', 'js_composer' ),
 	'description' => esc_html__( 'Horizontal separator line', 'js_composer' ),
@@ -43,7 +36,6 @@ return array(
 			'heading' => esc_html__( 'Custom Border Color', 'js_composer' ),
 			'param_name' => 'accent_color',
 			'description' => esc_html__( 'Select border color for your element.', 'js_composer' ),
-			'default_colorpicker_color' => '#EBEBEB',
 			'dependency' => array(
 				'element' => 'color',
 				'value' => array( 'custom' ),
@@ -75,7 +67,7 @@ return array(
 			'type' => 'el_id',
 			'heading' => esc_html__( 'Element ID', 'js_composer' ),
 			'param_name' => 'el_id',
-			'description' => sprintf( esc_html__( 'Enter element ID (Note: make sure it is unique and valid according to %1$sw3c specification%2$s).', 'js_composer' ), '<a href="https://www.w3schools.com/tags/att_global_id.asp" target="_blank">', '</a>' ),
+			'description' => sprintf( esc_html__( 'Enter element ID (Note: make sure it is unique and valid according to %sw3c specification%s).', 'js_composer' ), '<a href="https://www.w3schools.com/tags/att_global_id.asp" target="_blank">', '</a>' ),
 		),
 		array(
 			'type' => 'textfield',
@@ -88,9 +80,6 @@ return array(
 			'heading' => esc_html__( 'CSS box', 'js_composer' ),
 			'param_name' => 'css',
 			'group' => esc_html__( 'Design Options', 'js_composer' ),
-			'value' => array(
-				'margin-bottom' => '35px',
-			),
 		),
 	),
 );

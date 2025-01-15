@@ -1,10 +1,4 @@
 <?php
-/**
- * Class that handles specific [vc_pie] shortcode.
- *
- * @see js_composer/include/templates/shortcodes/vc_pie.php
- */
-
 if ( ! defined( 'ABSPATH' ) ) {
 	die( '-1' );
 }
@@ -15,21 +9,17 @@ if ( ! defined( 'ABSPATH' ) ) {
 class WPBakeryShortCode_Vc_Pie extends WPBakeryShortCode {
 	/**
 	 * WPBakeryShortCode_Vc_Pie constructor.
-	 *
-	 * @param array $settings
+	 * @param $settings
 	 */
 	public function __construct( $settings ) {
 		parent::__construct( $settings );
 		$this->jsScripts();
 	}
 
-	/**
-	 * Register scripts.
-	 */
 	public function jsScripts() {
-		wp_register_script( 'vc_waypoints', vc_asset_url( 'lib/vc/vc_waypoints/vc-waypoints.min.js' ), array( 'jquery-core' ), WPB_VC_VERSION, true );
-		wp_register_script( 'progressCircle', vc_asset_url( 'lib/vendor/progress-circle/progress-circle.min.js' ), array(), WPB_VC_VERSION, true );
-		wp_register_script( 'vc_pie', vc_asset_url( 'lib/vc/vc_chart/jquery.vc_chart.min.js' ), array(
+		wp_register_script( 'vc_waypoints', vc_asset_url( 'lib/vc_waypoints/vc-waypoints.min.js' ), array( 'jquery-core' ), WPB_VC_VERSION, true );
+		wp_register_script( 'progressCircle', vc_asset_url( 'lib/bower/progress-circle/ProgressCircle.min.js' ), array(), WPB_VC_VERSION, true );
+		wp_register_script( 'vc_pie', vc_asset_url( 'lib/vc_chart/jquery.vc_chart.min.js' ), array(
 			'jquery-core',
 			'vc_waypoints',
 			'progressCircle',

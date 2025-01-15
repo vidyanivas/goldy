@@ -1,19 +1,10 @@
 <?php
-/**
- * Param type 'font_container'
- *
- * Container param for a set of fields.
- *
- * @see https://kb.wpbakery.com/docs/inner-api/vc_map/#vc_map()-ParametersofparamsArray
- */
-
 if ( ! defined( 'ABSPATH' ) ) {
 	die( '-1' );
 }
 
 /**
  * Class Vc_Font_Container
- *
  * @since 4.3
  * vc_map examples:
  *  array(
@@ -42,10 +33,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 class Vc_Font_Container {
 
 	/**
-	 * Renders the HTML output.
-	 *
-	 * @param array $settings
-	 * @param string $value
+	 * @param $settings
+	 * @param $value
 	 *
 	 * @return string
 	 */
@@ -132,8 +121,7 @@ class Vc_Font_Container {
                     <div class="wpb_element_label">' . esc_html__( 'Text color', 'js_composer' ) . '</div>
                     <div class="vc_font_container_form_field-color-container">
                         <div class="color-group">
-                            <div class="wpb-color-picker"></div>
-                            <input type="text" value="' . $values['color'] . '" data-default-colorpicker-color="' . $fields['default_colorpicker_color'] . '" class="vc_font_container_form_field-color-input vc_color-control vc_ui-hidden" />
+                            <input type="text" value="' . $values['color'] . '" class="vc_font_container_form_field-color-input vc_color-control" />
                         </div>
                     </div>';
 				if ( isset( $fields['color_description'] ) && strlen( $fields['color_description'] ) > 0 ) {
@@ -184,7 +172,7 @@ class Vc_Font_Container {
 				$data['font_style'] .= '</div>';
 			}
 			$data = apply_filters( 'vc_font_container_output_data', $data, $fields, $values, $settings );
-			// combine all in output, make sure you follow ordering.
+			// combine all in output, make sure you follow ordering
 			foreach ( $fields as $key => $field ) {
 				if ( isset( $data[ $key ] ) ) {
 					$output .= $data[ $key ];
@@ -199,12 +187,11 @@ class Vc_Font_Container {
 	/**
 	 * If field 'font_family' is used this is list of fonts available
 	 * To modify this list, you should use add_filter('vc_font_container_get_fonts_filter','your_custom_function');
-	 *
-	 * @see vc_filter: vc_font_container_get_fonts_filter - to modify list of fonts
+	 * vc_filter: vc_font_container_get_fonts_filter - to modify list of fonts
 	 * @return array list of fonts
 	 */
-	public function _vc_font_container_get_web_safe_fonts() { // phpcs:ignore:PSR2.Methods.MethodDeclaration.Underscore
-		// this is "Web Safe FONTS" from w3c: http://www.w3schools.com/cssref/css_websafe_fonts.asp.
+	public function _vc_font_container_get_web_safe_fonts() {
+		// this is "Web Safe FONTS" from w3c: http://www.w3schools.com/cssref/css_websafe_fonts.asp
 		$web_fonts = array(
 			'Georgia' => 'Georgia, serif',
 			'Palatino Linotype' => '"Palatino Linotype", "Book Antiqua", Palatino, serif',
@@ -234,11 +221,10 @@ class Vc_Font_Container {
 	/**
 	 * If 'tag' field used this is list of allowed tags
 	 * To modify this list, you should use add_filter('vc_font_container_get_allowed_tags','your_custom_function');
-	 *
-	 * @see vc_filter: vc_font_container_get_allowed_tags - to modify list of allowed tags by default
+	 * vc_filter: vc_font_container_get_allowed_tags - to modify list of allowed tags by default
 	 * @return array list of allowed tags
 	 */
-	public function _vc_font_container_get_allowed_tags() { // phpcs:ignore:PSR2.Methods.MethodDeclaration.Underscore
+	public function _vc_font_container_get_allowed_tags() {
 		$allowed_tags = array(
 			'h1',
 			'h2',
@@ -254,14 +240,12 @@ class Vc_Font_Container {
 	}
 
 	/**
-	 * Parse font container attributes.
-	 *
-	 * @param array $attr
-	 * @param array|string $value
+	 * @param $attr
+	 * @param $value
 	 *
 	 * @return array
 	 */
-	public function _vc_font_container_parse_attributes( $attr, $value ) { // phpcs:ignore:PSR2.Methods.MethodDeclaration.Underscore
+	public function _vc_font_container_parse_attributes( $attr, $value ) {
 		$fields = array();
 		if ( isset( $attr ) ) {
 			foreach ( $attr as $key => $val ) {
@@ -299,10 +283,8 @@ class Vc_Font_Container {
 }
 
 /**
- * Filter font container render.
- *
- * @param array $settings
- * @param string $value
+ * @param $settings
+ * @param $value
  *
  * @return mixed
  */

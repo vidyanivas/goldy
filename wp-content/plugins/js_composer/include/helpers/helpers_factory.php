@@ -1,19 +1,17 @@
 <?php
-/**
- * Helper functions shorthands to get main plugin components.
- *
- * @package WPBakeryPageBuilder
- * @since   4.2
- */
-
 if ( ! defined( 'ABSPATH' ) ) {
 	die( '-1' );
 }
 
+/**
+ * WPBakery WPBakery Page Builder Main manager.
+ *
+ * @package WPBakeryPageBuilder
+ * @since   4.2
+ */
 if ( ! function_exists( 'vc_manager' ) ) {
 	/**
 	 * WPBakery Page Builder manager.
-	 *
 	 * @return Vc_Manager
 	 * @since 4.2
 	 */
@@ -23,8 +21,7 @@ if ( ! function_exists( 'vc_manager' ) ) {
 }
 if ( ! function_exists( 'visual_composer' ) ) {
 	/**
-	 * Alias for wpbakery.
-	 *
+	 * WPBakery Page Builder instance.
 	 * @return Vc_Base
 	 * @since 4.2
 	 * @depreacted 5.8, use wpbakery() instead
@@ -36,7 +33,6 @@ if ( ! function_exists( 'visual_composer' ) ) {
 if ( ! function_exists( 'wpbakery' ) ) {
 	/**
 	 * WPBakery Page Builder instance.
-	 *
 	 * @return Vc_Base
 	 * @since 6.8
 	 */
@@ -47,7 +43,6 @@ if ( ! function_exists( 'wpbakery' ) ) {
 if ( ! function_exists( 'vc_mapper' ) ) {
 	/**
 	 * Shorthand for Vc Mapper.
-	 *
 	 * @return Vc_Mapper
 	 * @since 4.2
 	 */
@@ -57,8 +52,7 @@ if ( ! function_exists( 'vc_mapper' ) ) {
 }
 if ( ! function_exists( 'vc_settings' ) ) {
 	/**
-	 * Shorthand for WPBakery settings.
-	 *
+	 * Shorthand for WPBakery Page Builder settings.
 	 * @return Vc_Settings
 	 * @since 4.2
 	 */
@@ -68,8 +62,7 @@ if ( ! function_exists( 'vc_settings' ) ) {
 }
 if ( ! function_exists( 'vc_license' ) ) {
 	/**
-	 * Shorthand for WPBakery license manager.
-	 *
+	 * Get License manager
 	 * @return Vc_License
 	 * @since 4.2
 	 */
@@ -79,8 +72,6 @@ if ( ! function_exists( 'vc_license' ) ) {
 }
 if ( ! function_exists( 'vc_automapper' ) ) {
 	/**
-	 * Shorthand for WPBakery automapper.
-	 *
 	 * @return Vc_Automapper
 	 * @since 4.2
 	 */
@@ -88,32 +79,9 @@ if ( ! function_exists( 'vc_automapper' ) ) {
 		return vc_manager()->automapper();
 	}
 }
-if ( ! function_exists( 'vc_autoload_manager' ) ) {
-	/**
-	 * Shorthand for WPBakery autoload manager.
-	 *
-	 * @return Vc_Autoload_Manager
-	 * @since 7.7
-	 */
-	function vc_autoload_manager() {
-		return vc_manager()->autoload();
-	}
-}
-if ( ! function_exists( 'vc_modules_manager' ) ) {
-	/**
-	 * Shorthand for WPBakery module manager.
-	 *
-	 * @return Vc_Modules_Manager
-	 * @since 7.7
-	 */
-	function vc_modules_manager() {
-		return vc_manager()->modules();
-	}
-}
 if ( ! function_exists( 'vc_frontend_editor' ) ) {
 	/**
-	 * Shorthand for WPBakery frontend editor.
-	 *
+	 * Shorthand for VC frontend editor
 	 * @return Vc_Frontend_Editor
 	 * @since 4.2
 	 */
@@ -123,8 +91,7 @@ if ( ! function_exists( 'vc_frontend_editor' ) ) {
 }
 if ( ! function_exists( 'vc_backend_editor' ) ) {
 	/**
-	 * Shorthand for WPBakery frontend editor.
-	 *
+	 * Shorthand for VC frontend editor
 	 * @return Vc_Backend_Editor
 	 * @since 4.2
 	 */
@@ -134,8 +101,6 @@ if ( ! function_exists( 'vc_backend_editor' ) ) {
 }
 if ( ! function_exists( 'vc_updater' ) ) {
 	/**
-	 * Shorthand for WPBakery updater.
-	 *
 	 * @return Vc_Updater
 	 * @since 4.2
 	 */
@@ -145,8 +110,7 @@ if ( ! function_exists( 'vc_updater' ) ) {
 }
 if ( ! function_exists( 'vc_is_network_plugin' ) ) {
 	/**
-	 * Check is network plugin or not.
-	 *
+	 * Vc is network plugin or not.
 	 * @return bool
 	 * @since 4.2
 	 */
@@ -158,7 +122,7 @@ if ( ! function_exists( 'vc_path_dir' ) ) {
 	/**
 	 * Get file/directory path in Vc.
 	 *
-	 * @param string $name - path name.
+	 * @param string $name - path name
 	 * @param string $file
 	 *
 	 * @return string
@@ -183,8 +147,7 @@ if ( ! function_exists( 'vc_asset_url' ) ) {
 }
 if ( ! function_exists( 'vc_upload_dir' ) ) {
 	/**
-	 * Temporary files upload dir.
-	 *
+	 * Temporary files upload dir;
 	 * @return string
 	 * @since 4.2
 	 */
@@ -194,9 +157,7 @@ if ( ! function_exists( 'vc_upload_dir' ) ) {
 }
 if ( ! function_exists( 'vc_template' ) ) {
 	/**
-	 * Shorthand for getting to plugin templates.
-	 *
-	 * @param string $file
+	 * @param $file
 	 *
 	 * @return string
 	 * @since 4.2
@@ -209,22 +170,21 @@ if ( ! function_exists( 'vc_post_param' ) ) {
 	/**
 	 * Get param value from $_POST if exists.
 	 *
-	 * @param string $param
-	 * @param mixed $default_value
+	 * @param $param
+	 * @param $default
 	 *
 	 * @param bool $check
 	 * @return null|string - null for undefined param.
 	 * @since 4.2
 	 */
-	function vc_post_param( $param, $default_value = null, $check = false ) {
+	function vc_post_param( $param, $default = null, $check = false ) {
 		if ( 'admin' === $check ) {
 			check_admin_referer();
 		} elseif ( 'ajax' === $check ) {
 			check_ajax_referer();
 		}
 
-        // phpcs:ignore
-		return isset( $_POST[ $param ] ) ? $_POST[ $param ] : $default_value;
+		return isset( $_POST[ $param ] ) ? $_POST[ $param ] : $default;
 	}
 }
 if ( ! function_exists( 'vc_get_param' ) ) {
@@ -232,13 +192,13 @@ if ( ! function_exists( 'vc_get_param' ) ) {
 	 * Get param value from $_GET if exists.
 	 *
 	 * @param string $param
-	 * @param mixed $default_value
+	 * @param $default
 	 *
 	 * @param bool $check
 	 * @return null|string - null for undefined param.
 	 * @since 4.2
 	 */
-	function vc_get_param( $param, $default_value = null, $check = false ) {
+	function vc_get_param( $param, $default = null, $check = false ) {
 		if ( 'admin' === $check ) {
 			check_admin_referer();
 		} elseif ( 'ajax' === $check ) {
@@ -246,21 +206,21 @@ if ( ! function_exists( 'vc_get_param' ) ) {
 		}
 
 		// @codingStandardsIgnoreLine
-		return isset( $_GET[ $param ] ) ? $_GET[ $param ] : $default_value;
+		return isset( $_GET[ $param ] ) ? $_GET[ $param ] : $default;
 	}
 }
 if ( ! function_exists( 'vc_request_param' ) ) {
 	/**
 	 * Get param value from $_REQUEST if exists.
 	 *
-	 * @param string $param
-	 * @param mixed $default_value
+	 * @param $param
+	 * @param $default
 	 *
 	 * @param bool $check
-	 * @return mixed - null for undefined param.
+	 * @return null|string - null for undefined param.
 	 * @since 4.4
 	 */
-	function vc_request_param( $param, $default_value = null, $check = false ) {
+	function vc_request_param( $param, $default = null, $check = false ) {
 		if ( 'admin' === $check ) {
 			check_admin_referer();
 		} elseif ( 'ajax' === $check ) {
@@ -268,13 +228,11 @@ if ( ! function_exists( 'vc_request_param' ) ) {
 		}
 
 		// @codingStandardsIgnoreLine
-		return isset( $_REQUEST[ $param ] ) ? $_REQUEST[ $param ] : $default_value;
+		return isset( $_REQUEST[ $param ] ) ? $_REQUEST[ $param ] : $default;
 	}
 }
 if ( ! function_exists( 'vc_is_frontend_editor' ) ) {
 	/**
-	 * Check if current plugin mode is frontend editor mode.
-	 *
 	 * @return bool
 	 * @since 4.2
 	 */
@@ -284,8 +242,6 @@ if ( ! function_exists( 'vc_is_frontend_editor' ) ) {
 }
 if ( ! function_exists( 'vc_is_page_editable' ) ) {
 	/**
-	 * Check if current plugin mode is page editable mode.
-	 *
 	 * @return bool
 	 * @since 4.2
 	 */
@@ -293,30 +249,9 @@ if ( ! function_exists( 'vc_is_page_editable' ) ) {
 		return 'page_editable' === vc_mode();
 	}
 }
-if ( ! function_exists( 'vc_is_gutenberg_editor' ) ) {
-	/**
-	 * Check if current screen is Gutenberg editor screen.
-	 *
-	 * @return bool
-	 * @since 7.0
-	 */
-	function vc_is_gutenberg_editor() {
-		if ( ! function_exists( 'get_current_screen' ) ) {
-			return false;
-		}
-
-		$current_screen = get_current_screen();
-		if ( ! method_exists( $current_screen, 'is_block_editor' ) ) {
-			return false;
-		}
-
-		return get_current_screen()->is_block_editor();
-	}
-}
 if ( ! function_exists( 'vc_action' ) ) {
 	/**
 	 * Get VC special action param.
-	 *
 	 * @return string|null
 	 * @since 4.2
 	 */
@@ -329,7 +264,6 @@ if ( ! function_exists( 'vc_action' ) ) {
 if ( ! function_exists( 'vc_is_inline' ) ) {
 	/**
 	 * Get is inline or not.
-	 *
 	 * @return bool
 	 * @since 4.2
 	 */
@@ -344,8 +278,6 @@ if ( ! function_exists( 'vc_is_inline' ) ) {
 }
 if ( ! function_exists( 'vc_is_frontend_ajax' ) ) {
 	/**
-	 * Check if current request is frontend ajax request.
-	 *
 	 * @return bool
 	 * @since 4.2
 	 */
@@ -354,9 +286,7 @@ if ( ! function_exists( 'vc_is_frontend_ajax' ) ) {
 	}
 }
 /**
- * Check is plugin editor;
- *
- * @depreacted since 4.8 ( use vc_is_frontend_editor ).
+ * @depreacted since 4.8 ( use vc_is_frontend_editor )
  * @return bool
  * @since 4.2
  */
@@ -365,54 +295,50 @@ function vc_is_editor() {
 }
 
 /**
- * Processes a value by decoding, optionally encoding, and replacing special characters.
- *
- * @param mixed $value
+ * @param $value
  * @param bool $encode
  *
  * @return string
  * @since 4.2
  */
 function vc_value_from_safe( $value, $encode = false ) {
-	$value = is_string( $value ) ? $value : '';
 	// @codingStandardsIgnoreLine
 	$value = preg_match( '/^#E\-8_/', $value ) ? rawurldecode( base64_decode( preg_replace( '/^#E\-8_/', '', $value ) ) ) : $value;
 	if ( $encode ) {
 		$value = htmlentities( $value, ENT_COMPAT, 'UTF-8' );
 	}
 
-	return str_replace( [ '`{`', '`}`', '``' ], [ '[', ']', '"' ], $value );
+	return str_replace( [
+		'`{`',
+		'`}`',
+		'``',
+	], [
+		'[',
+		']',
+		'"',
+	], $value );
 }
 
 /**
- * Disable automapper.
- *
- * @depreacted 7.7 ( use modules settings )
  * @param bool $disable
  * @since 4.2
+ *
  */
 function vc_disable_automapper( $disable = true ) {
-	_deprecated_function( __FUNCTION__, '7.7', 'Use plugin settings module tab to disable automapper' );
 	vc_automapper()->setDisabled( $disable );
 }
 
 /**
- * Check is automapper disabled.
- *
- * @depreacted 7.7 ( use modules settings )
  * @return bool
  * @since 4.2
  */
 function vc_automapper_is_disabled() {
-	_deprecated_function( __FUNCTION__, '7.7', 'Use plugin settings module tab to disable automapper' );
 	return vc_automapper()->disabled();
 }
 
 /**
- * Get dropdown option.
- *
- * @param array $param
- * @param array $value
+ * @param $param
+ * @param $value
  *
  * @return mixed|string
  * @since 4.2
@@ -425,17 +351,14 @@ function vc_get_dropdown_option( $param, $value ) {
 		reset( $value );
 		$value = isset( $value['value'] ) ? $value['value'] : current( $value );
 	}
-	$value = is_string( $value ) ? $value : '';
 	$value = preg_replace( '/\s/', '_', $value );
 
 	return ( '' !== $value ? $value : '' );
 }
 
 /**
- * Get css color.
- *
- * @param string $prefix
- * @param string $color
+ * @param $prefix
+ * @param $color
  *
  * @return string
  * @since 4.2
@@ -457,9 +380,7 @@ function vc_get_css_color( $prefix, $color ) {
 }
 
 /**
- * Get shortcode custom css class.
- *
- * @param string $param_value
+ * @param $param_value
  * @param string $prefix
  *
  * @return string
@@ -472,10 +393,8 @@ function vc_shortcode_custom_css_class( $param_value, $prefix = '' ) {
 }
 
 /**
- * Checks if certain custom CSS shortcode property exists.
- *
- * @param string $subject
- * @param array|string $property
+ * @param $subject
+ * @param $property
  * @param bool|false $strict
  *
  * @return bool
@@ -512,7 +431,7 @@ function vc_shortcode_custom_css_has_property( $subject, $property, $strict = fa
 }
 
 /**
- * Plugin name for WPBakery.
+ * Plugin name for VC.
  *
  * @return string
  * @since 4.2
@@ -522,12 +441,11 @@ function vc_plugin_name() {
 }
 
 /**
- * Get file content.
- *
- * @param string $filename
+ * @param $filename
  *
  * @return bool|mixed|string
- * @since 4.4.3 used in vc_base when getting a custom css output.
+ * @since 4.4.3 used in vc_base when getting an custom css output
+ *
  */
 function vc_file_get_contents( $filename ) {
 	global $wp_filesystem;
@@ -535,7 +453,7 @@ function vc_file_get_contents( $filename ) {
 		require_once ABSPATH . '/wp-admin/includes/file.php';
 		WP_Filesystem( false, false, true );
 	}
-	// WP_Filesystem_Base $wp_filesystem - global variable.
+	/** @var WP_Filesystem_Base $wp_filesystem */
 	$output = '';
 	if ( is_object( $wp_filesystem ) ) {
 		$output = $wp_filesystem->get_contents( $filename );
@@ -550,10 +468,7 @@ function vc_file_get_contents( $filename ) {
 }
 
 /**
- * Shorthand for WPBakery role access manager.
- *
  * HowTo: vc_role_access()->who('administrator')->with('editor')->can('frontend_editor');
- *
  * @return Vc_Role_Access;
  * @since 4.8
  */
@@ -562,10 +477,8 @@ function vc_role_access() {
 }
 
 /**
- * Shorthand for current user access.
- *
+ * Get access manager for current user.
  * HowTo: vc_user_access()->->with('editor')->can('frontend_editor');
- *
  * @return Vc_Current_User_Access;
  * @since 4.8
  */
@@ -574,21 +487,19 @@ function vc_user_access() {
 }
 
 /**
- * Get all user roles.
- *
  * @return array
- * @throws Exception
+ * @throws \Exception
  */
 function vc_user_roles_get_all() {
 	require_once vc_path_dir( 'SETTINGS_DIR', 'class-vc-roles.php' );
 	$vc_roles = new Vc_Roles();
 	$capabilities = array();
 	foreach ( $vc_roles->getParts() as $part ) {
-		$part_obj = vc_user_access()->part( $part );
+		$partObj = vc_user_access()->part( $part );
 		$capabilities[ $part ] = array(
-			'state' => ( is_multisite() && is_super_admin() ) ? true : $part_obj->getState(),
-			'state_key' => $part_obj->getStateKey(),
-			'capabilities' => $part_obj->getAllCaps(),
+			'state' => ( is_multisite() && is_super_admin() ) ? true : $partObj->getState(),
+			'state_key' => $partObj->getStateKey(),
+			'capabilities' => $partObj->getAllCaps(),
 		);
 	}
 
@@ -596,10 +507,7 @@ function vc_user_roles_get_all() {
 }
 
 /**
- * Generate nonce.
- *
- * @param string|array $data
- * @param bool $from_esi
+ * @param $data
  *
  * @return string
  */
@@ -609,7 +517,7 @@ function vc_generate_nonce( $data, $from_esi = false ) {
 			if ( method_exists( 'LiteSpeed_Cache_API', 'v' ) && LiteSpeed_Cache_API::v( '1.3' ) ) {
 				$params = array( 'data' => $data );
 
-				return LiteSpeed_Cache_API::esi_url( 'js_composer', 'WPBakery Page Builder', $params, 'default', true );// The last parameter is to remove ESI comment wrapper.
+				return LiteSpeed_Cache_API::esi_url( 'js_composer', 'WPBakery Page Builder', $params, 'default', true );// The last parameter is to remove ESI comment wrapper
 			}
 		}
 	}
@@ -618,21 +526,19 @@ function vc_generate_nonce( $data, $from_esi = false ) {
 }
 
 /**
- * Output ESI nonce.
+ * @param $params
  *
- * @param array $params
+ * @return string
  */
 function vc_hook_esi( $params ) {
 	$data = $params['data'];
-	echo vc_generate_nonce( $data, true ); // phpcs:ignore:WordPress.Security.EscapeOutput.OutputNotEscaped
+	echo vc_generate_nonce( $data, true );
 	exit;
 }
 
 /**
- * Verify nonce.
- *
- * @param string $nonce
- * @param array|string $data
+ * @param $nonce
+ * @param $data
  *
  * @return bool
  */
@@ -641,9 +547,7 @@ function vc_verify_nonce( $nonce, $data ) {
 }
 
 /**
- * Verify admin nonce.
- *
- * @param string $nonce
+ * @param $nonce
  *
  * @return bool
  */
@@ -652,9 +556,7 @@ function vc_verify_admin_nonce( $nonce = '' ) {
 }
 
 /**
- * Verify public nonce.
- *
- * @param string $nonce
+ * @param $nonce
  *
  * @return bool
  */
@@ -663,11 +565,9 @@ function vc_verify_public_nonce( $nonce = '' ) {
 }
 
 /**
- * Check if post type can be editable with WPBakery by current user.
- *
- * @param string $type
+ * @param $type
  * @return bool|mixed|void
- * @throws Exception
+ * @throws \Exception
  */
 function vc_check_post_type( $type = '' ) {
 	if ( empty( $type ) ) {
@@ -678,12 +578,12 @@ function vc_check_post_type( $type = '' ) {
 		if ( is_multisite() && is_super_admin() ) {
 			return true;
 		}
-		$current_user = wp_get_current_user();
-		$all_caps = $current_user->get_role_caps();
-		$cap_key = vc_user_access()->part( 'post_types' )->getStateKey();
+		$currentUser = wp_get_current_user();
+		$allCaps = $currentUser->get_role_caps();
+		$capKey = vc_user_access()->part( 'post_types' )->getStateKey();
 		$state = null;
-		if ( array_key_exists( $cap_key, $all_caps ) ) {
-			$state = $all_caps[ $cap_key ];
+		if ( array_key_exists( $capKey, $allCaps ) ) {
+			$state = $allCaps[ $capKey ];
 		}
 		if ( false === $state ) {
 			return false;
@@ -700,77 +600,52 @@ function vc_check_post_type( $type = '' ) {
 }
 
 /**
- * Check if user have edit access level to specific shortcode.
- *
- * @throws Exception
- * @param string $shortcode
+ * @param $shortcode
  * @return bool|mixed|void
  */
 function vc_user_access_check_shortcode_edit( $shortcode ) {
-    // phpcs:ignore:WordPress.NamingConventions.ValidHookName.UseUnderscores
-	$do_check = apply_filters( 'vc_user_access_check-shortcode_all', null, $shortcode );
-
-	if ( ! is_null( $do_check ) ) {
-		return $do_check;
-	}
-
-	return vc_get_user_shortcode_access( $shortcode, 'edit' );
-}
-
-/**
- * Check if user have all access level to specific shortcode.
- *
- * @param string $shortcode
- * @return bool|mixed|void
- * @throws Exception
- */
-function vc_user_access_check_shortcode_all( $shortcode ) {
-    // phpcs:ignore:WordPress.NamingConventions.ValidHookName.UseUnderscores
-	$do_check = apply_filters( 'vc_user_access_check-shortcode_all', null, $shortcode );
-
-	if ( ! is_null( $do_check ) ) {
-		return $do_check;
-	}
-
-	return vc_get_user_shortcode_access( $shortcode );
-}
-
-/**
- * Get user access to shortcode.
- *
- * Note you can set access to specific shortcode in plugin settings 'Role Manager' tab.
- *
- * @since 7.9
- * @param string $shortcode
- * @param string $access_level right now we have 2 levels: 'all' and 'edit'.
- * @return bool
- * @throws Exception
- */
-function vc_get_user_shortcode_access( $shortcode, $access_level = 'all' ) {
+	$do_check = apply_filters( 'vc_user_access_check-shortcode_edit', null, $shortcode );
 	if ( is_multisite() && is_super_admin() ) {
 		return true;
 	}
-
-	$shortcodes_part = vc_user_access()->part( 'shortcodes' );
-	if ( 'edit' === $access_level ) {
-		$state_check = $shortcodes_part->checkStateAny( true, 'edit', null )->get();
+	if ( is_null( $do_check ) ) {
+		$state_check = vc_user_access()->part( 'shortcodes' )->checkStateAny( true, 'edit', null )->get();
 		if ( $state_check ) {
 			return true;
 		} else {
-			return $shortcodes_part->canAny( $shortcode . '_all', $shortcode . '_edit' )->get();
+			return vc_user_access()->part( 'shortcodes' )->canAny( $shortcode . '_all', $shortcode . '_edit' )->get();
 		}
 	} else {
-		return $shortcodes_part->checkStateAny( true, 'custom', null )->can( $shortcode . '_all' )->get();
+		return $do_check;
 	}
 }
 
 /**
- * Call the htmlspecialchars_decode to a given multilevel array.
+ * @param $shortcode
+ * @return bool|mixed|void
+ * @throws \Exception
+ */
+function vc_user_access_check_shortcode_all( $shortcode ) {
+	$do_check = apply_filters( 'vc_user_access_check-shortcode_all', null, $shortcode );
+	if ( is_multisite() && is_super_admin() ) {
+		return true;
+	}
+	if ( is_null( $do_check ) ) {
+		return vc_user_access()->part( 'shortcodes' )->checkStateAny( true, 'custom', null )->can( $shortcode . '_all' )->get();
+	} else {
+		return $do_check;
+	}
+}
+
+/**
+ * htmlspecialchars_decode_deep
+ * Call the htmlspecialchars_decode to a gived multilevel array
  *
  * @param mixed $value The value to be stripped.
  *
  * @return mixed Stripped value.
  * @since 4.8
+ *
  */
 function vc_htmlspecialchars_decode_deep( $value ) {
 	if ( is_array( $value ) ) {
@@ -788,9 +663,7 @@ function vc_htmlspecialchars_decode_deep( $value ) {
 }
 
 /**
- * Remove protocol from string.
- *
- * @param string $str
+ * @param $str
  * @return mixed
  */
 function vc_str_remove_protocol( $str ) {
@@ -802,7 +675,7 @@ function vc_str_remove_protocol( $str ) {
 
 if ( ! function_exists( 'wpb_get_current_theme_slug' ) ) {
 	/**
-	 * Get current theme slug (actually the directory name).
+	 * Get current theme slug (actually the directory name)
 	 *
 	 * When child theme is in use will return the parent's slug.
 	 *

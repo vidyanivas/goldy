@@ -1,11 +1,4 @@
 <?php
-/**
- * Settings tabs template.
- *
- * @var string $active_tab
- * @var array $tabs
- */
-
 if ( ! defined( 'ABSPATH' ) ) {
 	die( '-1' );
 }

@@ -1,27 +1,21 @@
 <?php
-/**
- * Backward compatibility with "Advanced custom fields" WordPress plugin.
- *
- * @see https://wordpress.org/plugins/advanced-custom-fields/
- *
- * @since 4.4 vendors initialization moved to hooks in autoload/vendors.
- */
-
 if ( ! defined( 'ABSPATH' ) ) {
 	die( '-1' );
 }
 
-require_once vc_path_dir( 'VENDORS_DIR', 'plugins/acf/class-wpb-acf-provider.php' );
-
 /**
  * Get ACF data
  *
- * @param mixed $value
- * @param array $data
+ * @param $value
+ * @param $data
  *
  * @return string
  */
 function vc_gitem_template_attribute_acf( $value, $data ) {
+	/**
+	 * @var null|Wp_Post $post ;
+	 * @var string $data ;
+	 */
 	extract( array_merge( array(
 		'post' => null,
 		'data' => '',
@@ -42,9 +36,9 @@ function vc_gitem_template_attribute_acf( $value, $data ) {
 		$label = is_array( $field ) && isset( $field['label'] ) ? '<span class="vc_gitem-acf-label">' . $field['label'] . ':</span> ' : '';
 	}
 
+	$value = '';
 	if ( $data ) {
-		$provider = new Wpb_Acf_Provider();
-		$value = $provider->get_field_value( $data, $post->ID );
+		$value = do_shortcode( '[acf field="' . $data . '" post_id="' . $post->ID . '"]' );
 	}
 
 	return $label . apply_filters( 'vc_gitem_template_attribute_acf_value', $value );

@@ -1,22 +1,21 @@
 <?php
-/**
- * Modified by WPBakery Page Builder team
- * WordPress Importer
- * http://wordpress.org/extend/plugins/wordpress-importer/
- * Description: Import posts, pages, comments, custom fields, categories, tags and more from a WordPress export file.
- * Author: wordpressdotorg
- * Author URI: http://wordpress.org/
- * Version: 0.6.3 with fixes and enchancements from WPBakery Page Builder
- * Text Domain: js_composer
- * License: GPL version 2 or later - http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
- */
-
 if ( ! defined( 'ABSPATH' ) ) {
 	die( '-1' );
 }
 
+/*
+ * Modified by WPBakery Page Builder team
+WordPress Importer
+http://wordpress.org/extend/plugins/wordpress-importer/
+Description: Import posts, pages, comments, custom fields, categories, tags and more from a WordPress export file.
+Author: wordpressdotorg
+Author URI: http://wordpress.org/
+Version: 0.6.3 with fixes and enchancements from WPBakery Page Builder
+Text Domain: js_composer
+License: GPL version 2 or later - http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
+*/
 
-// Load Importer API.
+// Load Importer API
 require_once ABSPATH . 'wp-admin/includes/import.php';
 
 if ( ! class_exists( 'WP_Importer' ) ) {
@@ -26,8 +25,8 @@ if ( ! class_exists( 'WP_Importer' ) ) {
 	}
 }
 
-// include WXR file parsers.
-require_once __DIR__ . '/class-vc-wxr-parser.php';
+// include WXR file parsers
+require_once dirname( __FILE__ ) . '/class-vc-wxr-parser.php';
 
 /**
  * WordPress Importer class for managing the import process of a WXR file
@@ -41,78 +40,51 @@ if ( class_exists( 'WP_Importer' ) ) {
 	 */
 	class Vc_WP_Import extends WP_Importer {
 		/**
-		 * Max supported WXR version.
-		 *
 		 * @var float
 		 */
-		public $max_wxr_version = 1.2;
+		public $max_wxr_version = 1.2; // max. supported WXR version
+
 		/**
-		 * File id.
-		 *
-		 * @var int
+		 * @var
 		 */
 		public $id;
 
 		/**
-		 * Information to import from WXR file.
-		 *
-		 * @var string
+		 * @var information to import from WXR file
 		 */
 		public $version;
-
 		/**
-		 * Posts list.
-		 *
 		 * @var array
 		 */
 		public $posts = array();
-
 		/**
-		 * Base url.
-		 *
 		 * @var string
 		 */
 		public $base_url = '';
 
+		// mappings from old information to new
 		/**
-		 * Processed posts.
-		 * Mappings from old information to new.
-		 *
 		 * @var array
 		 */
 		public $processed_posts = array();
-
 		/**
-		 * List of processed attachments.
-		 *
 		 * @var array
 		 */
 		public $processed_attachments = array();
-
 		/**
-		 * List of post orphans.
-		 *
 		 * @var array
 		 */
 		public $post_orphans = array();
 
 		/**
-		 * Whether to fetch attachments.
-		 *
 		 * @var bool
 		 */
 		public $fetch_attachments = true;
-
 		/**
-		 * URL remap.
-		 *
 		 * @var array
 		 */
 		public $url_remap = array();
-
 		/**
-		 * Featured images.
-		 *
 		 * @var array
 		 */
 		public $featured_images = array();
@@ -120,7 +92,7 @@ if ( class_exists( 'WP_Importer' ) ) {
 		/**
 		 * The main controller for the actual import stage.
 		 *
-		 * @param string $file Path to the WXR file for importing.
+		 * @param string $file Path to the WXR file for importing
 		 */
 		public function import( $file ) {
 			add_filter( 'vc_import_post_meta_key', array(
@@ -138,7 +110,7 @@ if ( class_exists( 'WP_Importer' ) ) {
 			$this->process_posts();
 			wp_suspend_cache_invalidation( false );
 
-			// update incorrect/missing information in the DB.
+			// update incorrect/missing information in the DB
 			$this->backfill_parents();
 			$this->backfill_attachment_urls();
 			$this->remap_featured_images();
@@ -149,7 +121,7 @@ if ( class_exists( 'WP_Importer' ) ) {
 		/**
 		 * Parses the WXR file and prepares us for the task of processing parsed data
 		 *
-		 * @param string $file Path to the WXR file for importing.
+		 * @param string $file Path to the WXR file for importing
 		 */
 		public function import_start( $file ) {
 			if ( ! is_file( $file ) ) {
@@ -162,7 +134,7 @@ if ( class_exists( 'WP_Importer' ) ) {
 
 			if ( is_wp_error( $import_data ) ) {
 				echo '<p><strong>' . esc_html__( 'Sorry, there has been an error.', 'js_composer' ) . '</strong><br />';
-				// WP_Error $import_data.
+				/** @var \WP_Error $import_data */
 				echo esc_html( $import_data->get_error_message() ) . '</p>';
 				die();
 			}
@@ -223,7 +195,7 @@ if ( class_exists( 'WP_Importer' ) ) {
 			$import_data = $this->parse( $file['file'] );
 			if ( is_wp_error( $import_data ) ) {
 				echo '<p><strong>' . esc_html__( 'Sorry, there has been an error.', 'js_composer' ) . '</strong><br />';
-				// WP_Error $import_data - error holder.
+				/** @var \WP_Error $import_data */
 				echo esc_html( $import_data->get_error_message() ) . '</p>';
 
 				return false;
@@ -274,17 +246,17 @@ if ( class_exists( 'WP_Importer' ) ) {
 
 					$post_parent = (int) $post['post_parent'];
 					if ( $post_parent ) {
-						// if we already know the parent, map it to the new local ID.
+						// if we already know the parent, map it to the new local ID
 						if ( isset( $this->processed_posts[ $post_parent ] ) ) {
 							$post_parent = $this->processed_posts[ $post_parent ];
-							// otherwise record the parent for later.
+							// otherwise record the parent for later
 						} else {
 							$this->post_orphans[ intval( $post['post_id'] ) ] = $post_parent;
 							$post_parent = 0;
 						}
 					}
 
-					// map the post author.
+					// map the post author
 					$author = (int) get_current_user_id();
 
 					$postdata = array(
@@ -313,8 +285,8 @@ if ( class_exists( 'WP_Importer' ) ) {
 					if ( 'attachment' === $postdata['post_type'] ) {
 						$remote_url = ! empty( $post['attachment_url'] ) ? $post['attachment_url'] : $post['guid'];
 
-						// try to use _wp_attached file for upload folder placement to ensure the same location as the export site.
-						// e.g. location is 2003/05/image.jpg but the attachment post_date is 2010/09, see media_handle_upload().
+						// try to use _wp_attached file for upload folder placement to ensure the same location as the export site
+						// e.g. location is 2003/05/image.jpg but the attachment post_date is 2010/09, see media_handle_upload()
 						$postdata['upload_date'] = $post['post_date'];
 						if ( isset( $post['postmeta'] ) ) {
 							foreach ( $post['postmeta'] as $meta ) {
@@ -331,7 +303,7 @@ if ( class_exists( 'WP_Importer' ) ) {
 					} else {
 						$post_id = wp_insert_post( $postdata, true );
 						do_action( 'vc_import_insert_post', $post_id, $original_post_ID, $postdata, $post );
-						// map pre-import ID to local ID.
+						// map pre-import ID to local ID
 						$this->processed_posts[ intval( $post['post_id'] ) ] = (int) $post_id;
 					}
 
@@ -354,7 +326,7 @@ if ( class_exists( 'WP_Importer' ) ) {
 
 					$post['postmeta'] = apply_filters( 'vc_import_post_meta', $post['postmeta'], $post_id, $post );
 
-					// add/update post meta.
+					// add/update post meta
 					if ( ! empty( $post['postmeta'] ) ) {
 						foreach ( $post['postmeta'] as $meta ) {
 							$key = apply_filters( 'vc_import_post_meta_key', $meta['key'], $post_id, $post );
@@ -365,7 +337,7 @@ if ( class_exists( 'WP_Importer' ) ) {
 							}
 
 							if ( $key ) {
-								// export gets meta straight from the DB so could have a serialized string.
+								// export gets meta straight from the DB so could have a serialized string
 								if ( ! $value ) {
 									$value = maybe_unserialize( $meta['value'] );
 								}
@@ -373,7 +345,7 @@ if ( class_exists( 'WP_Importer' ) ) {
 								add_post_meta( $post_id, $key, $value );
 								do_action( 'vc_import_post_meta', $post_id, $key, $value );
 
-								// if the post has a featured image, take note of this in case of remap.
+								// if the post has a featured image, take note of this in case of remap
 								if ( '_thumbnail_id' === $key ) {
 									$this->featured_images[ $post_id ] = (int) $value;
 								}
@@ -390,17 +362,17 @@ if ( class_exists( 'WP_Importer' ) ) {
 		/**
 		 * If fetching attachments is enabled then attempt to create a new attachment
 		 *
-		 * @param array $post Attachment post details from WXR.
-		 * @param string $url URL to fetch attachment from.
-		 * @param int $original_post_ID
-		 * @return int|\WP_Error Post ID on success, WP_Error otherwise.
+		 * @param array $post Attachment post details from WXR
+		 * @param string $url URL to fetch attachment from
+		 * @param $original_post_ID
+		 * @return int|\WP_Error Post ID on success, WP_Error otherwise
 		 */
 		public function process_attachment( $post, $url, $original_post_ID ) {
 			if ( ! $this->fetch_attachments ) {
 				return new WP_Error( 'attachment_processing_error', esc_html__( 'Fetching attachments is not enabled', 'js_composer' ) );
 			}
 
-			// if the URL is absolute, but does not contain address, then upload it assuming base_site_url.
+			// if the URL is absolute, but does not contain address, then upload it assuming base_site_url
 			if ( preg_match( '|^/[\w\W]+$|', $url ) ) {
 				$url = rtrim( $this->base_url, '/' ) . $url;
 			}
@@ -419,14 +391,14 @@ if ( class_exists( 'WP_Importer' ) ) {
 
 			$post['guid'] = $upload['url'];
 
-			// as per wp-admin/includes/upload.php.
+			// as per wp-admin/includes/upload.php
 			$post_id = wp_insert_attachment( $post, $upload['file'] );
 			wp_update_attachment_metadata( $post_id, wp_generate_attachment_metadata( $post_id, $upload['file'] ) );
 
 			// remap resized image URLs, works by stripping the extension and remapping the URL stub.
 			if ( preg_match( '!^image/!', $info['type'] ) ) {
 				$parts = pathinfo( $url );
-				$name = basename( $parts['basename'], ".{$parts['extension']}" ); // PATHINFO_FILENAME in PHP 5.2.
+				$name = basename( $parts['basename'], ".{$parts['extension']}" ); // PATHINFO_FILENAME in PHP 5.2
 
 				$parts_new = pathinfo( $upload['url'] );
 				$name_new = basename( $parts_new['basename'], ".{$parts_new['extension']}" );
@@ -439,9 +411,7 @@ if ( class_exists( 'WP_Importer' ) ) {
 		}
 
 		/**
-		 * Process url.
-		 *
-		 * @param string $url
+		 * @param $url
 		 * @param bool $file_path
 		 * @return array|bool|\Requests_Utility_CaseInsensitiveDictionary
 		 */
@@ -485,24 +455,24 @@ if ( class_exists( 'WP_Importer' ) ) {
 		/**
 		 * Attempt to download a remote file attachment
 		 *
-		 * @param string $url URL of item to fetch.
-		 * @param array $post Attachment details.
-		 * @return array|WP_Error Local file location details on success, WP_Error otherwise.
+		 * @param string $url URL of item to fetch
+		 * @param array $post Attachment details
+		 * @return array|WP_Error Local file location details on success, WP_Error otherwise
 		 */
 		public function fetch_remote_file( $url, $post ) {
-			// extract the file name and extension from the url.
+			// extract the file name and extension from the url
 			$file_name = basename( $url );
 
-			// get placeholder file in the upload dir with a unique, sanitized filename.
+			// get placeholder file in the upload dir with a unique, sanitized filename
 			$upload = wp_upload_bits( $file_name, null, '', $post['upload_date'] );
 			if ( $upload['error'] ) {
 				return new WP_Error( 'upload_dir_error', $upload['error'] );
 			}
 
-			// fetch the remote url and write it to the placeholder file.
+			// fetch the remote url and write it to the placeholder file
 			$headers = $this->wp_get_http( $url, $upload['file'] );
 
-			// request failed.
+			// request failed
 			if ( ! $headers ) {
 				// @codingStandardsIgnoreLine
 				@unlink( $upload['file'] );
@@ -510,7 +480,7 @@ if ( class_exists( 'WP_Importer' ) ) {
 				return new WP_Error( 'import_file_error', esc_html__( 'Remote server did not respond', 'js_composer' ) );
 			}
 
-			// make sure the fetch was successful.
+			// make sure the fetch was successful
 			if ( intval( $headers['response'] ) !== 200 ) {
 				// @codingStandardsIgnoreLine
 				@unlink( $upload['file'] );
@@ -542,10 +512,10 @@ if ( class_exists( 'WP_Importer' ) ) {
 				return new WP_Error( 'import_file_error', sprintf( esc_html__( 'Remote file is too large, limit is %s', 'js_composer' ), size_format( $max_size ) ) );
 			}
 
-			// keep track of the old and new urls so we can substitute them later.
+			// keep track of the old and new urls so we can substitute them later
 			$this->url_remap[ $url ] = $upload['url'];
-			$this->url_remap[ $post['guid'] ] = $upload['url']; // r13735, really needed?.
-			// keep track of the destination if the remote url is redirected somewhere else.
+			$this->url_remap[ $post['guid'] ] = $upload['url']; // r13735, really needed?
+			// keep track of the destination if the remote url is redirected somewhere else
 			if ( isset( $headers['x-final-location'] ) && $headers['x-final-location'] !== $url ) {
 				$this->url_remap[ $headers['x-final-location'] ] = $upload['url'];
 			}
@@ -563,7 +533,7 @@ if ( class_exists( 'WP_Importer' ) ) {
 		public function backfill_parents() {
 			global $wpdb;
 
-			// find parents for post orphans.
+			// find parents for post orphans
 			foreach ( $this->post_orphans as $child_id => $parent_id ) {
 				$local_child_id = false;
 				$local_parent_id = false;
@@ -586,17 +556,17 @@ if ( class_exists( 'WP_Importer' ) ) {
 		 */
 		public function backfill_attachment_urls() {
 			global $wpdb;
-			// make sure we do the longest urls first, in case one is a substring of another.
+			// make sure we do the longest urls first, in case one is a substring of another
 			uksort( $this->url_remap, array(
 				$this,
 				'cmpr_strlen',
 			) );
 
 			foreach ( $this->url_remap as $from_url => $to_url ) {
-				// remap urls in post_content.
+				// remap urls in post_content
 				// @codingStandardsIgnoreLine
 				$wpdb->query( $wpdb->prepare( "UPDATE {$wpdb->posts} SET post_content = REPLACE(post_content, %s, %s)", $from_url, $to_url ) );
-				// remap enclosure urls.
+				// remap enclosure urls
 				// @codingStandardsIgnoreLine
 				$wpdb->query( $wpdb->prepare( "UPDATE {$wpdb->postmeta} SET meta_value = REPLACE(meta_value, %s, %s) WHERE meta_key='enclosure'", $from_url, $to_url ) );
 			}
@@ -606,11 +576,11 @@ if ( class_exists( 'WP_Importer' ) ) {
 		 * Update _thumbnail_id meta to new, imported attachment IDs
 		 */
 		public function remap_featured_images() {
-			// cycle through posts that have a featured image.
+			// cycle through posts that have a featured image
 			foreach ( $this->featured_images as $post_id => $value ) {
 				if ( isset( $this->processed_posts[ $value ] ) ) {
 					$new_id = $this->processed_posts[ $value ];
-					// only update if there's a difference.
+					// only update if there's a difference
 					if ( $new_id !== $value ) {
 						update_post_meta( $post_id, '_thumbnail_id', $new_id );
 					}
@@ -621,7 +591,7 @@ if ( class_exists( 'WP_Importer' ) ) {
 		/**
 		 * Parse a WXR file
 		 *
-		 * @param string $file Path to WXR file for parsing.
+		 * @param string $file Path to WXR file for parsing
 		 * @return array Information gathered from the WXR file
 		 */
 		public function parse( $file ) {
@@ -633,12 +603,12 @@ if ( class_exists( 'WP_Importer' ) ) {
 		/**
 		 * Decide if the given meta key maps to information we will want to import
 		 *
-		 * @param string $key The meta key to check.
+		 * @param string $key The meta key to check
 		 * @return string|bool The key if we do want to import, false if not
 		 */
 		public function is_valid_meta_key( $key ) {
-			// skip attachment metadata since we'll regenerate it from scratch.
-			// skip _edit_lock as not relevant for import.
+			// skip attachment metadata since we'll regenerate it from scratch
+			// skip _edit_lock as not relevant for import
 			if ( in_array( $key, array(
 				'_wp_attached_file',
 				'_wp_attachment_metadata',
@@ -682,8 +652,7 @@ if ( class_exists( 'WP_Importer' ) ) {
 		}
 
 		/**
-		 * Return the difference in length between two strings.
-		 *
+		 * return the difference in length between two strings
 		 * @param string $a
 		 * @param string $b
 		 * @return int

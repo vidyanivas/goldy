@@ -1,12 +1,4 @@
 <?php
-/**
- * Backward compatibility with "Woocommerce" WordPress plugin.
- *
- * @see https://wordpress.org/plugins/woocommerce
- *
- * @since 4.4 vendors initialization moved to hooks in autoload/vendors.
- */
-
 if ( ! defined( 'ABSPATH' ) ) {
 	die( '-1' );
 }

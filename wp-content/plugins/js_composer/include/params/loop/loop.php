@@ -1,21 +1,11 @@
 <?php
-/**
- * Param type 'loop'
- *
- * Used to create checkbox field with true/false logic to check specific condition.
- *
- * @see https://kb.wpbakery.com/docs/inner-api/vc_map/#vc_map()-ParametersofparamsArray
- */
-
 if ( ! defined( 'ABSPATH' ) ) {
 	die( '-1' );
 }
 
 /**
- * Generates a loop form field.
- *
- * @param array $settings
- * @param array $value
+ * @param $settings
+ * @param $value
  *
  * @return string
  * @since 4.2
@@ -38,13 +28,11 @@ function vc_loop_form_field( $settings, $value ) {
 		$settings['settings'] = array();
 	}
 
-	return '<div class="vc_loop"><input name="' . esc_attr( $settings['param_name'] ) . '" class="wpb_vc_param_value  ' . esc_attr( $settings['param_name'] . ' ' . $settings['type'] ) . '_field" type="hidden" value="' . esc_attr( join( '|', $parsed_value ) ) . '"/><a href="javascript:;" class="button vc_loop-build ' . esc_attr( $settings['param_name'] ) . '_button" data-settings="' . rawurlencode( wp_json_encode( $settings['settings'] ) ) . '">' . esc_html__( 'Build query', 'js_composer' ) . '</a><div class="vc_loop-info">' . $loop_info . '</div></div>';
+	return '<div class="vc_loop">' . '<input name="' . esc_attr( $settings['param_name'] ) . '" class="wpb_vc_param_value  ' . esc_attr( $settings['param_name'] . ' ' . $settings['type'] ) . '_field" type="hidden" value="' . esc_attr( join( '|', $parsed_value ) ) . '"/>' . '<a href="javascript:;" class="button vc_loop-build ' . esc_attr( $settings['param_name'] ) . '_button" data-settings="' . rawurlencode( wp_json_encode( $settings['settings'] ) ) . '">' . esc_html__( 'Build query', 'js_composer' ) . '</a>' . '<div class="vc_loop-info">' . $loop_info . '</div>' . '</div>';
 }
 
 /**
- * Get loop query value.
- *
- * @param array $param
+ * @param $param
  *
  * @return string
  * @since 4.2
@@ -75,27 +63,23 @@ function vc_loop_get_value( $param ) {
 
 /**
  * Parses loop settings and creates WP_Query according to manual
- *
  * @since 4.2
  * @link http://codex.wordpress.org/Class_Reference/WP_Query
  */
 class VcLoopQueryBuilder {
 	/**
-	 * Default query arguments.
-	 *
 	 * @since 4.2
 	 * @var array
 	 */
 	protected $args = array(
 		'post_status' => 'publish',
-		// show only published posts #1098.
+		// show only published posts #1098
 	);
 
 	/**
-	 * VcLoopQueryBuilder constructor.
-	 *
-	 * @param array $data
+	 * @param $data
 	 * @since 4.2
+	 *
 	 */
 	public function __construct( $data ) {
 		foreach ( $data as $key => $value ) {
@@ -107,60 +91,60 @@ class VcLoopQueryBuilder {
 	}
 
 	/**
-	 * Pages count.
-	 *
-	 * @param int|string $value
+	 * Pages count
+	 * @param $value
 	 * @since 4.2
+	 *
 	 */
 	protected function parse_size( $value ) {
 		$this->args['posts_per_page'] = 'All' === $value ? - 1 : (int) $value;
 	}
 
 	/**
-	 * Sorting field.
-	 *
-	 * @param string $value
+	 * Sorting field
+	 * @param $value
 	 * @since 4.2
+	 *
 	 */
 	protected function parse_order_by( $value ) {
 		$this->args['orderby'] = $value;
 	}
 
 	/**
-	 * Sorting order.
-	 *
-	 * @param string $value
+	 * Sorting order
+	 * @param $value
 	 * @since 4.2
+	 *
 	 */
 	protected function parse_order( $value ) {
 		$this->args['order'] = $value;
 	}
 
 	/**
-	 * By post types.
-	 *
-	 * @param string|array  $value
+	 * By post types
+	 * @param $value
 	 * @since 4.2
+	 *
 	 */
 	protected function parse_post_type( $value ) {
 		$this->args['post_type'] = $this->stringToArray( $value );
 	}
 
 	/**
-	 * By author.
-	 *
-	 * @param int|array $value
+	 * By author
+	 * @param $value
 	 * @since 4.2
+	 *
 	 */
 	protected function parse_authors( $value ) {
 		$this->args['author'] = $value;
 	}
 
 	/**
-	 * By categories.
-	 *
-	 * @param string $value Comma-separated list of category IDs.
+	 * By categories
+	 * @param $value
 	 * @since 4.2
+	 *
 	 */
 	protected function parse_categories( $value ) {
 		$values = explode( ',', $value );
@@ -183,10 +167,10 @@ class VcLoopQueryBuilder {
 	}
 
 	/**
-	 * By taxonomies.
-	 *
-	 * @param string $value Comma-separated list of taxonomy term IDs.
+	 * By taxonomies
+	 * @param $value
 	 * @since 4.2
+	 *
 	 */
 	protected function parse_tax_query( $value ) {
 		$terms = $this->stringToArray( $value );
@@ -203,7 +187,6 @@ class VcLoopQueryBuilder {
 		$not_in = array();
 		$in = array();
 
-		// phpcs:ignore
 		$terms = get_terms( VcLoopSettings::getTaxonomies(), array( 'include' => array_map( 'abs', $terms ) ) );
 		foreach ( $terms as $t ) {
 			if ( in_array( (int) $t->term_id, $negative_term_list, true ) ) {
@@ -232,10 +215,10 @@ class VcLoopQueryBuilder {
 	}
 
 	/**
-	 * By tags ids.
-	 *
-	 * @param string $value Comma-separated list of tag IDs.
+	 * By tags ids
+	 * @param $value
 	 * @since 4.2
+	 *
 	 */
 	protected function parse_tags( $value ) {
 		$in = $not_in = array();
@@ -252,12 +235,6 @@ class VcLoopQueryBuilder {
 		$this->args['tag__not_in'] = $not_in;
 	}
 
-	/**
-	 * Sets the argument to ignore sticky posts.
-	 *
-	 * @param mixed $value
-	 * @since 4.2
-	 */
 	protected function parse_ignore_sticky_posts( $value ) {
 		if ( ! empty( $value ) ) {
 			$this->args['ignore_sticky_posts'] = true;
@@ -266,9 +243,9 @@ class VcLoopQueryBuilder {
 
 	/**
 	 * By posts ids
-	 *
-	 * @param string|array $value Comma-separated list or array of post IDs.
+	 * @param $value
 	 * @since 4.2
+	 *
 	 */
 	protected function parse_by_id( $value ) {
 		$in = $not_in = array();
@@ -285,10 +262,10 @@ class VcLoopQueryBuilder {
 		$this->args['post__not_in'] = $not_in;
 	}
 
-	/**Excludes specific post ID(s) from the query results.
-	 *
-	 * @param int|array $id Post ID or an array of post IDs to exclude.
+	/**
+	 * @param $id
 	 * @since 4.2
+	 *
 	 */
 	public function excludeId( $id ) {
 		if ( ! isset( $this->args['post__not_in'] ) ) {
@@ -302,12 +279,12 @@ class VcLoopQueryBuilder {
 	}
 
 	/**
-	 * Converts string to array. Filters empty arrays values.
-	 *
-	 * @param string $value
+	 * Converts string to array. Filters empty arrays values
+	 * @param $value
 	 *
 	 * @return array
 	 * @since 4.2
+	 *
 	 */
 	protected function stringToArray( $value ) {
 		$valid_values = array();
@@ -322,8 +299,6 @@ class VcLoopQueryBuilder {
 	}
 
 	/**
-	 * Builds the query arguments.
-	 *
 	 * @return array
 	 */
 	public function build() {
@@ -338,27 +313,21 @@ class VcLoopQueryBuilder {
 
 /**
  * Class VcLoopSettings
- *
  * @since 4.2
  */
 class VcLoopSettings {
+	// Available parts of loop for WP_Query object.
 	/**
-	 * Parsed content from the loop settings.
-	 *
 	 * @since 4.2
 	 * @var array
 	 */
 	protected $content = array();
 	/**
-	 * Available parts of loop for WP_Query object.
-	 *
 	 * @since 4.2
 	 * @var array
 	 */
 	protected $parts;
 	/**
-	 * List of query parts that can be used in WP_Query.
-	 *
 	 * @since 4.2
 	 * @var array
 	 */
@@ -374,19 +343,13 @@ class VcLoopSettings {
 		'tax_query',
 		'by_id',
 	);
-	/**
-	 * Contains the settings for each part of the loop.
-	 *
-	 * @var array
-	 */
 	public $settings = array();
 
 	/**
-	 * VcLoopSettings constructor.
-	 *
-	 * @param string $value
+	 * @param $value
 	 * @param array $settings
 	 * @since 4.2
+	 *
 	 */
 	public function __construct( $value, $settings = array() ) {
 		$this->parts = array(
@@ -402,7 +365,7 @@ class VcLoopSettings {
 			'by_id' => esc_html__( 'Individual posts/pages', 'js_composer' ),
 		);
 		$this->settings = $settings;
-		// Parse loop string.
+		// Parse loop string
 		$data = $this->parseData( $value );
 		foreach ( $this->query_parts as $part ) {
 			$value = isset( $data[ $part ] ) ? $data[ $part ] : '';
@@ -413,14 +376,14 @@ class VcLoopSettings {
 			} elseif ( ! is_null( $this->getSettings( $part, 'value' ) ) && ! $this->replaceLockedValue( $part ) && ( true === $locked || 0 === strlen( (string) $value ) ) ) {
 				$value = implode( ',', array_unique( explode( ',', $value . ',' . $this->settings[ $part ]['value'] ) ) );
 			}
-			// Find custom method for parsing.
+			// Find custom method for parsing
 			if ( method_exists( $this, 'parse_' . $part ) ) {
 				$method = 'parse_' . $part;
 				$this->content[ $part ] = $this->$method( $value );
 			} else {
 				$this->content[ $part ] = $this->parseString( $value );
 			}
-			// Set locked if value is locked by settings.
+			// Set locked if value is locked by settings
 			if ( $locked ) {
 				$this->content[ $part ]['locked'] = true;
 			}
@@ -431,9 +394,7 @@ class VcLoopSettings {
 	}
 
 	/**
-	 * Determines if a part's locked value should be replaced.
-	 *
-	 * @param mixed $part
+	 * @param $part
 	 *
 	 * @return bool
 	 * @since 4.2
@@ -447,9 +408,7 @@ class VcLoopSettings {
 	}
 
 	/**
-	 * Retrieves the label for a given key.
-	 *
-	 * @param string $key
+	 * @param $key
 	 *
 	 * @return mixed
 	 * @since 4.2
@@ -459,10 +418,8 @@ class VcLoopSettings {
 	}
 
 	/**
-	 * Retrieves a specific setting value.
-	 *
-	 * @param string $part
-	 * @param string $name
+	 * @param $part
+	 * @param $name
 	 *
 	 * @return null
 	 * @since 4.2
@@ -474,9 +431,7 @@ class VcLoopSettings {
 	}
 
 	/**
-	 * Parses a string value into an array.
-	 *
-	 * @param string $value
+	 * @param $value
 	 *
 	 * @return array
 	 * @since 4.2
@@ -486,9 +441,7 @@ class VcLoopSettings {
 	}
 
 	/**
-	 * Parses a dropdown value and options into an array.
-	 *
-	 * @param string $value
+	 * @param $value
 	 * @param array $options
 	 *
 	 * @return array
@@ -502,9 +455,7 @@ class VcLoopSettings {
 	}
 
 	/**
-	 * Parses a multi-select value and options into an array.
-	 *
-	 * @param string $value
+	 * @param $value
 	 * @param array $options
 	 *
 	 * @return array
@@ -518,9 +469,7 @@ class VcLoopSettings {
 	}
 
 	/**
-	 * Parses the 'order_by' value.
-	 *
-	 * @param string $value
+	 * @param $value
 	 *
 	 * @return array
 	 * @since 4.2
@@ -560,9 +509,7 @@ class VcLoopSettings {
 	}
 
 	/**
-	 * Parses the 'order' value.
-	 *
-	 * @param string $value
+	 * @param $value
 	 *
 	 * @return array
 	 * @since 4.2
@@ -581,9 +528,7 @@ class VcLoopSettings {
 	}
 
 	/**
-	 * Parses the 'post_type' value.
-	 *
-	 * @param string $value
+	 * @param $value
 	 *
 	 * @return array
 	 * @since 4.2
@@ -604,9 +549,7 @@ class VcLoopSettings {
 	}
 
 	/**
-	 * Parses the 'ignore_sticky_posts' value.
-	 *
-	 * @param string $value
+	 * @param $value
 	 *
 	 * @return array
 	 */
@@ -623,9 +566,7 @@ class VcLoopSettings {
 	}
 
 	/**
-	 * Parses the 'authors' value.
-	 *
-	 * @param string $value
+	 * @param $value
 	 *
 	 * @return array
 	 * @since 4.2
@@ -654,9 +595,7 @@ class VcLoopSettings {
 	}
 
 	/**
-	 * Parses the 'categories' value.
-	 *
-	 * @param string $value
+	 * @param $value
 	 *
 	 * @return array
 	 * @since 4.2
@@ -688,9 +627,7 @@ class VcLoopSettings {
 	}
 
 	/**
-	 * Parses the 'tags' value.
-	 *
-	 * @param string $value
+	 * @param $value
 	 *
 	 * @return array
 	 * @since 4.2
@@ -719,9 +656,7 @@ class VcLoopSettings {
 	}
 
 	/**
-	 * Parses the 'tax_query' value.
-	 *
-	 * @param string $value
+	 * @param $value
 	 *
 	 * @return array
 	 * @since 4.2
@@ -737,7 +672,6 @@ class VcLoopSettings {
 				$not_in[] = abs( $id );
 			}
 		}
-		// phpcs:ignore
 		$list = get_terms( self::getTaxonomies(), array( 'include' => array_map( 'abs', $list ) ) );
 		foreach ( $list as $obj ) {
 			$options[] = array(
@@ -751,9 +685,7 @@ class VcLoopSettings {
 	}
 
 	/**
-	 * Parses the 'by_id' value.
-	 *
-	 * @param string $value
+	 * @param $value
 	 *
 	 * @return array
 	 * @since 4.2
@@ -786,8 +718,6 @@ class VcLoopSettings {
 	}
 
 	/**
-	 * Renders the content as JSON.
-	 *
 	 * @since 4.2
 	 */
 	public function render() {
@@ -795,8 +725,6 @@ class VcLoopSettings {
 	}
 
 	/**
-	 * Retrieves the parsed content.
-	 *
 	 * @return array
 	 * @since 4.2
 	 */
@@ -805,8 +733,7 @@ class VcLoopSettings {
 	}
 
 	/**
-	 * Get list of taxonomies which has no tags and categories items.
-	 *
+	 * get list of taxonomies which has no tags and categories items.
 	 * @return array
 	 * @since 4.2
 	 * @static
@@ -825,9 +752,8 @@ class VcLoopSettings {
 	}
 
 	/**
-	 * Builds a default string from settings.
+	 * @param $settings
 	 *
-	 * @param array $settings
 	 * @return string
 	 * @since 4.2
 	 */
@@ -846,9 +772,7 @@ class VcLoopSettings {
 	}
 
 	/**
-	 * Builds a WP_Query object from a query string.
-	 *
-	 * @param string $query
+	 * @param $query
 	 * @param bool $exclude_id
 	 *
 	 * @return array
@@ -865,9 +789,7 @@ class VcLoopSettings {
 	}
 
 	/**
-	 * Parses a query string into data.
-	 *
-	 * @param string $value
+	 * @param $value
 	 *
 	 * @return array
 	 * @since 4.2
@@ -889,38 +811,29 @@ class VcLoopSettings {
 /**
  * Suggestion list for wp_query field
  * Class VcLoopSuggestions
- *
  * @since 4.2
  */
 class VcLoopSuggestions {
 	/**
-	 * Contains the list of suggestions generated by the class.
-	 *
 	 * @since 4.2
 	 * @var array
 	 */
 	protected $content = array();
 	/**
-	 * List of IDs to be excluded from the suggestions.
-	 *
 	 * @since 4.2
 	 * @var array
 	 */
 	protected $exclude = array();
 	/**
-	 * The field for which suggestions are being generated.
-	 *
 	 * @since 4.2
-	 * @var string
+	 * @var
 	 */
 	protected $field;
 
 	/**
-	 * VcLoopSuggestions constructor.
-	 *
-	 * @param string$field
-	 * @param string $query
-	 * @param string $exclude
+	 * @param $field
+	 * @param $query
+	 * @param $exclude
 	 *
 	 * @since 4.2
 	 */
@@ -933,9 +846,7 @@ class VcLoopSuggestions {
 	}
 
 	/**
-	 * Gets a list of authors based on the query string.
-	 *
-	 * @param string $query
+	 * @param $query
 	 *
 	 * @since 4.2
 	 */
@@ -957,9 +868,7 @@ class VcLoopSuggestions {
 	}
 
 	/**
-	 * Gets a list of categories based on the query string.
-	 *
-	 * @param string $query
+	 * @param $query
 	 *
 	 * @since 4.2
 	 */
@@ -979,9 +888,7 @@ class VcLoopSuggestions {
 	}
 
 	/**
-	 * Gets a list of tags based on the query string.
-	 *
-	 * @param string $query
+	 * @param $query
 	 *
 	 * @since 4.2
 	 */
@@ -1000,9 +907,7 @@ class VcLoopSuggestions {
 	}
 
 	/**
-	 * Gets a list of taxonomies based on the query string.
-	 *
-	 * @param string $query
+	 * @param $query
 	 *
 	 * @since 4.2
 	 */
@@ -1011,7 +916,6 @@ class VcLoopSuggestions {
 		if ( ! empty( $this->exclude ) ) {
 			$args['exclude'] = $this->exclude;
 		}
-		// phpcs:ignore
 		$tags = get_terms( VcLoopSettings::getTaxonomies(), $args );
 		foreach ( $tags as $tag ) {
 			$this->content[] = array(
@@ -1022,9 +926,7 @@ class VcLoopSuggestions {
 	}
 
 	/**
-	 * Gets a list of posts based on the query string.
-	 *
-	 * @param string $query
+	 * @param $query
 	 *
 	 * @since 4.2
 	 */
@@ -1053,8 +955,6 @@ class VcLoopSuggestions {
 	}
 
 	/**
-	 * Outputs the suggestions as a JSON-encoded string.
-	 *
 	 * @since 4.2
 	 */
 	public function render() {
@@ -1066,7 +966,7 @@ class VcLoopSuggestions {
  * Build WP_Query object from query string.
  * String created by loop controllers
  *
- * @param string $query
+ * @param $query
  * @param bool $exclude_id
  *
  * @return array
@@ -1077,8 +977,6 @@ function vc_build_loop_query( $query, $exclude_id = false ) {
 }
 
 /**
- * Handles the AJAX request to get loop suggestions based on the provided parameters.
- *
  * @since 4.2
  */
 function vc_get_loop_suggestion() {
@@ -1090,8 +988,6 @@ function vc_get_loop_suggestion() {
 }
 
 /**
- * Handles the AJAX request to get loop settings in JSON format based on the provided parameters.
- *
  * @since 4.2
  */
 function vc_get_loop_settings_json() {
@@ -1106,8 +1002,6 @@ add_action( 'wp_ajax_wpb_get_loop_suggestion', 'vc_get_loop_suggestion' );
 add_action( 'wp_ajax_wpb_get_loop_settings', 'vc_get_loop_settings_json' );
 
 /**
- * Include loop templates for loop settings.
- *
  * @since 4.2
  */
 function vc_loop_include_templates() {

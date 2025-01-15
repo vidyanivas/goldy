@@ -1,12 +1,4 @@
 <?php
-/**
- * Backward compatibility with "Woocommerce" WordPress plugin.
- *
- * @see https://wordpress.org/plugins/woocommerce
- *
- * @since 4.4 vendors initialization moved to hooks in autoload/vendors.
- */
-
 if ( ! defined( 'ABSPATH' ) ) {
 	die( '-1' );
 }
@@ -14,19 +6,24 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * Get woocommerce data for product
  *
- * @param mixed $value
- * @param array $data
+ * @param $value
+ * @param $data
  *
  * @return string
  */
 function vc_gitem_template_attribute_woocommerce_product( $value, $data ) {
 	$label = '';
+	/**
+	 * @var null|Wp_Post $post ;
+	 * @var string $data ;
+	 */
 	extract( array_merge( array(
 		'post' => null,
 		'data' => '',
 	), $data ) );
 	require_once WC()->plugin_path() . '/includes/abstracts/abstract-wc-product.php';
-	// WC_Product $product.
+	/** @noinspection PhpUndefinedClassInspection */
+	/** @var WC_Product $product */
 	$product = new WC_Product( $post );
 	if ( preg_match( '/_labeled$/', $data ) ) {
 		$data = preg_replace( '/_labeled$/', '', $data );
@@ -71,7 +68,7 @@ function vc_gitem_template_attribute_woocommerce_product( $value, $data ) {
 			$value = $product->get_weight() ? wc_format_decimal( $product->get_weight(), 2 ) : '';
 			break;
 		case 'on_sale':
-			$value = $product->is_on_sale() ? 'yes' : 'no'; // TODO: change.
+			$value = $product->is_on_sale() ? 'yes' : 'no'; // TODO: change
 			break;
 		default:
 			$value = method_exists( $product, 'get_' . $data ) ? $product->{'get_' . $data}() : $product->$data;
@@ -83,18 +80,23 @@ function vc_gitem_template_attribute_woocommerce_product( $value, $data ) {
 /**
  * Gte woocommerce data for order
  *
- * @param mixed $value
- * @param array $data
+ * @param $value
+ * @param $data
  *
  * @return string
  */
 function vc_gitem_template_attribute_woocommerce_order( $value, $data ) {
 	$label = '';
+	/**
+	 * @var null|Wp_Post $post ;
+	 * @var string $data ;
+	 */
 	extract( array_merge( array(
 		'post' => null,
 		'data' => '',
 	), $data ) );
 	require_once WC()->plugin_path() . '/includes/class-wc-order.php';
+	/** @noinspection PhpUndefinedClassInspection */
 	$order = new WC_Order( $post->ID );
 	if ( preg_match( '/_labeled$/', $data ) ) {
 		$data = preg_replace( '/_labeled$/', '', $data );
@@ -135,13 +137,18 @@ function vc_gitem_template_attribute_woocommerce_order( $value, $data ) {
 /**
  * Get woocommerce product add to cart url.
  *
- * @param mixed $value
- * @param array $data
+ * @param $value
+ * @param $data
  *
  * @return string
  * @since 4.5
+ *
  */
 function vc_gitem_template_attribute_woocommerce_product_link( $value, $data ) {
+	/**
+	 * @var null|Wp_Post $post ;
+	 * @var string $data ;
+	 */
 	extract( array_merge( array(
 		'post' => null,
 		'data' => '',

@@ -1,14 +1,10 @@
 <?php
-/**
- * Manage update messages and Plugins info for WPBakery in default WordPress plugins list.
- */
-
 if ( ! defined( 'ABSPATH' ) ) {
 	die( '-1' );
 }
 
 /**
- * Updating Manager class
+ * Manage update messages and Plugins info for VC in default WordPress plugins list.
  */
 class Vc_Updating_Manager {
 	/**
@@ -40,7 +36,6 @@ class Vc_Updating_Manager {
 	public $slug;
 	/**
 	 * Link to download VC.
-	 *
 	 * @var string
 	 */
 	protected $url = 'https://go.wpbakery.com/wpb-buy';
@@ -53,20 +48,20 @@ class Vc_Updating_Manager {
 	 * @param string $plugin_slug
 	 */
 	public function __construct( $current_version, $update_path, $plugin_slug ) {
-		// Set the class public variables.
+		// Set the class public variables
 		$this->current_version = $current_version;
 		$this->update_path = $update_path;
 		$this->plugin_slug = $plugin_slug;
 		$t = explode( '/', $plugin_slug );
 		$this->slug = str_replace( '.php', '', $t[1] );
 
-		// define the alternative API for updating checking.
+		// define the alternative API for updating checking
 		add_filter( 'pre_set_site_transient_update_plugins', array(
 			$this,
 			'check_update',
 		) );
 
-		// Define the alternative response for information checking.
+		// Define the alternative response for information checking
 		add_filter( 'plugins_api', array(
 			$this,
 			'check_info',
@@ -81,26 +76,26 @@ class Vc_Updating_Manager {
 	/**
 	 * Add our self-hosted autoupdate plugin to the filter transient
 	 *
-	 * @param object $transient
+	 * @param $transient
 	 *
-	 * @return object
+	 * @return object $ transient
 	 */
 	public function check_update( $transient ) {
-		// Extra check for 3rd plugins.
+		// Extra check for 3rd plugins
 		if ( isset( $transient->response[ $this->plugin_slug ] ) ) {
 			return $transient;
 		}
-		// Get the remote version.
+		// Get the remote version
 		$remote_version = $this->getRemote_version();
 
-		// If a newer version is available, add the update.
+		// If a newer version is available, add the update
 		if ( version_compare( $this->current_version, $remote_version, '<' ) ) {
 			$obj = new stdClass();
 			$obj->slug = $this->slug;
 			$obj->new_version = $remote_version;
 			$obj->plugin = $this->plugin_slug;
 			$obj->url = '';
-			$obj->package = vc_license()->isActivated() && ! vc_license()->isExpired();
+			$obj->package = vc_license()->isActivated();
 			$obj->name = 'WPBakery Page Builder';
 			$transient->response[ $this->plugin_slug ] = $obj;
 		}
@@ -111,13 +106,13 @@ class Vc_Updating_Manager {
 	/**
 	 * Add our self-hosted description to the filter
 	 *
-	 * @param bool $false_value
+	 * @param bool $false
 	 * @param array $action
 	 * @param object $arg
 	 *
 	 * @return bool|object
 	 */
-	public function check_info( $false_value, $action, $arg ) {
+	public function check_info( $false, $action, $arg ) {
 		if ( isset( $arg->slug ) && $arg->slug === $this->slug ) {
 			$information = $this->getRemote_information();
 			$array_pattern = array(
@@ -137,7 +132,7 @@ class Vc_Updating_Manager {
 			return $information;
 		}
 
-		return $false_value;
+		return $false;
 	}
 
 	/**
@@ -146,7 +141,7 @@ class Vc_Updating_Manager {
 	 * @return string $remote_version
 	 */
 	public function getRemote_version() {
-		// FIX SSL SNI.
+		// FIX SSL SNI
 		$filter_add = true;
 		if ( function_exists( 'curl_version' ) ) {
 			$version = curl_version();
@@ -175,7 +170,7 @@ class Vc_Updating_Manager {
 	 * @return bool|object
 	 */
 	public function getRemote_information() {
-		// FIX SSL SNI.
+		// FIX SSL SNI
 		$filter_add = true;
 		if ( function_exists( 'curl_version' ) ) {
 			$version = curl_version();
@@ -206,19 +201,7 @@ class Vc_Updating_Manager {
 		if ( ! $is_activated ) {
 			$url = vc_updater()->getUpdaterUrl();
 
-			printf( ' ' . esc_html__( 'To receive automatic updates license activation is required. Please visit %1$ssettings%2$s to activate your WPBakery Page Builder.', 'js_composer' ), '<a href="' . esc_url( $url ) . '" target="_blank">', '</a>' ) . sprintf( ' <a href="https://go.wpbakery.com/faq-update-in-theme" target="_blank">%s</a>', esc_html__( 'Got WPBakery Page Builder in theme?', 'js_composer' ) );
-		}
-
-		$is_support_expired = vc_license()->isExpired();
-		if ( $is_support_expired ) {
-			$url = vc_updater()->getUpdaterUrl();
-			printf(
-				esc_html__( '%1$s Visit the %2$slicense%3$s section for more information.%4$s', 'js_composer' ),
-				'<em>',
-				'<a href="' . esc_url( $url ) . '">',
-				'</a>',
-				'</em>'
-			);
+			echo sprintf( ' ' . esc_html__( 'To receive automatic updates license activation is required. Please visit %ssettings%s to activate your WPBakery Page Builder.', 'js_composer' ), '<a href="' . esc_url( $url ) . '" target="_blank">', '</a>' ) . sprintf( ' <a href="https://go.wpbakery.com/faq-update-in-theme" target="_blank">%s</a>', esc_html__( 'Got WPBakery Page Builder in theme?', 'js_composer' ) );
 		}
 	}
 }

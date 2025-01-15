@@ -1,31 +1,22 @@
 <?php
-/**
- * Class that handles specific [vc_column] shortcode.
- *
- * @see js_composer/include/templates/shortcodes/vc_column.php
- */
-
 if ( ! defined( 'ABSPATH' ) ) {
 	die( '-1' );
 }
 
 /**
- * WPBakery Page Builder shortcodes
+ * WPBakery WPBakery Page Builder shortcodes
  *
  * @package WPBakeryPageBuilder
+ *
  */
 class WPBakeryShortCode_VC_Column extends WPBakeryShortCode {
 	/**
-	 * Class for non draggable column.
-	 *
 	 * @var string
 	 */
 	public $nonDraggableClass = 'vc-non-draggable-column';
 
 	/**
-	 * WPBakeryShortCode_VC_Column constructor.
-	 *
-	 * @param array $settings
+	 * @param $settings
 	 */
 	public function __construct( $settings ) {
 		parent::__construct( $settings );
@@ -33,17 +24,15 @@ class WPBakeryShortCode_VC_Column extends WPBakeryShortCode {
 	}
 
 	/**
-	 * Register shortcode scripts.
+	 *
 	 */
 	protected function shortcodeScripts() {
-		wp_register_script( 'vc_jquery_skrollr_js', vc_asset_url( 'lib/vendor/node_modules/skrollr/dist/skrollr.min.js' ), array( 'jquery-core' ), WPB_VC_VERSION, true );
+		wp_register_script( 'vc_jquery_skrollr_js', vc_asset_url( 'lib/bower/skrollr/dist/skrollr.min.js' ), array( 'jquery-core' ), WPB_VC_VERSION, true );
 		wp_register_script( 'vc_youtube_iframe_api_js', 'https://www.youtube.com/iframe_api', array(), WPB_VC_VERSION, true );
 	}
 
 	/**
-	 * Attach element controls buttons to shortcode output in editor.
-	 *
-	 * @param mixed $controls
+	 * @param $controls
 	 * @param string $extended_css
 	 *
 	 * @return string
@@ -64,7 +53,6 @@ class WPBakeryShortCode_VC_Column extends WPBakeryShortCode {
 			$controls_add = '';
 		}
 		$controls_edit = '<a class="vc_control column_edit vc_column-edit"  data-vc-control="edit" href="#" title="' . __( 'Edit this column', 'js_composer' ) . '"><i class="vc-composer-icon vc-c-icon-mode_edit"></i></a>';
-		$controls_paste = '<a class="vc_control column_paste vc_column-paste"  data-vc-control="paste" href="#" title="' . __( 'Paste', 'js_composer' ) . '"><i class="vc-composer-icon vc-c-icon-paste"></i></a>';
 		$controls_delete = '<a class="vc_control column_delete vc_column-delete" data-vc-control="delete"  href="#" title="' . __( 'Delete this column', 'js_composer' ) . '"><i class="vc-composer-icon vc-c-icon-delete_empty"></i></a>';
 		$editAccess = vc_user_access_check_shortcode_edit( $this->shortcode );
 		$allAccess = vc_user_access_check_shortcode_all( $this->shortcode );
@@ -86,9 +74,9 @@ class WPBakeryShortCode_VC_Column extends WPBakeryShortCode {
 			return $output . $controls_end;
 		} elseif ( is_string( $controls ) && 'full' === $controls ) {
 			if ( $allAccess ) {
-				return $output . $controls_add . $controls_edit . $controls_paste . $controls_delete . $controls_end;
+				return $output . $controls_add . $controls_edit . $controls_delete . $controls_end;
 			} elseif ( $editAccess ) {
-				return $output . $controls_add . $controls_edit . $controls_paste . $controls_end;
+				return $output . $controls_add . $controls_edit . $controls_end;
 			}
 
 			return $output . $controls_add . $controls_end;
@@ -101,19 +89,17 @@ class WPBakeryShortCode_VC_Column extends WPBakeryShortCode {
 			return $output . $controls_end;
 		}
 		if ( $allAccess ) {
-			return $output . $controls_add . $controls_edit . $controls_paste . $controls_delete . $controls_end;
+			return $output . $controls_add . $controls_edit . $controls_delete . $controls_end;
 		} elseif ( $editAccess ) {
-			return $output . $controls_add . $controls_edit . $controls_paste . $controls_end;
+			return $output . $controls_add . $controls_edit . $controls_end;
 		}
 
 		return $output . $controls_add . $controls_end;
 	}
 
 	/**
-	 * Update old and new param names.
-	 *
-	 * @param array $param
-	 * @param string $value
+	 * @param $param
+	 * @param $value
 	 *
 	 * @return string
 	 */
@@ -155,9 +141,7 @@ class WPBakeryShortCode_VC_Column extends WPBakeryShortCode {
 	}
 
 	/**
-	 * Get admin output.
-	 *
-	 * @param array $atts
+	 * @param $atts
 	 * @param null $content
 	 *
 	 * @return string
@@ -215,7 +199,7 @@ class WPBakeryShortCode_VC_Column extends WPBakeryShortCode {
 			$width = array( '' );
 		}
 		$count = count( $width );
-		for ( $i = 0; $i < $count; $i++ ) {
+		for ( $i = 0; $i < $count; $i ++ ) {
 			$output .= '<div ' . $this->mainHtmlBlockParams( $width, $i ) . '>';
 			$output .= str_replace( '%column_size%', wpb_translateColumnWidthToFractional( $width[ $i ] ), $column_controls );
 			$output .= '<div class="wpb_element_wrapper">';
@@ -227,7 +211,7 @@ class WPBakeryShortCode_VC_Column extends WPBakeryShortCode {
 				foreach ( $this->settings['params'] as $param ) {
 					$param_value = isset( ${$param['param_name']} ) ? ${$param['param_name']} : '';
 					if ( is_array( $param_value ) ) {
-						// Get first element from the array.
+						// Get first element from the array
 						reset( $param_value );
 						$first_key = key( $param_value );
 						$param_value = $param_value[ $first_key ];
@@ -245,8 +229,6 @@ class WPBakeryShortCode_VC_Column extends WPBakeryShortCode {
 	}
 
 	/**
-	 * Set custom admin block params.
-	 *
 	 * @return string
 	 */
 	public function customAdminBlockParams() {
@@ -254,10 +236,8 @@ class WPBakeryShortCode_VC_Column extends WPBakeryShortCode {
 	}
 
 	/**
-	 * Get main html block params.
-	 *
-	 * @param string $width
-	 * @param int $i
+	 * @param $width
+	 * @param $i
 	 *
 	 * @return string
 	 * @throws \Exception
@@ -269,10 +249,8 @@ class WPBakeryShortCode_VC_Column extends WPBakeryShortCode {
 	}
 
 	/**
-	 * Get container html block classes.
-	 *
-	 * @param string $width
-	 * @param int $i
+	 * @param $width
+	 * @param $i
 	 *
 	 * @return string
 	 */
@@ -281,8 +259,6 @@ class WPBakeryShortCode_VC_Column extends WPBakeryShortCode {
 	}
 
 	/**
-	 * Get element output.
-	 *
 	 * @param string $content
 	 *
 	 * @return string
@@ -292,8 +268,6 @@ class WPBakeryShortCode_VC_Column extends WPBakeryShortCode {
 	}
 
 	/**
-	 * Add with attributes to element output.
-	 *
 	 * @return string
 	 */
 	protected function templateWidth() {
@@ -301,8 +275,6 @@ class WPBakeryShortCode_VC_Column extends WPBakeryShortCode {
 	}
 
 	/**
-	 * Build styles.
-	 *
 	 * @param string $font_color
 	 *
 	 * @return string

@@ -1,10 +1,4 @@
 <?php
-/**
- * Class that handles specific [vc_googleplus] shortcode.
- *
- * @see js_composer/include/templates/shortcodes/vc_googleplus.php
- */
-
 if ( ! defined( 'ABSPATH' ) ) {
 	die( '-1' );
 }
@@ -14,9 +8,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 class WPBakeryShortCode_Vc_GooglePlus extends WPBakeryShortCode {
 	/**
-	 * Get shortcode inline html.
-	 *
-	 * @param array $atts
+	 * @param $atts
 	 * @param null $content
 	 * @return string
 	 * @throws \Exception
@@ -24,7 +16,6 @@ class WPBakeryShortCode_Vc_GooglePlus extends WPBakeryShortCode {
 	protected function contentInline( $atts, $content = null ) {
 		/**
 		 * Shortcode attributes
-		 *
 		 * @var $atts
 		 * @var $type
 		 * @var $annotation

@@ -1,11 +1,4 @@
 <?php
-/**
- * WXR Parser
- *
- * Parses WXR files and extracts authors, posts, categories,
- * tags, and terms. Validates WXR version and handles errors.
- */
-
 if ( ! defined( 'ABSPATH' ) ) {
 	die( '-1' );
 }
@@ -15,9 +8,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 class Vc_WXR_Parser_SimpleXML {
 	/**
-	 * Parse WXR file.
-	 *
-	 * @param string $file
+	 * @param $file
 	 * @return array|\WP_Error
 	 */
 	public function parse( $file ) {
@@ -31,17 +22,17 @@ class Vc_WXR_Parser_SimpleXML {
 
 		$dom = new DOMDocument();
 		$old_value = null;
-		if ( function_exists( 'libxml_disable_entity_loader' ) && version_compare( PHP_VERSION, '8.0.0', '<' ) ) {
+		if ( function_exists( 'libxml_disable_entity_loader' ) ) {
 			$old_value = libxml_disable_entity_loader( true );
 		}
-		// WP_Filesystem_Direct $wp_filesystem.
+		/** @var \WP_Filesystem_Direct $wp_filesystem */
 		global $wp_filesystem;
 		if ( empty( $wp_filesystem ) ) {
 			require_once ABSPATH . '/wp-admin/includes/file.php';
 			WP_Filesystem( false, false, true );
 		}
 		$success = $dom->loadXML( $wp_filesystem->get_contents( $file ) );
-		if ( ! is_null( $old_value ) && version_compare( PHP_VERSION, '8.0.0', '<' ) ) {
+		if ( ! is_null( $old_value ) ) {
 			libxml_disable_entity_loader( $old_value );
 		}
 
@@ -52,7 +43,7 @@ class Vc_WXR_Parser_SimpleXML {
 		$xml = simplexml_import_dom( $dom );
 		unset( $dom );
 
-		// halt if loading produces an error.
+		// halt if loading produces an error
 		if ( ! $xml ) {
 			return new WP_Error( 'SimpleXML_parse_error', esc_html__( 'There was an error when reading this WXR file', 'js_composer' ), libxml_get_errors() );
 		}
@@ -63,7 +54,7 @@ class Vc_WXR_Parser_SimpleXML {
 		}
 
 		$wxr_version = (string) trim( $wxr_version[0] );
-		// confirm that we are dealing with the correct file format.
+		// confirm that we are dealing with the correct file format
 		if ( ! preg_match( '/^\d+\.\d+$/', $wxr_version ) ) {
 			return new WP_Error( 'WXR_parse_error', esc_html__( 'This does not appear to be a WXR file, missing/invalid WXR version number', 'js_composer' ) );
 		}
@@ -79,7 +70,7 @@ class Vc_WXR_Parser_SimpleXML {
 			$namespaces['excerpt'] = 'http://wordpress.org/export/1.1/excerpt/';
 		}
 
-		// grab authors.
+		// grab authors
 		foreach ( $xml->xpath( '/rss/channel/wp:author' ) as $author_arr ) {
 			$a = $author_arr->children( $namespaces['wp'] );
 			$login = (string) $a->author_login;
@@ -93,7 +84,7 @@ class Vc_WXR_Parser_SimpleXML {
 			);
 		}
 
-		// grab cats, tags and terms.
+		// grab cats, tags and terms
 		foreach ( $xml->xpath( '/rss/channel/wp:category' ) as $term_arr ) {
 			$t = $term_arr->children( $namespaces['wp'] );
 			$category = array(
@@ -154,7 +145,7 @@ class Vc_WXR_Parser_SimpleXML {
 			$terms[] = $term;
 		}
 
-		// grab posts.
+		// grab posts
 		foreach ( $xml->channel->item as $item ) {
 			$post = array(
 				'post_title' => (string) $item->title,

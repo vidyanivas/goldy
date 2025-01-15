@@ -1,19 +1,10 @@
 <?php
-/**
- * The template for displaying [vc_widget_sidebar] shortcode output of 'Widgetised Sidebar' element.
- *
- * This template can be overridden by copying it to yourtheme/vc_templates/vc_widget_sidebar.php.
- *
- * @see https://kb.wpbakery.com/docs/developers-how-tos/change-shortcodes-html-output
- */
-
 if ( ! defined( 'ABSPATH' ) ) {
 	die( '-1' );
 }
 
 /**
  * Shortcode attributes
- *
  * @var $atts
  * @var $title
  * @var $el_class

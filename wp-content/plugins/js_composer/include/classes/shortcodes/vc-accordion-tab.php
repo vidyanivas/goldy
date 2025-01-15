@@ -1,10 +1,4 @@
 <?php
-/**
- * Class that handles specific [vc_accordion_tab] shortcode.
- *
- * @see js_composer/include/templates/shortcodes/vc_accordion_tab.php
- */
-
 if ( ! defined( 'ABSPATH' ) ) {
 	die( '-1' );
 }
@@ -16,37 +10,27 @@ require_once vc_path_dir( 'SHORTCODES_DIR', 'vc-tab.php' );
  */
 class WPBakeryShortCode_VC_Accordion_Tab extends WPBakeryShortCode_VC_Tab {
 	/**
-	 * Controls css settings.
-	 *
 	 * @var string
 	 */
 	protected $controls_css_settings = 'tc vc_control-container';
 	/**
-	 * Controls list.
-	 *
 	 * @var array
 	 */
 	protected $controls_list = array(
 		'add',
 		'edit',
 		'clone',
-		'copy',
 		'delete',
 	);
 
 	/**
-	 * Class for non draggable container.
-	 *
 	 * @var string
 	 */
 	public $nonDraggableClass = 'vc-non-draggable-container';
 
 	/**
-	 * Get admin output.
-	 *
-	 * @param array $atts
-	 * @param string $content
-	 *
+	 * @param $atts
+	 * @param null $content
 	 * @return string
 	 * @throws \Exception
 	 */
@@ -100,7 +84,7 @@ class WPBakeryShortCode_VC_Accordion_Tab extends WPBakeryShortCode_VC_Tab {
 		$sortable = ( vc_user_access_check_shortcode_all( $this->shortcode ) ? 'wpb_sortable' : $this->nonDraggableClass );
 
 		$count = count( $width );
-		for ( $i = 0; $i < $count; $i++ ) {
+		for ( $i = 0; $i < $count; $i ++ ) {
 			$output .= '<div class="group ' . $sortable . '">';
 			$output .= '<h3><span class="tab-label"><%= params.title %></span></h3>';
 			$output .= '<div ' . $this->mainHtmlBlockParams( $width, $i ) . '>';
@@ -114,7 +98,7 @@ class WPBakeryShortCode_VC_Accordion_Tab extends WPBakeryShortCode_VC_Tab {
 				foreach ( $this->settings['params'] as $param ) {
 					$param_value = isset( ${$param['param_name']} ) ? ${$param['param_name']} : '';
 					if ( is_array( $param_value ) ) {
-						// Get first element from the array.
+						// Get first element from the array
 						reset( $param_value );
 						$first_key = key( $param_value );
 						$param_value = $param_value[ $first_key ];
@@ -133,10 +117,8 @@ class WPBakeryShortCode_VC_Accordion_Tab extends WPBakeryShortCode_VC_Tab {
 	}
 
 	/**
-	 * Get main html block params.
-	 *
-	 * @param string $width
-	 * @param int $i
+	 * @param $width
+	 * @param $i
 	 * @return string
 	 */
 	public function mainHtmlBlockParams( $width, $i ) {
@@ -144,10 +126,8 @@ class WPBakeryShortCode_VC_Accordion_Tab extends WPBakeryShortCode_VC_Tab {
 	}
 
 	/**
-	 * Add container classes.
-	 *
-	 * @param string $width
-	 * @param int $i
+	 * @param $width
+	 * @param $i
 	 * @return string
 	 */
 	public function containerHtmlBlockParams( $width, $i ) {
@@ -155,9 +135,7 @@ class WPBakeryShortCode_VC_Accordion_Tab extends WPBakeryShortCode_VC_Tab {
 	}
 
 	/**
-	 * Get title.
-	 *
-	 * @param string $title
+	 * @param $title
 	 * @return string
 	 */
 	protected function outputTitle( $title ) {
@@ -165,8 +143,6 @@ class WPBakeryShortCode_VC_Accordion_Tab extends WPBakeryShortCode_VC_Tab {
 	}
 
 	/**
-	 * Set custom admin block params.
-	 *
 	 * @return string
 	 */
 	public function customAdminBlockParams() {

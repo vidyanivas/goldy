@@ -1,8 +1,4 @@
 <?php
-/**
- * Basic class for 'vc_grid_item' mapping.
- */
-
 if ( ! defined( 'ABSPATH' ) ) {
 	die( '-1' );
 }
@@ -11,30 +7,15 @@ if ( ! defined( 'ABSPATH' ) ) {
  * Class WpbMap_Grid_Item
  */
 class WpbMap_Grid_Item extends WPBMap {
-	/**
-	 * Check user.
-	 *
-	 * @var array
-	 */
 	protected static $gitem_user_sc = false;
-	/**
-	 * List of user categories.
-	 *
-	 * @var array
-	 */
 	protected static $gitem_user_categories = false;
-	/**
-	 * User sorted shortcodes list.
-	 *
-	 * @var array
-	 */
 	protected static $gitem_user_sorted_sc = false;
 
 	/**
 	 * Generates list of shortcodes only for Grid element.
 	 *
 	 * This method parses the list of mapped shortcodes and creates categories list for users.
-	 * Also, it checks is 'is_grid_item_element' attribute true.
+	 * Also it checks is 'is_grid_item_element' attribute true.
 	 *
 	 * @static
 	 *
@@ -103,7 +84,6 @@ class WpbMap_Grid_Item extends WPBMap {
 
 	/**
 	 * Get list of mapped shortcode settings for current user.
-	 *
 	 * @static
 	 * @return bool - associated array of shortcodes settings with tag as the key.
 	 * @throws \Exception

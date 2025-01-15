@@ -1,10 +1,4 @@
 <?php
-/**
- * Class that handles specific [vc_tta_tour] shortcode.
- *
- * @see js_composer/include/templates/shortcodes/vc_tta_tour.php
- */
-
 if ( ! defined( 'ABSPATH' ) ) {
 	die( '-1' );
 }
@@ -16,16 +10,9 @@ VcShortcodeAutoloader::getInstance()->includeClass( 'WPBakeryShortCode_Vc_Tta_Ta
  */
 class WPBakeryShortCode_Vc_Tta_Tour extends WPBakeryShortCode_Vc_Tta_Tabs {
 
-	/**
-	 * Layout type.
-	 *
-	 * @var string
-	 */
 	public $layout = 'tabs';
 
 	/**
-	 * Add specific tta classes.
-	 *
 	 * @return string
 	 */
 	public function getTtaGeneralClasses() {
@@ -39,10 +26,8 @@ class WPBakeryShortCode_Vc_Tta_Tour extends WPBakeryShortCode_Vc_Tta_Tabs {
 	}
 
 	/**
-	 * Add size attributes to element.
-	 *
-	 * @param array $atts
-	 * @param string $content
+	 * @param $atts
+	 * @param $content
 	 *
 	 * @return string|null
 	 */
@@ -55,10 +40,8 @@ class WPBakeryShortCode_Vc_Tta_Tour extends WPBakeryShortCode_Vc_Tta_Tabs {
 	}
 
 	/**
-	 * Add size attribute with left position to element.
-	 *
-	 * @param array $atts
-	 * @param string $content
+	 * @param $atts
+	 * @param $content
 	 *
 	 * @return string|null
 	 */
@@ -71,10 +54,8 @@ class WPBakeryShortCode_Vc_Tta_Tour extends WPBakeryShortCode_Vc_Tta_Tabs {
 	}
 
 	/**
-	 * Add size attribute with right position to element.
-	 *
-	 * @param array $atts
-	 * @param string $content
+	 * @param $atts
+	 * @param $content
 	 *
 	 * @return string|null
 	 */
@@ -89,8 +70,8 @@ class WPBakeryShortCode_Vc_Tta_Tour extends WPBakeryShortCode_Vc_Tta_Tabs {
 	/**
 	 * Never on top
 	 *
-	 * @param array $atts
-	 * @param string $content
+	 * @param $atts
+	 * @param $content
 	 *
 	 * @return string|null
 	 */
@@ -101,8 +82,8 @@ class WPBakeryShortCode_Vc_Tta_Tour extends WPBakeryShortCode_Vc_Tta_Tabs {
 	/**
 	 * Always on bottom
 	 *
-	 * @param array $atts
-	 * @param string $content
+	 * @param $atts
+	 * @param $content
 	 *
 	 * @return string|null
 	 */

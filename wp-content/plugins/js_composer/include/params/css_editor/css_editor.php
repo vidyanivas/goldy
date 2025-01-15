@@ -1,13 +1,4 @@
 <?php
-/**
- * Param type 'css_editor'.
- *
- * Used to create dropdown field with animation styles.
- * Usually we use it in 'Design Options' tab of edit element window.
- *
- * @see https://kb.wpbakery.com/docs/inner-api/vc_map/#vc_map()-ParametersofparamsArray
- */
-
 if ( ! defined( 'ABSPATH' ) ) {
 	die( '-1' );
 }
@@ -18,21 +9,14 @@ if ( ! class_exists( 'WPBakeryCssEditor' ) ) {
 	 */
 	class WPBakeryCssEditor {
 		/**
-		 * Holds the settings array for the CSS editor.
-		 *
 		 * @var array
 		 */
 		protected $settings = array();
 		/**
-		 * Stores the current value for the CSS editor.
-		 *
 		 * @var string
 		 */
 		protected $value = '';
-
 		/**
-		 * Contains the positions for the CSS properties.
-		 *
 		 * @var array
 		 */
 		protected $positions = array(
@@ -41,16 +25,10 @@ if ( ! class_exists( 'WPBakeryCssEditor' ) ) {
 			'bottom',
 			'left',
 		);
-
-		/**
-		 * Stores the parameters passed to the CSS editor.
-		 *
-		 * @var array
-		 */
 		public $params = array();
 
 		/**
-		 * Setters/Getters
+		 * Setters/Getters {{
 		 *
 		 * @param null $settings
 		 *
@@ -65,9 +43,7 @@ if ( ! class_exists( 'WPBakeryCssEditor' ) ) {
 		}
 
 		/**
-		 * Retrieves a specific setting by key.
-		 *
-		 * @param string $key
+		 * @param $key
 		 *
 		 * @return string
 		 */
@@ -76,8 +52,6 @@ if ( ! class_exists( 'WPBakeryCssEditor' ) ) {
 		}
 
 		/**
-		 * Sets or gets the current value of the CSS editor.
-		 *
 		 * @param null $value
 		 *
 		 * @return string
@@ -91,8 +65,6 @@ if ( ! class_exists( 'WPBakeryCssEditor' ) ) {
 		}
 
 		/**
-		 * Sets or gets the parameters array.
-		 *
 		 * @param null $values
 		 *
 		 * @return array
@@ -105,16 +77,16 @@ if ( ! class_exists( 'WPBakeryCssEditor' ) ) {
 			return $this->params;
 		}
 
+		// }}
+
 		/**
-		 * Renders param form field output.
-		 *
+		 * vc_filter: vc_css_editor - hook to override output of this method
 		 * @return mixed
-		 * @see vc_filter: vc_css_editor - hook to override output of this method
 		 */
 		public function render() {
 			$output = '<div class="vc_css-editor vc_row vc_ui-flex-row" data-css-editor="true">';
 			$output .= $this->onionLayout();
-			$output .= sprintf( '<div class="vc_col-xs-5 vc_settings"><label>%s</label><div class="color-group"><div class="wpb-color-picker"></div><input type="text" name="border_color" value="" data-default-value="" class="vc_color-control vc_ui-hidden"></div><label>%s</label><div class="vc_border-style"><select name="border_style" class="vc_border-style">%s</select></div><label>%s</label><div class="vc_border-radius"><select name="border_radius" class="vc_border-radius">%s</select></div><label>%s</label><div class="color-group"><div class="wpb-color-picker"></div><input type="text" name="background_color" value="" data-default-value="" class="vc_color-control vc_ui-hidden"></div><div class="vc_background-image">%s<div class="vc_clearfix"></div></div><div class="vc_background-style"><select name="background_style" class="vc_background-style">%s</select></div><label>%s</label><label class="vc_checkbox"><input type="checkbox" name="simply" class="vc_simplify" value=""> %s</label></div>', esc_html__( 'Border color', 'js_composer' ), esc_html__( 'Border style', 'js_composer' ), $this->getBorderStyleOptions(), esc_html__( 'Border radius', 'js_composer' ), $this->getBorderRadiusOptions(), esc_html__( 'Background', 'js_composer' ), $this->getBackgroundImageControl(), $this->getBackgroundStyleOptions(), esc_html__( 'Box controls', 'js_composer' ), esc_html__( 'Simplify controls', 'js_composer' ) );
+			$output .= sprintf( '<div class="vc_col-xs-5 vc_settings"><label>%s</label><div class="color-group"><input type="text" name="border_color" value="" class="vc_color-control"></div><label>%s</label><div class="vc_border-style"><select name="border_style" class="vc_border-style">%s</select></div><label>%s</label><div class="vc_border-radius"><select name="border_radius" class="vc_border-radius">%s</select></div><label>%s</label><div class="color-group"><input type="text" name="background_color" value="" class="vc_color-control"></div><div class="vc_background-image">%s<div class="vc_clearfix"></div></div><div class="vc_background-style"><select name="background_style" class="vc_background-style">%s</select></div><label>%s</label><label class="vc_checkbox"><input type="checkbox" name="simply" class="vc_simplify" value=""> %s</label></div>', esc_html__( 'Border color', 'js_composer' ), esc_html__( 'Border style', 'js_composer' ), $this->getBorderStyleOptions(), esc_html__( 'Border radius', 'js_composer' ), $this->getBorderRadiusOptions(), esc_html__( 'Background', 'js_composer' ), $this->getBackgroundImageControl(), $this->getBackgroundStyleOptions(), esc_html__( 'Box controls', 'js_composer' ), esc_html__( 'Simplify controls', 'js_composer' ) );
 
 			$output .= sprintf( '<input name="%s" class="wpb_vc_param_value  %s %s_field" type="hidden" value="%s"/>', esc_attr( $this->setting( 'param_name' ) ), esc_attr( $this->setting( 'param_name' ) ), esc_attr( $this->setting( 'type' ) ), esc_attr( $this->value() ) );
 
@@ -126,8 +98,6 @@ if ( ! class_exists( 'WPBakeryCssEditor' ) ) {
 		}
 
 		/**
-		 * Generates the HTML for the background image control.
-		 *
 		 * @return string
 		 */
 		public function getBackgroundImageControl() {
@@ -137,8 +107,6 @@ if ( ! class_exists( 'WPBakeryCssEditor' ) ) {
 		}
 
 		/**
-		 * Generates the HTML options for the border radius dropdown.
-		 *
 		 * @return string
 		 */
 		public function getBorderRadiusOptions() {
@@ -166,8 +134,6 @@ if ( ! class_exists( 'WPBakeryCssEditor' ) ) {
 		}
 
 		/**
-		 * Generates the HTML options for the border style dropdown.
-		 *
 		 * @return string
 		 */
 		public function getBorderStyleOptions() {
@@ -194,8 +160,6 @@ if ( ! class_exists( 'WPBakeryCssEditor' ) ) {
 		}
 
 		/**
-		 * Generates the HTML options for the background style dropdown.
-		 *
 		 * @return string
 		 */
 		public function getBackgroundStyleOptions() {
@@ -214,8 +178,6 @@ if ( ! class_exists( 'WPBakeryCssEditor' ) ) {
 		}
 
 		/**
-		 * Generates the onion layout structure for the CSS editor.
-		 *
 		 * @return string
 		 */
 		public function onionLayout() {
@@ -225,9 +187,7 @@ if ( ! class_exists( 'WPBakeryCssEditor' ) ) {
 		}
 
 		/**
-		 * Generates the controls for a specific layer (e.g., margin, border).
-		 *
-		 * @param string $name
+		 * @param $name
 		 * @param string $prefix
 		 *
 		 * @return string
@@ -244,10 +204,8 @@ if ( ! class_exists( 'WPBakeryCssEditor' ) ) {
 }
 
 /**
- * Renders the CSS editor param form field.
- *
- * @param array $settings
- * @param string $value
+ * @param $settings
+ * @param $value
  *
  * @return mixed
  */
@@ -257,4 +215,5 @@ function vc_css_editor_form_field( $settings, $value ) {
 	$css_editor->value( $value );
 
 	return $css_editor->render();
+
 }

@@ -1,10 +1,4 @@
 <?php
-/**
- * Main plugin settings file.
- *
- * @since 3.4
- */
-
 if ( ! defined( 'ABSPATH' ) ) {
 	die( '-1' );
 }
@@ -17,91 +11,52 @@ if ( ! defined( 'ABSPATH' ) ) {
  *
  * List of tabs
  * 1. General Settings - set access rules and allowed content types for editors.
- * 2. Modules Manager - set access to certain plugin functionality.
- * 3. Role Manager - set access rules and allowed content types for editors.
+ * 2. Design Options - custom color and spacing editor for VC shortcodes elements.
+ * 3. Custom CSS - add custom css to your WP pages.
  * 4. Product License - license key activation for automatic VC updates.
- * 5. Design Options - custom color and spacing editor for VC shortcodes elements.
- * 6. Custom CSS - add custom css to your WP pages.
- * 7. Custom JS - add custom css to your WP pages.
- * 8. WPBakery AI - access to AI options.
- * 9. My Shortcodes - automated mapping tool for shortcodes.
+ * 5. My Shortcodes - automated mapping tool for shortcodes.
  *
  * @link http://codex.wordpress.org/Settings_API WordPress settings API
+ * @since 3.4
  */
 class Vc_Settings {
-	/**
-	 * List of tabs for settings.
-	 *
-	 * @var array
-	 */
 	public $tabs;
-
-	/**
-	 * Deactivation flag.
-	 *
-	 * @var bool
-	 */
 	public $deactivate;
-
-	/**
-	 * Locale settings for the plugin.
-	 *
-	 * @var array
-	 */
 	public $locale;
-
 	/**
-	 * Option group name.
-	 *
 	 * @var string
 	 */
 	protected $option_group = 'wpb_js_composer_settings';
-
 	/**
-	 * Page slug for the settings.
-	 *
 	 * @var string
 	 */
 	protected $page = 'vc_settings';
-
 	/**
-	 * Prefix for the fields.
-	 *
 	 * @var string
 	 */
-	public static $field_prefix = 'wpb_js_';
-
+	protected static $field_prefix = 'wpb_js_';
 	/**
-	 * Notification name.
-	 *
 	 * @var string
 	 */
 	protected static $notification_name = 'wpb_js_notify_user_about_element_class_names';
-
 	/**
-	 * Default settings.
-	 *
-	 * @var mixed
+	 * @var
+	 */
+	protected static $color_settings;
+	/**
+	 * @var
 	 */
 	protected static $defaults;
-
 	/**
-	 * Composer instance.
-	 *
-	 * @var mixed
+	 * @var
 	 */
 	protected $composer;
 
 	/**
-	 * Default Google Fonts subsets.
-	 *
 	 * @var array
 	 */
 	protected $google_fonts_subsets_default = array( 'latin' );
-
 	/**
-	 * Available Google Fonts subsets.
-	 *
 	 * @var array
 	 */
 	protected $google_fonts_subsets = array(
@@ -115,22 +70,11 @@ class Vc_Settings {
 	);
 
 	/**
-	 * Excluded Google Fonts subsets.
-	 *
 	 * @var array
 	 */
 	public $google_fonts_subsets_excluded = array();
 
 	/**
-	 * Google Fonts subsets settings.
-	 *
-	 * @var mixed
-	 */
-	protected $google_fonts_subsets_settings;
-
-	/**
-	 * Set the field prefix.
-	 *
 	 * @param string $field_prefix
 	 */
 	public static function setFieldPrefix( $field_prefix ) {
@@ -138,8 +82,6 @@ class Vc_Settings {
 	}
 
 	/**
-	 * Get the settings page slug.
-	 *
 	 * @return string
 	 */
 	public function page() {
@@ -147,15 +89,13 @@ class Vc_Settings {
 	}
 
 	/**
-	 * Check if the editor is enabled.
-	 *
 	 * @return bool
 	 */
 	public function isEditorEnabled() {
 		global $current_user;
 		wp_get_current_user();
 
-		// @var $settings - get use group access rules.
+		/** @var $settings - get use group access rules */
 		$settings = $this->get( 'groups_access_rules' );
 
 		$show = true;
@@ -170,25 +110,32 @@ class Vc_Settings {
 	}
 
 	/**
-	 * Set the tabs for the settings page.
+	 *
 	 */
 	public function setTabs() {
 		$this->tabs = array();
 
 		if ( $this->showConfigurationTabs() ) {
 			$this->tabs['vc-general'] = esc_html__( 'General Settings', 'js_composer' );
-			$this->tabs['vc-modules'] = esc_html__( 'Module Manager', 'js_composer' );
+			if ( ! vc_is_as_theme() || apply_filters( 'vc_settings_page_show_design_tabs', false ) ) {
+				$this->tabs['vc-color'] = esc_html__( 'Design Options', 'js_composer' );
+				$this->tabs['vc-custom_css'] = esc_html__( 'Custom CSS', 'js_composer' );
+			}
 		}
 
 		if ( ! vc_is_network_plugin() || ( vc_is_network_plugin() && is_network_admin() ) ) {
-			if ( ! vc_is_updater_disabled() && ! wpb_check_wordpress_com_env() ) {
+			if ( ! vc_is_updater_disabled() ) {
 				$this->tabs['vc-updater'] = esc_html__( 'Product License', 'js_composer' );
 			}
+		}
+		// TODO: may allow to disable automapper
+		if ( ! is_network_admin() && ! vc_automapper_is_disabled() ) {
+			$this->tabs['vc-automapper'] = vc_automapper()->title();
 		}
 	}
 
 	/**
-	 * Set the tabs for the settings page.
+	 * @return mixed|void
 	 */
 	public function getTabs() {
 		if ( ! isset( $this->tabs ) ) {
@@ -199,8 +146,6 @@ class Vc_Settings {
 	}
 
 	/**
-	 * Check if configuration tabs should be shown.
-	 *
 	 * @return bool
 	 */
 	public function showConfigurationTabs() {
@@ -210,25 +155,25 @@ class Vc_Settings {
 	/**
 	 * Render
 	 *
-	 * @param string $tab
+	 * @param $tab
 	 * @throws \Exception
 	 */
 	public function renderTab( $tab ) {
 		require_once vc_path_dir( 'CORE_DIR', 'class-vc-page.php' );
-
+		wp_enqueue_style( 'wp-color-picker' );
+		wp_enqueue_script( 'wp-color-picker' );
+		if ( ( ( '1' === vc_get_param( 'build_css' ) || 'true' === vc_get_param( 'build_css' ) ) ) || ( ( '1' === vc_get_param( 'settings-updated' ) || 'true' === vc_get_param( 'settings-updated' ) ) ) ) {
+			$this->buildCustomCss(); // TODO: remove this - no needs to re-save always
+		}
 		$tabs = $this->getTabs();
 		foreach ( $tabs as $key => $value ) {
 			if ( ! vc_user_access()->part( 'settings' )->can( $key . '-tab' )->get() ) {
 				unset( $tabs[ $key ] );
 			}
 		}
+		do_action( 'vc-settings-render-tab-' . $tab );
 		$page = new Vc_Page();
-        // phpcs:ignore:WordPress.NamingConventions.ValidHookName.UseUnderscores
 		$page->setSlug( $tab )->setTitle( isset( $tabs[ $tab ] ) ? $tabs[ $tab ] : '' )->setTemplatePath( apply_filters( 'vc_settings-render-tab-' . $tab, 'pages/vc-settings/tab.php' ) );
-
-        // phpcs:ignore:WordPress.NamingConventions.ValidHookName.UseUnderscores
-		do_action( 'vc-settings-render-tab-' . $tab, $page );
-
 		vc_include_template( 'pages/vc-settings/index.php', array(
 			'pages' => $tabs,
 			'active_page' => $page,
@@ -243,23 +188,187 @@ class Vc_Settings {
 	public function initAdmin() {
 		$this->setTabs();
 
-		add_action( 'update_option_wpb_js_modules', array(
-			$this,
-			'reset_modules_dependency',
-		), 10, 2 );
+		self::$color_settings = array(
+			array( 'vc_color' => array( 'title' => esc_html__( 'Main accent color', 'js_composer' ) ) ),
+			array( 'vc_color_hover' => array( 'title' => esc_html__( 'Hover color', 'js_composer' ) ) ),
+			array( 'vc_color_call_to_action_bg' => array( 'title' => esc_html__( 'Call to action background color', 'js_composer' ) ) ),
+			array( 'vc_color_google_maps_bg' => array( 'title' => esc_html__( 'Google maps background color', 'js_composer' ) ) ),
+			array( 'vc_color_post_slider_caption_bg' => array( 'title' => esc_html__( 'Post slider caption background color', 'js_composer' ) ) ),
+			array( 'vc_color_progress_bar_bg' => array( 'title' => esc_html__( 'Progress bar background color', 'js_composer' ) ) ),
+			array( 'vc_color_separator_border' => array( 'title' => esc_html__( 'Separator border color', 'js_composer' ) ) ),
+			array( 'vc_color_tab_bg' => array( 'title' => esc_html__( 'Tabs navigation background color', 'js_composer' ) ) ),
+			array( 'vc_color_tab_bg_active' => array( 'title' => esc_html__( 'Active tab background color', 'js_composer' ) ) ),
+		);
+		self::$defaults = array(
+			'vc_color' => '#f7f7f7',
+			'vc_color_hover' => '#F0F0F0',
+			'margin' => '35px',
+			'gutter' => '15',
+			'responsive_max' => '768',
+			'responsive_md' => '992',
+			'responsive_lg' => '1200',
+			'compiled_js_composer_less' => '',
+		);
+		if ( 'restore_color' === vc_post_param( 'vc_action' ) && vc_user_access()->check( 'wp_verify_nonce', vc_post_param( '_wpnonce' ), vc_settings()->getOptionGroup() . '_color' . '-options' )
+				->validateDie()->wpAny( 'manage_options' )->validateDie()->part( 'settings' )->can( 'vc-color-tab' )->validateDie()->get() ) {
+			$this->restoreColor();
+		}
 
-		add_action( 'add_option_wpb_js_modules', array(
+		/**
+		 * @since 4.5 used to call update file once option is changed
+		 */
+		add_action( 'update_option_wpb_js_compiled_js_composer_less', array(
 			$this,
-			'reset_modules_dependency',
-		), 10, 2 );
+			'buildCustomColorCss',
+		) );
 
-		$this->set_sections();
+		/**
+		 * @since 4.5 used to call update file once option is changed
+		 */
+		add_action( 'update_option_wpb_js_custom_css', array(
+			$this,
+			'buildCustomCss',
+		) );
+
+		/**
+		 * @since 4.5 used to call update file once option is changed
+		 */
+		add_action( 'add_option_wpb_js_compiled_js_composer_less', array(
+			$this,
+			'buildCustomColorCss',
+		) );
+
+		/**
+		 * @since 4.5 used to call update file once option is changed
+		 */
+		add_action( 'add_option_wpb_js_custom_css', array(
+			$this,
+			'buildCustomCss',
+		) );
+
+		/**
+		 * Tab: General Settings
+		 */
+		$tab = 'general';
+		$this->addSection( $tab );
+
+		$this->addField( $tab, esc_html__( 'Disable responsive content elements', 'js_composer' ), 'not_responsive_css', array(
+			$this,
+			'sanitize_not_responsive_css_callback',
+		), array(
+			$this,
+			'not_responsive_css_field_callback',
+		) );
+
+		$this->addField( $tab, esc_html__( 'Google fonts subsets', 'js_composer' ), 'google_fonts_subsets', array(
+			$this,
+			'sanitize_google_fonts_subsets_callback',
+		), array(
+			$this,
+			'google_fonts_subsets_callback',
+		) );
+		$this->addField( $tab, esc_html__( 'Local Google Fonts', 'js_composer' ), 'local_google_fonts', array(
+			$this,
+			'sanitize_local_google_fonts_callback',
+		), array(
+			$this,
+			'local_google_fonts_callback',
+		) );
+
+		/**
+		 * Tab: Design Options
+		 */
+		$tab = 'color';
+		$this->addSection( $tab );
+
+		// Use custom checkbox
+		$this->addField( $tab, esc_html__( 'Use custom design options', 'js_composer' ), 'use_custom', array(
+			$this,
+			'sanitize_use_custom_callback',
+		), array(
+			$this,
+			'use_custom_callback',
+		) );
+
+		foreach ( self::$color_settings as $color_set ) {
+			foreach ( $color_set as $key => $data ) {
+				$this->addField( $tab, $data['title'], $key, array(
+					$this,
+					'sanitize_color_callback',
+				), array(
+					$this,
+					'color_callback',
+				), array(
+					'id' => $key,
+				) );
+			}
+		}
+
+		// Margin
+		$this->addField( $tab, esc_html__( 'Elements bottom margin', 'js_composer' ), 'margin', array(
+			$this,
+			'sanitize_margin_callback',
+		), array(
+			$this,
+			'margin_callback',
+		) );
+
+		// Gutter
+		$this->addField( $tab, esc_html__( 'Grid gutter width', 'js_composer' ), 'gutter', array(
+			$this,
+			'sanitize_gutter_callback',
+		), array(
+			$this,
+			'gutter_callback',
+		) );
+
+		// Responsive max width
+		$this->addField( $tab, esc_html__( 'Mobile breakpoint', 'js_composer' ), 'responsive_max', array(
+			$this,
+			'sanitize_responsive_max_callback',
+		), array(
+			$this,
+			'responsive_max_callback',
+		) );
+		$this->addField( $tab, esc_html__( 'Desktop breakpoint', 'js_composer' ), 'responsive_md', array(
+			$this,
+			'sanitize_responsive_md_callback',
+		), array(
+			$this,
+			'responsive_md_callback',
+		) );
+		$this->addField( $tab, esc_html__( 'Large Desktop breakpoint', 'js_composer' ), 'responsive_lg', array(
+			$this,
+			'sanitize_responsive_lg_callback',
+		), array(
+			$this,
+			'responsive_lg_callback',
+		) );
+		$this->addField( $tab, false, 'compiled_js_composer_less', array(
+			$this,
+			'sanitize_compiled_js_composer_less_callback',
+		), array(
+			$this,
+			'compiled_js_composer_less_callback',
+		) );
+
+		/**
+		 * Tab: Custom CSS
+		 */
+		$tab = 'custom_css';
+		$this->addSection( $tab );
+		$this->addField( $tab, esc_html__( 'Paste your CSS code', 'js_composer' ), 'custom_css', array(
+			$this,
+			'sanitize_custom_css_callback',
+		), array(
+			$this,
+			'custom_css_field_callback',
+		) );
 
 		/**
 		 * Custom Tabs
 		 */
 		foreach ( $this->getTabs() as $tab => $title ) {
-            // phpcs:ignore:WordPress.NamingConventions.ValidHookName.UseUnderscores
 			do_action( 'vc_settings_tab-' . preg_replace( '/^vc\-/', '', $tab ), $this );
 		}
 
@@ -271,85 +380,11 @@ class Vc_Settings {
 	}
 
 	/**
-	 * Set sections
-	 *
-	 * @since 7.7
-	 */
-	public function set_sections() {
-		$this->set_general_section();
-		$this->set_modules_section();
-
-		/**
-		 * Set settings sections tabs.
-		 *
-		 * @since 7.7
-		 */
-		do_action( 'vc_settings_set_sections', $this );
-	}
-
-	/**
-	 * Set general section
-	 *
-	 * @since 7.7
-	 */
-	public function set_general_section() {
-		$tab = 'general';
-		$this->addSection( $tab );
-
-		$this->addField( $tab, esc_html__( 'Disable responsive content elements', 'js_composer' ), 'not_responsive_css', array(
-			$this,
-			'sanitize_not_responsive_css_callback',
-		), array(
-			$this,
-			'not_responsive_css_field_callback',
-		), array(
-			'info' => esc_html__( 'Disable content elements from "stacking" one on top other on small media screens (Example: mobile devices).', 'js_composer' ),
-		)    );
-
-		$this->addField( $tab, esc_html__( 'Google fonts subsets', 'js_composer' ), 'google_fonts_subsets', array(
-			$this,
-			'sanitize_google_fonts_subsets_callback',
-		), array(
-			$this,
-			'google_fonts_subsets_callback',
-		), array(
-			'info' => esc_html__( 'Select subsets for Google Fonts available to content elements.', 'js_composer' ),
-		)    );
-
-		$this->addField( $tab, esc_html__( 'Local Google Fonts', 'js_composer' ), 'local_google_fonts', array(
-			$this,
-			'sanitize_local_google_fonts_callback',
-		), array(
-			$this,
-			'local_google_fonts_callback',
-		) );
-	}
-
-	/**
-	 * Set modules section
-	 *
-	 * @since 7.7
-	 */
-	public function set_modules_section() {
-		$tab = 'modules';
-
-		$this->addField($tab, '', vc_modules_manager()->option_slug, [
-			$this,
-			'sanitize_modules_callback',
-		], [
-			$this,
-			'use_modules_callback',
-		]);
-
-		$this->addSection( $tab );
-	}
-
-	/**
 	 * Creates new section.
 	 *
-	 * @param string $tab - tab key name as tab section.
-	 * @param string $title - Human title.
-	 * @param callable|null $callback - function to build section header.
+	 * @param $tab - tab key name as tab section
+	 * @param $title - Human title
+	 * @param $callback - function to build section header.
 	 */
 	public function addSection( $tab, $title = null, $callback = null ) {
 		add_settings_section( $this->option_group . '_' . $tab, $title, ( null !== $callback ? $callback : array(
@@ -361,11 +396,11 @@ class Vc_Settings {
 	/**
 	 * Create field in section.
 	 *
-	 * @param string $tab
-	 * @param string $title
-	 * @param string $field_name
-	 * @param callable $sanitize_callback
-	 * @param callable $field_callback
+	 * @param $tab
+	 * @param $title
+	 * @param $field_name
+	 * @param $sanitize_callback
+	 * @param $field_callback
 	 * @param array $args
 	 *
 	 * @return $this
@@ -374,27 +409,42 @@ class Vc_Settings {
 		register_setting( $this->option_group . '_' . $tab, self::$field_prefix . $field_name, $sanitize_callback );
 		add_settings_field( self::$field_prefix . $field_name, $title, $field_callback, $this->page . '_' . $tab, $this->option_group . '_' . $tab, $args );
 
-		return $this; // chaining.
+		return $this; // chaining
 	}
 
 	/**
-	 * Get option.
 	 *
-	 * @param string $option_name
+	 */
+	public function restoreColor() {
+		foreach ( self::$color_settings as $color_sett ) {
+			foreach ( $color_sett as $key => $value ) {
+				delete_option( self::$field_prefix . $key );
+			}
+		}
+		delete_option( self::$field_prefix . 'margin' );
+		delete_option( self::$field_prefix . 'gutter' );
+		delete_option( self::$field_prefix . 'responsive_max' );
+		delete_option( self::$field_prefix . 'responsive_md' );
+		delete_option( self::$field_prefix . 'responsive_lg' );
+		delete_option( self::$field_prefix . 'use_custom' );
+		delete_option( self::$field_prefix . 'compiled_js_composer_less' );
+		delete_option( self::$field_prefix . 'less_version' );
+	}
+
+	/**
+	 * @param $option_name
 	 *
-	 * @param bool $default_value
+	 * @param bool $defaultValue
 	 *
 	 * @return mixed
 	 */
-	public static function get( $option_name, $default_value = false ) {
-		return get_option( self::$field_prefix . $option_name, $default_value );
+	public static function get( $option_name, $defaultValue = false ) {
+		return get_option( self::$field_prefix . $option_name, $defaultValue );
 	}
 
 	/**
-	 * Set option.
-	 *
-	 * @param string $option_name
-	 * @param mixed $value
+	 * @param $option_name
+	 * @param $value
 	 *
 	 * @return bool
 	 */
@@ -404,10 +454,10 @@ class Vc_Settings {
 
 	/**
 	 * Set up the enqueue for the CSS & JavaScript files.
+	 *
 	 */
 	public function adminLoad() {
 		wp_register_script( 'wpb_js_composer_settings', vc_asset_url( 'js/dist/settings.min.js' ), array(), WPB_VC_VERSION, true );
-		wp_register_script( 'wpb-popper', vc_asset_url( 'lib/vendor/node_modules/@popperjs/core/dist/umd/popper.min.js' ), array(), WPB_VC_VERSION, true );
 		wp_enqueue_style( 'js_composer_settings', vc_asset_url( 'css/js_composer_settings.min.css' ), false, WPB_VC_VERSION );
 		wp_enqueue_script( 'backbone' );
 		wp_enqueue_script( 'shortcode' );
@@ -415,9 +465,7 @@ class Vc_Settings {
 		wp_enqueue_script( 'jquery-ui-accordion' );
 		wp_enqueue_script( 'jquery-ui-sortable' );
 		wp_enqueue_script( 'wpb_js_composer_settings' );
-		wp_enqueue_script( 'wpb-popper' );
-
-		$this->locale = apply_filters( 'vc_get_settings_locale', array(
+		$this->locale = array(
 			'are_you_sure_reset_css_classes' => esc_html__( 'Are you sure you want to reset to defaults?', 'js_composer' ),
 			'are_you_sure_reset_color' => esc_html__( 'Are you sure you want to reset to defaults?', 'js_composer' ),
 			'saving' => esc_html__( 'Saving...', 'js_composer' ),
@@ -437,17 +485,27 @@ class Vc_Settings {
 			'error_param_already_exists' => esc_html__( 'Param %s already exists. Param names must be unique.', 'js_composer' ),
 			'error_wrong_param_name' => esc_html__( 'Please use only letters, numbers and underscore for param name', 'js_composer' ),
 			'error_enter_valid_shortcode' => esc_html__( 'Please enter valid shortcode to parse!', 'js_composer' ),
-			'copied' => esc_html__( 'Copied', 'js_composer' ),
-			'license_sync_failed' => esc_html__( 'Failed to sync license. Please try again later.', 'js_composer' ),
-		));
 
+		);
 		wp_localize_script( 'wpb_js_composer_settings', 'vcData', apply_filters( 'vc_global_js_data', array(
 			'version' => WPB_VC_VERSION,
 			'debug' => false,
 		) ) );
 		wp_localize_script( 'wpb_js_composer_settings', 'i18nLocaleSettings', $this->locale );
-		$wpb_settings_data = apply_filters( 'vc_get_settings_wpb_data', [] );
-		wp_localize_script( 'wpb_js_composer_settings', 'wpbData', $wpb_settings_data );
+	}
+
+	/**
+	 *
+	 */
+	public function custom_css_field_callback() {
+		$value = get_option( self::$field_prefix . 'custom_css' );
+		if ( empty( $value ) ) {
+			$value = '';
+		}
+
+		echo '<textarea name="' . esc_attr( self::$field_prefix ) . 'custom_css' . '" class="wpb_csseditor custom_css" style="display:none">' . esc_textarea( $value ) . '</textarea>';
+		echo '<pre id="wpb_csseditor" class="wpb_content_element custom_css" >' . esc_textarea( $value ) . '</pre>';
+		echo '<p class="description indicator-hint">' . esc_html__( 'Add custom CSS code to the plugin without modifying files.', 'js_composer' ) . '</p>';
 	}
 
 	/**
@@ -462,47 +520,10 @@ class Vc_Settings {
 		<label>
 			<input type="checkbox"<?php echo $checked ? ' checked' : ''; ?> value="1" id="wpb_js_not_responsive_css" name="<?php echo esc_attr( self::$field_prefix . 'not_responsive_css' ); ?>">
 			<?php esc_html_e( 'Disable', 'js_composer' ); ?>
-		</label>
+		</label><br/>
+		<p
+				class="description indicator-hint"><?php esc_html_e( 'Disable content elements from "stacking" one on top other on small media screens (Example: mobile devices).', 'js_composer' ); ?></p>
 		<?php
-	}
-
-	/**
-	 * Modules html settings
-	 *
-	 * @since 7.7
-	 */
-	public function use_modules_callback() {
-		vc_include_template( 'pages/vc-settings/partials/modules/title.php' );
-
-		$modules_manager = vc_modules_manager();
-		$all_modules = $modules_manager->get_all();
-		$hidden_value = [];
-
-		foreach ( $all_modules as $module_slug => $module_data ) {
-			if ( $modules_manager->get_module_status( $module_slug ) ) {
-				$hidden_value[ $module_slug ] = true;
-				$module_value = 'checked';
-			} else {
-				$hidden_value[ $module_slug ] = false;
-				$module_value = '';
-			}
-			vc_include_template(
-				'pages/vc-settings/partials/modules/toggle.php',
-				[
-					'module_data' => $module_data,
-					'module_slug' => $module_slug,
-					'module_value' => $module_value,
-				]
-			);
-		}
-
-		vc_include_template(
-			'pages/vc-settings/partials/modules/hidden-input.php',
-			[
-				'hidden_value' => $hidden_value,
-				'option_name' => $modules_manager->get_option_name(),
-			]
-		);
 	}
 
 	/**
@@ -517,20 +538,18 @@ class Vc_Settings {
 				?>
 				<label>
 					<input type="checkbox"<?php echo esc_attr( $checked ); ?> value="<?php echo esc_attr( $pt ); ?>"
-						id="wpb_js_gf_subsets_<?php echo esc_attr( $pt ); ?>"
-						name="<?php echo esc_attr( self::$field_prefix . 'google_fonts_subsets' ); ?>[]">
+						   id="wpb_js_gf_subsets_<?php echo esc_attr( $pt ); ?>"
+						   name="<?php echo esc_attr( self::$field_prefix . 'google_fonts_subsets' ); ?>[]">
 					<?php echo esc_html( $pt ); ?>
 				</label><br>
 				<?php
 			}
 		}
 		?>
+		<p class="description indicator-hint"><?php esc_html_e( 'Select subsets for Google Fonts available to content elements.', 'js_composer' ); ?></p>
 		<?php
 	}
 
-	/**
-	 * Local google fonts callback.
-	 */
 	public function local_google_fonts_callback() {
 		$checked = get_option( self::$field_prefix . 'local_google_fonts' );
 		if ( empty( $checked ) ) {
@@ -540,7 +559,9 @@ class Vc_Settings {
 		<label>
 			<input type="checkbox"<?php echo $checked ? ' checked' : ''; ?> value="1" id="local_google_fonts" name="<?php echo esc_attr( self::$field_prefix . 'local_google_fonts' ); ?>">
 			<?php esc_html_e( 'Enable', 'js_composer' ); ?>
-		</label>
+		</label><br/>
+		<p
+				class="description indicator-hint"><?php esc_html_e( 'This will automatically download all used Google Fonts locally.', 'js_composer' ); ?></p>
 		<?php
 	}
 
@@ -561,8 +582,6 @@ class Vc_Settings {
 	}
 
 	/**
-	 * Get default Google Fonts subsets.
-	 *
 	 * @return array
 	 */
 	public function googleFontsSubsetsDefault() {
@@ -570,8 +589,6 @@ class Vc_Settings {
 	}
 
 	/**
-	 * Get the Google Fonts subsets.
-	 *
 	 * @return array
 	 */
 	public function getGoogleFontsSubsets() {
@@ -579,9 +596,7 @@ class Vc_Settings {
 	}
 
 	/**
-	 * Set the Google Fonts subsets.
-	 *
-	 * @param mixed $subsets
+	 * @param $subsets
 	 *
 	 * @return bool
 	 */
@@ -596,8 +611,6 @@ class Vc_Settings {
 	}
 
 	/**
-	 * Get the excluded Google Fonts subsets.
-	 *
 	 * @return array
 	 */
 	public function getGoogleFontsSubsetsExcluded() {
@@ -605,9 +618,7 @@ class Vc_Settings {
 	}
 
 	/**
-	 * Set the excluded Google Fonts subsets.
-	 *
-	 * @param mixed $excluded
+	 * @param $excluded
 	 *
 	 * @return bool
 	 */
@@ -622,9 +633,103 @@ class Vc_Settings {
 	}
 
 	/**
+	 * Not responsive checkbox callback function
+	 *
+	 */
+	public function use_custom_callback() {
+		$field = 'use_custom';
+		$checked = get_option( self::$field_prefix . $field );
+		$checked = $checked ? $checked : false;
+		?>
+		<label>
+			<input type="checkbox"<?php echo( $checked ? ' checked' : '' ); ?> value="1"
+				   id="wpb_js_<?php echo esc_attr( $field ); ?>" name="<?php echo esc_attr( self::$field_prefix . $field ); ?>">
+			<?php esc_html_e( 'Enable', 'js_composer' ); ?>
+		</label><br/>
+		<p class="description indicator-hint"><?php esc_html_e( 'Enable the use of custom design options (Note: when checked - custom css file will be used).', 'js_composer' ); ?></p>
+		<?php
+	}
+
+	/**
+	 * @param $args
+	 */
+	public function color_callback( $args ) {
+		$field = $args['id'];
+		$value = get_option( self::$field_prefix . $field );
+		$value = $value ? $value : $this->getDefault( $field );
+		echo '<input type="text" name="' . esc_attr( self::$field_prefix . $field ) . '" value="' . esc_attr( $value ) . '" class="color-control css-control">';
+	}
+
+	/**
+	 *
+	 */
+	public function margin_callback() {
+		$field = 'margin';
+		$value = get_option( self::$field_prefix . $field );
+		$value = $value ? $value : $this->getDefault( $field );
+		echo '<input type="text" name="' . esc_attr( self::$field_prefix . $field ) . '" value="' . esc_attr( $value ) . '" class="css-control">';
+		echo '<p class="description indicator-hint css-control">' . esc_html__( 'Change default vertical spacing between content elements (Example: 20px).', 'js_composer' ) . '</p>';
+	}
+
+	/**
+	 *
+	 */
+	public function gutter_callback() {
+		$field = 'gutter';
+		$value = get_option( self::$field_prefix . $field );
+		$value = $value ? $value : $this->getDefault( $field );
+		echo '<input type="text" name="' . esc_attr( self::$field_prefix . $field ) . '" value="' . esc_attr( $value ) . '" class="css-control"> px';
+		echo '<p class="description indicator-hint css-control">' . esc_html__( 'Change default horizontal spacing between columns, enter new value in pixels.', 'js_composer' ) . '</p>';
+	}
+
+	/**
+	 *
+	 */
+	public function responsive_max_callback() {
+		$field = 'responsive_max';
+		$value = get_option( self::$field_prefix . $field );
+		$value = $value ? $value : $this->getDefault( $field );
+		echo '<input type="text" name="' . esc_attr( self::$field_prefix . $field ) . '" value="' . esc_attr( $value ) . '" class="css-control"> px';
+		echo '<p class="description indicator-hint css-control">' . esc_html__( 'Content elements stack one on top other when the screen size is smaller than entered value. Change it to control when your layout stacks and adopts to a particular viewport or device size.', 'js_composer' ) . '</p>';
+	}
+
+	public function responsive_md_callback() {
+		$field = 'responsive_md';
+		$value = get_option( self::$field_prefix . $field );
+		$value = $value ? $value : $this->getDefault( $field );
+		echo '<input type="text" name="' . esc_attr( self::$field_prefix . $field ) . '" value="' . esc_attr( $value ) . '" class="css-control"> px';
+		echo '<p class="description indicator-hint css-control">' . esc_html__( 'Content elements stack one on top other when the screen size is smaller than entered value. Change it to control when your layout stacks and adopts to a particular viewport or device size.', 'js_composer' ) . '</p>';
+	}
+
+	public function responsive_lg_callback() {
+		$field = 'responsive_lg';
+		$value = get_option( self::$field_prefix . $field );
+		$value = $value ? $value : $this->getDefault( $field );
+		echo '<input type="text" name="' . esc_attr( self::$field_prefix . $field ) . '" value="' . esc_attr( $value ) . '" class="css-control"> px';
+		echo '<p class="description indicator-hint css-control">' . esc_html__( 'Content elements stack one on top other when the screen size is smaller than entered value. Change it to control when your layout stacks and adopts to a particular viewport or device size.', 'js_composer' ) . '</p>';
+	}
+
+	/**
+	 *
+	 */
+	public function compiled_js_composer_less_callback() {
+		$field = 'compiled_js_composer_less';
+		echo '<input type="hidden" name="' . esc_attr( self::$field_prefix . $field ) . '" value="">'; // VALUE must be empty
+	}
+
+	/**
+	 * @param $key
+	 *
+	 * @return string
+	 */
+	public function getDefault( $key ) {
+		return ! empty( self::$defaults[ $key ] ) ? self::$defaults[ $key ] : '';
+	}
+
+	/**
 	 * Callback function for settings section
 	 *
-	 * @param array $tab
+	 * @param $tab
 	 */
 	public function setting_section_callback_function( $tab ) {
 		if ( 'wpb_js_composer_settings_color' === $tab['id'] ) {
@@ -636,44 +741,25 @@ class Vc_Settings {
 	}
 
 	/**
-	 * Sanitize callback for not responsive css.
+	 * @param $rules
 	 *
-	 * @param mixed $rules
-	 *
-	 * @return bool
+	 * @return mixed
 	 */
 	public function sanitize_not_responsive_css_callback( $rules ) {
 		return (bool) $rules;
 	}
 
 	/**
-	 * Sanitize callback for local google fonts.
+	 * @param $checkbox
 	 *
-	 * @param mixed $checkbox
-	 *
-	 * @return bool
+	 * @return mixed
 	 */
 	public function sanitize_local_google_fonts_callback( $checkbox ) {
 		return (bool) $checkbox;
 	}
 
 	/**
-	 * Sanitize callback for modules.
-	 *
-	 * @param mixed $field
-	 *
-	 * @since 7.7
-	 *
-	 * @return mixed
-	 */
-	public function sanitize_modules_callback( $field ) {
-		return $field;
-	}
-
-	/**
-	 * Sanitize callback for google fonts subsets.
-	 *
-	 * @param array $subsets
+	 * @param $subsets
 	 *
 	 * @return array
 	 */
@@ -691,7 +777,146 @@ class Vc_Settings {
 	}
 
 	/**
-	 * Rebuilding.
+	 * @param $rules
+	 *
+	 * @return mixed
+	 */
+	public function sanitize_use_custom_callback( $rules ) {
+		return (bool) $rules;
+	}
+
+	/**
+	 * @param $css
+	 *
+	 * @return mixed
+	 */
+	public function sanitize_custom_css_callback( $css ) {
+		return wp_strip_all_tags( $css );
+	}
+
+	/**
+	 * @param $css
+	 *
+	 * @return mixed
+	 */
+	public function sanitize_compiled_js_composer_less_callback( $css ) {
+		return $css;
+	}
+
+	/**
+	 * @param $color
+	 *
+	 * @return mixed
+	 */
+	public function sanitize_color_callback( $color ) {
+		return $color;
+	}
+
+	/**
+	 * @param $margin
+	 *
+	 * @return mixed
+	 */
+	public function sanitize_margin_callback( $margin ) {
+		$margin = preg_replace( '/\s/', '', $margin );
+		if ( ! preg_match( '/^\d+(px|%|em|pt){0,1}$/', $margin ) ) {
+			add_settings_error( self::$field_prefix . 'margin', 1, esc_html__( 'Invalid Margin value.', 'js_composer' ), 'error' );
+		}
+
+		return $margin;
+	}
+
+	/**
+	 * @param $gutter
+	 *
+	 * @return mixed
+	 */
+	public function sanitize_gutter_callback( $gutter ) {
+		$gutter = preg_replace( '/[^\d]/', '', $gutter );
+		if ( ! $this->_isGutterValid( $gutter ) ) {
+			add_settings_error( self::$field_prefix . 'gutter', 1, esc_html__( 'Invalid Gutter value.', 'js_composer' ), 'error' );
+		}
+
+		return $gutter;
+	}
+
+	/**
+	 * @param $responsive_max
+	 *
+	 * @return mixed
+	 */
+	public function sanitize_responsive_max_callback( $responsive_max ) {
+		if ( ! $this->_isNumberValid( $responsive_max ) ) {
+			add_settings_error( self::$field_prefix . 'responsive_max', 1, esc_html__( 'Invalid "Responsive mobile" value.', 'js_composer' ), 'error' );
+		}
+
+		return $responsive_max;
+	}
+
+	/**
+	 * @param $responsive_md
+	 *
+	 * @return mixed
+	 */
+	public function sanitize_responsive_md_callback( $responsive_md ) {
+		if ( ! $this->_isNumberValid( $responsive_md ) ) {
+			add_settings_error( self::$field_prefix . 'responsive_md', 1, esc_html__( 'Invalid "Responsive md" value.', 'js_composer' ), 'error' );
+		}
+
+		return $responsive_md;
+	}
+
+	/**
+	 * @param $responsive_lg
+	 *
+	 * @return mixed
+	 */
+	public function sanitize_responsive_lg_callback( $responsive_lg ) {
+		if ( ! $this->_isNumberValid( $responsive_lg ) ) {
+			add_settings_error( self::$field_prefix . 'responsive_lg', 1, esc_html__( 'Invalid "Responsive lg" value.', 'js_composer' ), 'error' );
+		}
+
+		return $responsive_lg;
+	}
+
+	/**
+	 * @param $number
+	 *
+	 * @return int
+	 */
+	public static function _isNumberValid( $number ) {
+		return preg_match( '/^[\d]+(\.\d+){0,1}$/', $number );
+	}
+
+	/**
+	 * @param $gutter
+	 *
+	 * @return int
+	 */
+	public static function _isGutterValid( $gutter ) {
+		return self::_isNumberValid( $gutter );
+	}
+
+	/**
+	 * @return mixed|void
+	 */
+	public function useCustomCss() {
+		$use_custom = get_option( self::$field_prefix . 'use_custom', false );
+
+		return $use_custom;
+	}
+
+	/**
+	 * @return mixed|void
+	 */
+	public function getCustomCssVersion() {
+		$less_version = get_option( self::$field_prefix . 'less_version', false );
+
+		return $less_version;
+	}
+
+	/**
+	 *
 	 */
 	public function rebuild() {
 		/** WordPress Template Administration API */
@@ -700,40 +925,110 @@ class Vc_Settings {
 		require_once ABSPATH . 'wp-admin/includes/file.php';
 		delete_option( self::$field_prefix . 'compiled_js_composer_less' );
 		$this->initAdmin();
+		$this->buildCustomCss(); // TODO: remove this - no needs to re-save always
 	}
 
 	/**
-	 * Build custom css file using css options from vc settings.
 	 *
-	 * @deprecated 7.7
 	 */
 	public static function buildCustomColorCss() {
-		_deprecated_function( __METHOD__, '7.7', "vc_modules_manager()->get_module('vc-design-options')->settings->build_custom_color_css()" );
-		if ( ! vc_modules_manager()->is_module_on( 'vc-design-options' ) ) {
-			vc_modules_manager()->turn_on( 'vc-design-options' );
+		/**
+		 * Filesystem API init.
+		 * */
+		$url = wp_nonce_url( 'admin.php?page=vc-color&build_css=1', 'wpb_js_settings_save_action' );
+		self::getFileSystem( $url );
+		/** @var \WP_Filesystem_Direct $wp_filesystem */ global $wp_filesystem;
+		/**
+		 *
+		 * Building css file.
+		 *
+		 */
+		$js_composer_upload_dir = self::checkCreateUploadDir( $wp_filesystem, 'use_custom', 'js_composer_front_custom.css' );
+		if ( ! $js_composer_upload_dir ) {
+			return;
 		}
-		vc_modules_manager()->get_module( 'vc-design-options' )->settings->build_custom_color_css();
+
+		$filename = $js_composer_upload_dir . '/js_composer_front_custom.css';
+		$use_custom = get_option( self::$field_prefix . 'use_custom' );
+		if ( ! $use_custom ) {
+			$wp_filesystem->put_contents( $filename, '', FS_CHMOD_FILE );
+
+			return;
+		}
+		$css_string = get_option( self::$field_prefix . 'compiled_js_composer_less' );
+		if ( strlen( trim( $css_string ) ) > 0 ) {
+			update_option( self::$field_prefix . 'less_version', WPB_VC_VERSION );
+			delete_option( self::$field_prefix . 'compiled_js_composer_less' );
+			$css_string = wp_strip_all_tags( $css_string );
+			// HERE goes the magic
+			if ( ! $wp_filesystem->put_contents( $filename, $css_string, FS_CHMOD_FILE ) ) {
+				if ( is_wp_error( $wp_filesystem->errors ) && $wp_filesystem->errors->get_error_code() ) {
+					add_settings_error( self::$field_prefix . 'main_color', $wp_filesystem->errors->get_error_code(), esc_html__( 'Something went wrong: js_composer_front_custom.css could not be created.', 'js_composer' ) . ' ' . $wp_filesystem->errors->get_error_message(), 'error' );
+				} elseif ( ! $wp_filesystem->connect() ) {
+					add_settings_error( self::$field_prefix . 'main_color', $wp_filesystem->errors->get_error_code(), esc_html__( 'js_composer_front_custom.css could not be created. Connection error.', 'js_composer' ), 'error' );
+				} elseif ( ! $wp_filesystem->is_writable( $filename ) ) {
+					add_settings_error( self::$field_prefix . 'main_color', $wp_filesystem->errors->get_error_code(), sprintf( esc_html__( 'js_composer_front_custom.css could not be created. Cannot write custom css to "%s".', 'js_composer' ), $filename ), 'error' );
+				} else {
+					add_settings_error( self::$field_prefix . 'main_color', $wp_filesystem->errors->get_error_code(), esc_html__( 'js_composer_front_custom.css could not be created. Problem with access.', 'js_composer' ), 'error' );
+				}
+				delete_option( self::$field_prefix . 'use_custom' );
+				delete_option( self::$field_prefix . 'less_version' );
+			}
+		}
 	}
 
 	/**
 	 * Builds custom css file using css options from vc settings.
 	 *
-	 * @deprecated 7.7
+	 * @return bool
 	 */
 	public static function buildCustomCss() {
-		_deprecated_function( __METHOD__, '7.7', "vc_modules_manager()->get_module('vc-custom-css')->settings->build_custom_css()" );
-		if ( ! vc_modules_manager()->is_module_on( 'vc-custom-css' ) ) {
-			vc_modules_manager()->turn_on( 'vc-custom-css' );
+		/**
+		 * Filesystem API init.
+		 * */
+		$url = wp_nonce_url( 'admin.php?page=vc-color&build_css=1', 'wpb_js_settings_save_action' );
+		self::getFileSystem( $url );
+		/** @var \WP_Filesystem_Direct $wp_filesystem */ global $wp_filesystem;
+
+		/**
+		 * Building css file.
+		 */
+		$js_composer_upload_dir = self::checkCreateUploadDir( $wp_filesystem, 'custom_css', 'custom.css' );
+		if ( ! $js_composer_upload_dir ) {
+			return true;
 		}
-		vc_modules_manager()->get_module( 'vc-custom-css' )->settings->build_custom_css();
+
+		$filename = $js_composer_upload_dir . '/custom.css';
+		$css_string = '';
+		$custom_css_string = get_option( self::$field_prefix . 'custom_css' );
+		if ( ! empty( $custom_css_string ) ) {
+			$assets_url = vc_asset_url( '' );
+			$css_string .= preg_replace( '/(url\(\.\.\/(?!\.))/', 'url(' . $assets_url, $custom_css_string );
+			$css_string = wp_strip_all_tags( $css_string );
+		}
+
+		if ( ! $wp_filesystem->put_contents( $filename, $css_string, FS_CHMOD_FILE ) ) {
+			if ( is_wp_error( $wp_filesystem->errors ) && $wp_filesystem->errors->get_error_code() ) {
+				add_settings_error( self::$field_prefix . 'custom_css', $wp_filesystem->errors->get_error_code(), esc_html__( 'Something went wrong: custom.css could not be created.', 'js_composer' ) . $wp_filesystem->errors->get_error_message(), 'error' );
+			} elseif ( ! $wp_filesystem->connect() ) {
+				add_settings_error( self::$field_prefix . 'custom_css', $wp_filesystem->errors->get_error_code(), esc_html__( 'custom.css could not be created. Connection error.', 'js_composer' ), 'error' );
+			} elseif ( ! $wp_filesystem->is_writable( $filename ) ) {
+				add_settings_error( self::$field_prefix . 'custom_css', $wp_filesystem->errors->get_error_code(), sprintf( esc_html__( 'custom.css could not be created. Cannot write custom css to %s.', 'js_composer' ), $filename ), 'error' );
+			} else {
+				add_settings_error( self::$field_prefix . 'custom_css', $wp_filesystem->errors->get_error_code(), esc_html__( 'custom.css could not be created. Problem with access.', 'js_composer' ), 'error' );
+			}
+
+			return false;
+		}
+
+		return true;
+
 	}
 
 	/**
-	 * Check create upload dir.
-	 *
 	 * @param \WP_Filesystem_Direct $wp_filesystem
-	 * @param string $option
-	 * @param string $filename
+	 * @param $option
+	 * @param $filename
 	 *
 	 * @return bool|string
 	 */
@@ -741,7 +1036,7 @@ class Vc_Settings {
 		$js_composer_upload_dir = self::uploadDir();
 		if ( ! $wp_filesystem->is_dir( $js_composer_upload_dir ) ) {
 			if ( ! $wp_filesystem->mkdir( $js_composer_upload_dir, 0777 ) ) {
-				add_settings_error( self::$field_prefix . $option, $wp_filesystem->errors->get_error_code(), sprintf( esc_html__( '%1$s could not be created. Not available to create js_composer directory in uploads directory (%2$s).', 'js_composer' ), $filename, $js_composer_upload_dir ), 'error' );
+				add_settings_error( self::$field_prefix . $option, $wp_filesystem->errors->get_error_code(), sprintf( esc_html__( '%s could not be created. Not available to create js_composer directory in uploads directory (%s).', 'js_composer' ), $filename, $js_composer_upload_dir ), 'error' );
 
 				return false;
 			}
@@ -751,21 +1046,16 @@ class Vc_Settings {
 	}
 
 	/**
-	 * Upload dir.
-	 *
 	 * @return string
 	 */
 	public static function uploadDir() {
 		$upload_dir = wp_upload_dir();
-		// WP_Filesystem_Direct $wp_filesystem - global variable.
-		global $wp_filesystem;
+		/** @var \WP_Filesystem_Direct $wp_filesystem */ global $wp_filesystem;
 
 		return $wp_filesystem->find_folder( $upload_dir['basedir'] ) . vc_upload_dir();
 	}
 
 	/**
-	 * Upload URL.
-	 *
 	 * @return string
 	 */
 	public static function uploadURL() {
@@ -774,10 +1064,7 @@ class Vc_Settings {
 		return $upload_dir['baseurl'] . vc_upload_dir();
 	}
 
-
 	/**
-	 * Get field prefix.
-	 *
 	 * @return string
 	 */
 	public static function getFieldPrefix() {
@@ -785,17 +1072,11 @@ class Vc_Settings {
 	}
 
 	/**
-	 * Get file system.
-	 *
 	 * @param string $url
-	 * @return bool|null
+	 * @return \WP_Filesystem_Direct|bool
 	 */
-	public static function getFileSystem( $url = '' ) {
-		if ( '' !== $url ) {
-			_deprecated_argument( __METHOD__, '7.9', '$url' );
-		}
-		// WP_Filesystem_Direct $wp_filesystem - global variable.
-		global $wp_filesystem;
+	protected static function getFileSystem( $url = '' ) {
+		/** @var \WP_Filesystem_Direct $wp_filesystem */ global $wp_filesystem;
 		$status = true;
 		if ( ! $wp_filesystem || ! is_object( $wp_filesystem ) ) {
 			require_once ABSPATH . '/wp-admin/includes/file.php';
@@ -806,80 +1087,9 @@ class Vc_Settings {
 	}
 
 	/**
-	 * Get option group.
-	 *
 	 * @return string
 	 */
 	public function getOptionGroup() {
 		return $this->option_group;
-	}
-
-	/**
-	 * Get page.
-	 *
-	 * @deprecated 7.7
-	 */
-	public function useCustomCss() {
-		_deprecated_function( __METHOD__, '7.7', "vc_modules_manager()->get_module('vc-design-options')->settings->use_custom_css()" );
-		if ( ! vc_modules_manager()->is_module_on( 'vc-design-options' ) ) {
-			vc_modules_manager()->turn_on( 'vc-design-options' );
-		}
-		return vc_modules_manager()->get_module( 'vc-design-options' )->settings->use_custom_css();
-	}
-
-	/**
-	 * Get page.
-	 *
-	 * @deprecated 7.7
-	 */
-	public function getCustomCssVersion() {
-		_deprecated_function( __METHOD__, '7.7', "vc_modules_manager()->get_module('vc-design-options')->settings->get_custom_css_version()" );
-		if ( ! vc_modules_manager()->is_module_on( 'vc-design-options' ) ) {
-			vc_modules_manager()->turn_on( 'vc-design-options' );
-		}
-		return vc_modules_manager()->get_module( 'vc-design-options' )->settings->get_custom_css_version();
-	}
-
-	/**
-	 * Get page.
-	 *
-	 * @param string $key
-	 * @deprecated 7.7
-	 */
-	public function get_default( $key ) {
-		_deprecated_function( __METHOD__, '7.7', "vc_modules_manager()->get_module('vc-design-options')->settings->get_default()" );
-		if ( ! vc_modules_manager()->is_module_on( 'vc-design-options' ) ) {
-			vc_modules_manager()->turn_on( 'vc-design-options' );
-		}
-		return vc_modules_manager()->get_module( 'vc-design-options' )->settings->get_default( $key );
-	}
-
-	/**
-	 * Get page.
-	 *
-	 * @deprecated 7.7
-	 */
-	public function restoreColor() {
-		_deprecated_function( __METHOD__, '7.7', "vc_modules_manager()->get_module('vc-design-options')->settings->restore_color()" );
-		if ( ! vc_modules_manager()->is_module_on( 'vc-design-options' ) ) {
-			vc_modules_manager()->turn_on( 'vc-design-options' );
-		}
-		vc_modules_manager()->get_module( 'vc-design-options' )->settings->restore_color();
-	}
-
-	/**
-	 * We should reset some optionality of other modules when modules option changed.
-	 *
-	 * @param mixed $old_value
-	 * @param string $new_value
-	 *
-	 * @since 7.7
-	 */
-	public function reset_modules_dependency( $old_value, $new_value ) {
-		$options = json_decode( $new_value, true );
-
-		if ( isset( $options['vc-design-options'] ) && ! $options['vc-design-options'] ) {
-			delete_option( self::$field_prefix . 'use_custom' );
-		}
 	}
 }

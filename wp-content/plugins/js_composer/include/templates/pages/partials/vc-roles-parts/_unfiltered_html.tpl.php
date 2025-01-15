@@ -1,14 +1,8 @@
 <?php
-/**
- * Unfiltered HTML part template.
- *
- * @var string $role
- * @var string $part
- */
-
 if ( ! defined( 'ABSPATH' ) ) {
 	die( '-1' );
 }
+/** @var string $part */
 vc_include_template( 'pages/partials/vc-roles-parts/_part.tpl.php', array(
 	'part' => $part,
 	'role' => $role,

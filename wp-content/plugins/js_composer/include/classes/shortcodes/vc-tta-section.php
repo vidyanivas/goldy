@@ -1,10 +1,4 @@
 <?php
-/**
- * Class that handles specific [vc_tta_section] shortcode.
- *
- * @see js_composer/include/templates/shortcodes/vc_tta_section.php
- */
-
 if ( ! defined( 'ABSPATH' ) ) {
 	die( '-1' );
 }
@@ -15,59 +9,22 @@ VcShortcodeAutoloader::getInstance()->includeClass( 'WPBakeryShortCode_Vc_Tta_Ac
  * Class WPBakeryShortCode_Vc_Tta_Section
  */
 class WPBakeryShortCode_Vc_Tta_Section extends WPBakeryShortCode_Vc_Tta_Accordion {
-	/**
-	 * CSS settings for controls.
-	 *
-	 * @var string
-	 */
 	protected $controls_css_settings = 'tc vc_control-container';
-
-	/**
-	 * List of controls for the section.
-	 *
-	 * @var array
-	 */
 	protected $controls_list = array(
 		'add',
 		'edit',
 		'clone',
-		'copy',
-		'paste',
 		'delete',
 	);
-
-	/**
-	 * Determines whether to prepend controls in the backend editor.
-	 *
-	 * @var bool
-	 */
 	protected $backened_editor_prepend_controls = false;
-
 	/**
-	 * Base shortcode for TTA.
-	 *
 	 * @var WPBakeryShortCode_Vc_Tta_Accordion
 	 */
 	public static $tta_base_shortcode;
-
-	/**
-	 * Count of self-instances.
-	 *
-	 * @var int
-	 */
 	public static $self_count = 0;
-
-	/**
-	 * Information about sections.
-	 *
-	 * @var array
-	 */
 	public static $section_info = array();
 
-
 	/**
-	 * Get name.
-	 *
 	 * @return mixed|string
 	 */
 	public function getFileName() {
@@ -79,8 +36,6 @@ class WPBakeryShortCode_Vc_Tta_Section extends WPBakeryShortCode_Vc_Tta_Accordio
 	}
 
 	/**
-	 * Add container class.
-	 *
 	 * @return string
 	 */
 	public function containerContentClass() {
@@ -88,8 +43,6 @@ class WPBakeryShortCode_Vc_Tta_Section extends WPBakeryShortCode_Vc_Tta_Accordio
 	}
 
 	/**
-	 * Get element classes.
-	 *
 	 * @return string
 	 */
 	public function getElementClasses() {
@@ -101,7 +54,9 @@ class WPBakeryShortCode_Vc_Tta_Section extends WPBakeryShortCode_Vc_Tta_Accordio
 			$classes[] = $this->activeClass;
 		}
 
-		// since 4.6.2.
+		/**
+		 * @since 4.6.2
+		 */
 		if ( isset( $this->atts['el_class'] ) ) {
 			$classes[] = $this->atts['el_class'];
 		}
@@ -110,10 +65,8 @@ class WPBakeryShortCode_Vc_Tta_Section extends WPBakeryShortCode_Vc_Tta_Accordio
 	}
 
 	/**
-	 * Retrieve content with shortcodes.
-	 *
-	 * @param array $atts
-	 * @param string $content
+	 * @param $atts
+	 * @param $content
 	 *
 	 * @return string
 	 */
@@ -122,10 +75,8 @@ class WPBakeryShortCode_Vc_Tta_Section extends WPBakeryShortCode_Vc_Tta_Accordio
 	}
 
 	/**
-	 * Get tabs id.
-	 *
-	 * @param array $atts
-	 * @param string $content
+	 * @param $atts
+	 * @param $content
 	 *
 	 * @return string|null
 	 */
@@ -138,10 +89,8 @@ class WPBakeryShortCode_Vc_Tta_Section extends WPBakeryShortCode_Vc_Tta_Accordio
 	}
 
 	/**
-	 * Get title.
-	 *
-	 * @param array $atts
-	 * @param string $content
+	 * @param $atts
+	 * @param $content
 	 *
 	 * @return string|null
 	 */
@@ -154,10 +103,8 @@ class WPBakeryShortCode_Vc_Tta_Section extends WPBakeryShortCode_Vc_Tta_Accordio
 	}
 
 	/**
-	 * Get icon.
-	 *
-	 * @param array $atts
-	 * @param string $content
+	 * @param $atts
+	 * @param $content
 	 *
 	 * @return string|null
 	 */
@@ -176,10 +123,8 @@ class WPBakeryShortCode_Vc_Tta_Section extends WPBakeryShortCode_Vc_Tta_Accordio
 	}
 
 	/**
-	 * Get icon with left potions.
-	 *
-	 * @param array $atts
-	 * @param string $content
+	 * @param $atts
+	 * @param $content
 	 *
 	 * @return string|null
 	 */
@@ -192,10 +137,8 @@ class WPBakeryShortCode_Vc_Tta_Section extends WPBakeryShortCode_Vc_Tta_Accordio
 	}
 
 	/**
-	 * Get icon with right potions.
-	 *
-	 * @param array $atts
-	 * @param string $content
+	 * @param $atts
+	 * @param $content
 	 *
 	 * @return string|null
 	 */
@@ -208,10 +151,9 @@ class WPBakeryShortCode_Vc_Tta_Section extends WPBakeryShortCode_Vc_Tta_Accordio
 	}
 
 	/**
-	 * Check section param active.
-	 *
-	 * @param array $atts
-	 * @param string $content
+	 * Section param active
+	 * @param $atts
+	 * @param $content
 	 * @return bool|null
 	 */
 	public function getParamSectionIsActive( $atts, $content ) {
@@ -228,19 +170,15 @@ class WPBakeryShortCode_Vc_Tta_Section extends WPBakeryShortCode_Vc_Tta_Accordio
 	}
 
 	/**
-	 * Get control icon position.
-	 *
-	 * @param array $atts
-	 * @param string $content
+	 * @param $atts
+	 * @param $content
 	 * @return string|null
 	 */
 	public function getParamControlIconPosition( $atts, $content ) {
 		if ( is_object( self::$tta_base_shortcode ) ) {
 			if ( isset( self::$tta_base_shortcode->atts['c_icon'] ) && strlen( self::$tta_base_shortcode->atts['c_icon'] ) > 0 && isset( self::$tta_base_shortcode->atts['c_position'] ) && strlen( self::$tta_base_shortcode->atts['c_position'] ) > 0 ) {
 				$c_position = self::$tta_base_shortcode->atts['c_position'];
-				if ( 'default' === $c_position ) {
-					$c_position = is_rtl() ? 'right' : 'left';
-				}
+
 				return 'vc_tta-controls-icon-position-' . $c_position;
 			}
 		}
@@ -249,10 +187,8 @@ class WPBakeryShortCode_Vc_Tta_Section extends WPBakeryShortCode_Vc_Tta_Accordio
 	}
 
 	/**
-	 * Get control icon.
-	 *
-	 * @param array $atts
-	 * @param string $content
+	 * @param $atts
+	 * @param $content
 	 * @return string|null
 	 */
 	public function getParamControlIcon( $atts, $content ) {
@@ -268,10 +204,8 @@ class WPBakeryShortCode_Vc_Tta_Section extends WPBakeryShortCode_Vc_Tta_Accordio
 	}
 
 	/**
-	 * Get heading.
-	 *
-	 * @param array $atts
-	 * @param string $content
+	 * @param $atts
+	 * @param $content
 	 * @return string
 	 */
 	public function getParamHeading( $atts, $content ) {
@@ -308,26 +242,26 @@ class WPBakeryShortCode_Vc_Tta_Section extends WPBakeryShortCode_Vc_Tta_Accordio
 		$output .= ' data-vc-accordion';
 
 		$output .= ' data-vc-container=".vc_tta-container">';
-		$output .= empty( $atts['i_position'] ) ? '' : $this->getTemplateVariable( 'icon-left' );
-		$output .= '<span class="vc_tta-title-text">' . wp_kses_post( $this->getTemplateVariable( 'title' ) ) . '</span>';
-		$output .= empty( $atts['i_position'] ) ? '' : $this->getTemplateVariable( 'icon-right' );
+		$output .= $this->getTemplateVariable( 'icon-left' );
+		$output .= '<span class="vc_tta-title-text">' . $this->getTemplateVariable( 'title' ) . '</span>';
+		$output .= $this->getTemplateVariable( 'icon-right' );
 		if ( ! $isPageEditable ) {
 			$output .= $this->getTemplateVariable( 'control-icon' );
 		}
 
 		$output .= '</a>';
-		$output .= '</' . $headingTag . '>'; // close heading tag.
+		$output .= '</' . $headingTag . '>'; // close heading tag
 
 		return $output;
 	}
 
 	/**
-	 * Get basic heading.
+	 * Get basic heading
 	 *
-	 * These are used in Pageable element inside content and are hidden from view.
+	 * These are used in Pageable element inside content and are hidden from view
 	 *
-	 * @param array $atts
-	 * @param string $content
+	 * @param $atts
+	 * @param $content
 	 *
 	 * @return string
 	 */
@@ -365,6 +299,7 @@ class WPBakeryShortCode_Vc_Tta_Section extends WPBakeryShortCode_Vc_Tta_Accordio
 	 *
 	 * @return bool
 	 * @since 4.8
+	 *
 	 */
 	public function getAddAllowed() {
 		return vc_user_access()->part( 'shortcodes' )->checkStateAny( true, 'custom', null )->get();

@@ -1,21 +1,12 @@
 <?php
-/**
- * WPBakery Page Builder Content elements refresh.
- */
-
 if ( ! defined( 'ABSPATH' ) ) {
 	die( '-1' );
 }
 
-/**
- * Class VcSharedLibrary
- *
- * Here we will store plugin wise (shared) settings. Colors, Locations, Sizes, etc.
- */
+/*** WPBakery Page Builder Content elements refresh ***/
 class VcSharedLibrary {
+	// Here we will store plugin wise (shared) settings. Colors, Locations, Sizes, etc...
 	/**
-	 * Available color options.
-	 *
 	 * @var array
 	 */
 	private static $colors = array(
@@ -39,8 +30,6 @@ class VcSharedLibrary {
 	);
 
 	/**
-	 * Available icon options.
-	 *
 	 * @var array
 	 */
 	public static $icons = array(
@@ -50,8 +39,6 @@ class VcSharedLibrary {
 	);
 
 	/**
-	 * Available size options.
-	 *
 	 * @var array
 	 */
 	public static $sizes = array(
@@ -62,8 +49,6 @@ class VcSharedLibrary {
 	);
 
 	/**
-	 * Available button styles.
-	 *
 	 * @var array
 	 */
 	public static $button_styles = array(
@@ -76,8 +61,6 @@ class VcSharedLibrary {
 	);
 
 	/**
-	 * Available message box styles.
-	 *
 	 * @var array
 	 */
 	public static $message_box_styles = array(
@@ -89,8 +72,7 @@ class VcSharedLibrary {
 	);
 
 	/**
-	 * Available toggle styles.
-	 *
+	 * Toggle styles
 	 * @var array
 	 */
 	public static $toggle_styles = array(
@@ -107,8 +89,7 @@ class VcSharedLibrary {
 	);
 
 	/**
-	 * Available animation styles.
-	 *
+	 * Animation styles
 	 * @var array
 	 */
 	public static $animation_styles = array(
@@ -123,8 +104,6 @@ class VcSharedLibrary {
 	);
 
 	/**
-	 * Available call to action styles.
-	 *
 	 * @var array
 	 */
 	public static $cta_styles = array(
@@ -136,8 +115,6 @@ class VcSharedLibrary {
 	);
 
 	/**
-	 * Available text align options.
-	 *
 	 * @var array
 	 */
 	public static $txt_align = array(
@@ -148,8 +125,6 @@ class VcSharedLibrary {
 	);
 
 	/**
-	 * Available element widths.
-	 *
 	 * @var array
 	 */
 	public static $el_widths = array(
@@ -166,8 +141,6 @@ class VcSharedLibrary {
 	);
 
 	/**
-	 * Available separator widths.
-	 *
 	 * @var array
 	 */
 	public static $sep_widths = array(
@@ -184,8 +157,6 @@ class VcSharedLibrary {
 	);
 
 	/**
-	 * Available separator styles.
-	 *
 	 * @var array
 	 */
 	public static $sep_styles = array(
@@ -197,8 +168,6 @@ class VcSharedLibrary {
 	);
 
 	/**
-	 * Available box styles.
-	 *
 	 * @var array
 	 */
 	public static $box_styles = array(
@@ -212,7 +181,7 @@ class VcSharedLibrary {
 	);
 
 	/**
-	 * Available round box styles.
+	 * Round box styles
 	 *
 	 * @var array
 	 */
@@ -225,7 +194,7 @@ class VcSharedLibrary {
 	);
 
 	/**
-	 * Available circle box styles.
+	 * Circle box styles
 	 *
 	 * @var array
 	 */
@@ -238,8 +207,6 @@ class VcSharedLibrary {
 	);
 
 	/**
-	 * Get available colors.
-	 *
 	 * @return array
 	 */
 	public static function getColors() {
@@ -247,8 +214,6 @@ class VcSharedLibrary {
 	}
 
 	/**
-	 * Get available icons.
-	 *
 	 * @return array
 	 */
 	public static function getIcons() {
@@ -256,8 +221,6 @@ class VcSharedLibrary {
 	}
 
 	/**
-	 * Get available sizes.
-	 *
 	 * @return array
 	 */
 	public static function getSizes() {
@@ -265,8 +228,6 @@ class VcSharedLibrary {
 	}
 
 	/**
-	 * Get available button styles.
-	 *
 	 * @return array
 	 */
 	public static function getButtonStyles() {
@@ -274,8 +235,6 @@ class VcSharedLibrary {
 	}
 
 	/**
-	 * Get available message box styles.
-	 *
 	 * @return array
 	 */
 	public static function getMessageBoxStyles() {
@@ -283,8 +242,6 @@ class VcSharedLibrary {
 	}
 
 	/**
-	 * Get available toggle styles.
-	 *
 	 * @return array
 	 */
 	public static function getToggleStyles() {
@@ -292,8 +249,6 @@ class VcSharedLibrary {
 	}
 
 	/**
-	 * Get available animation styles.
-	 *
 	 * @return array
 	 */
 	public static function getAnimationStyles() {
@@ -301,8 +256,6 @@ class VcSharedLibrary {
 	}
 
 	/**
-	 * Get available call to action styles.
-	 *
 	 * @return array
 	 */
 	public static function getCtaStyles() {
@@ -310,8 +263,6 @@ class VcSharedLibrary {
 	}
 
 	/**
-	 * Get available text align options.
-	 *
 	 * @return array
 	 */
 	public static function getTextAlign() {
@@ -319,8 +270,6 @@ class VcSharedLibrary {
 	}
 
 	/**
-	 * Get available element widths.
-	 *
 	 * @return array
 	 */
 	public static function getBorderWidths() {
@@ -328,8 +277,6 @@ class VcSharedLibrary {
 	}
 
 	/**
-	 * Get available element widths.
-	 *
 	 * @return array
 	 */
 	public static function getElementWidths() {
@@ -337,8 +284,6 @@ class VcSharedLibrary {
 	}
 
 	/**
-	 * Get available separator styles.
-	 *
 	 * @return array
 	 */
 	public static function getSeparatorStyles() {
@@ -353,7 +298,7 @@ class VcSharedLibrary {
 	 * - round
 	 * - circle
 	 *
-	 * @param array $groups Array of groups to include. If not specified, return all.
+	 * @param array $groups Array of groups to include. If not specified, return all
 	 *
 	 * @return array
 	 */
@@ -377,8 +322,6 @@ class VcSharedLibrary {
 	}
 
 	/**
-	 * Get available colors.
-	 *
 	 * @return array
 	 */
 	public static function getColorsDashed() {
